@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Board.h"
 
 class Controller
 {//אחראי על השלב עצמו, עליית שלב וניהול המשחק
