@@ -1,1 +1,3 @@
-﻿target_sources (oop2_ex04 PRIVATE "main.cpp")
+﻿target_sources (oop2_ex04 PRIVATE "main.cpp"
+								  "Object.cpp"
+								  "Planet.cpp")
