@@ -3,11 +3,14 @@
 
 int main()
 {
-    auto window = sf::RenderWindow(sf::VideoMode(300, 300), "Example");
+    auto window = sf::RenderWindow(sf::VideoMode(600, 600), "Example");
+    
+    Planet p(sf::Color::Blue,PLANET,3);
 
     while (window.isOpen())
     {
         window.clear();
+        p.draw(window);
         window.display();
 
         if (auto event = sf::Event{}; window.waitEvent(event))

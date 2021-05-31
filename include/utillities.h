@@ -11,6 +11,9 @@ const sf::Vector2f KB_STAY = { 0,0 };
 const sf::Vector2f TO_DELETED = { -1,-1 };*/
 
 const int VELOCITY = 30;
+const int PLANET = 0;
+const int UNIT = 1;
+const int START_UNIT_AMOUNT = 30;
 
 struct particle
 {

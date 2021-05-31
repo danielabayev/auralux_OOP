@@ -8,12 +8,13 @@
 class Planet : public Object
 {
 public:
-	Planet();
-	~Planet();
+	Planet(sf::Color color, int kind, int maxLevel);
+	~Planet()=default;
+	virtual void draw(sf::RenderWindow &window);
 
 private:
-	sf::Sprite precentBar;
-	int m_health;
+	sf::Sprite m_precentBar;
+	int m_health = 100;
 	int m_unitToUpgrade;
 	int m_currentLevel;
 	int m_maxLevel;
