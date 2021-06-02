@@ -11,6 +11,11 @@ public:
 	Planet(sf::Color color, int kind, int maxLevel);
 	~Planet()=default;
 	virtual void draw(sf::RenderWindow &window);
+	void move();
+	void generateUnits();
+
+	sf::Vector2f getCenter();
+	float getRadius();
 
 private:
 	sf::Sprite m_precentBar;

@@ -3,7 +3,9 @@
 Planet::Planet(sf::Color color, int kind,int maxLevel) 
 	:Object(color,kind),m_unitToUpgrade(30),m_currentLevel(1),m_maxLevel(maxLevel)
 {
+	//m_circle.setOrigin(30, 30);
 	m_circle.setPosition(300, 300);
+	m_circle.setOrigin(30, 30);
 
 	//the make of the units
 	//sf::Vector2f center = m_circle.getOrigin();
@@ -22,4 +24,31 @@ void Planet::draw(sf::RenderWindow& window)
 	for (auto& unit : m_units)
 		if (unit->getActive())
 			unit->draw(window);
+}
+
+void Planet::move()
+{
+	for (auto& unit : m_units)
+	{
+		unit->move(this);
+	}
+}
+
+void Planet::generateUnits()
+{
+	int toGenerate = rand()%10;
+	while (toGenerate > 0)
+	{
+
+	}
+}
+
+sf::Vector2f Planet::getCenter()
+{
+	return m_circle.getOrigin() + m_circle.getPosition();
+}
+
+float Planet::getRadius()
+{
+	return m_circle.getRadius();
 }

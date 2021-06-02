@@ -1,16 +1,37 @@
 #include "Unit.h"
 #include <stdlib.h>
 #include <time.h>
-class Planet;
+#include "Planet.h"
+#include <cmath>
+//class Planet;
 
 Unit::Unit(sf::Color color, int kind, Planet* p) : Object(color,kind)
 {
 	//temp->target_x = s->x + radius * cos(theta + 2 * PI * i / s->curr_level);
 	//temp->target_y = s->y + radius * sin(theta + 2 * PI * i / s->curr_level);
-	srand(time(NULL));
+	
 	sf::Vector2f position;
-	//position.x = p. ;
-	m_circle.setPosition(300, 300);
+
+	m_angle = rand() % 360;
+	float inRadian = PI * m_angle / 180;
+	sf::Vector2f centerOfPlanet = p->getCenter();
+	float radius = p->getRadius();
+	position.x = p->getCenter().x + (radius * 1.1 * std::cos(inRadian));
+	position.y = p->getCenter().y + (radius * 1.1 * std::sin(inRadian));
+
+	m_circle.setPosition(position);
+}
+
+void Unit::move(Planet* p)
+{
+	sf::Vector2f position;
+	m_angle += 10;
+	float inRadian = PI * m_angle / 180;
+	sf::Vector2f centerOfPlanet = p->getCenter();
+	float radius = p->getRadius();
+	position.x = p->getCenter().x + (radius * 1.1 * std::cos(inRadian));
+	position.y = p->getCenter().y + (radius * 1.1 * std::sin(inRadian));
+	m_circle.setPosition(position);
 }
 
 /*void generate_dots(Unit* s) {

@@ -11,9 +11,11 @@ public:
     virtual ~Unit() = default;
 	void setActive(bool Active) { m_active = Active; };
 	bool getActive() { return m_active; };
+	void move(Planet* p);
 private:
 	bool m_active = false;
 	std::pair<int, int> m_target_position;
+	float m_angle = 0;
 	//rotation/move
 	//Planet* m_planet;
 };
