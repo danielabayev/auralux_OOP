@@ -9,14 +9,27 @@ const sf::Vector2f KB_LEFT = { -1,0 };
 const sf::Vector2f KB_RIGHT = { 1,0 };
 const sf::Vector2f KB_STAY = { 0,0 };
 const sf::Vector2f TO_DELETED = { -1,-1 };*/
-
+const int MAX_OWNERS = 5;
+const int PLAYER_OWN = 0;
+const int FIRST_COMPUTER_OWN = 1;
+const int SECONED_COMPUTER_OWN = 2;
 const int VELOCITY = 30;
 const int PLANET = 0;
 const int UNIT = 1;
 const int START_UNIT_AMOUNT = 30;
 const float PI = 3.14159265358979323846;
 
-struct particle
-{
-	
+const int RIGHT = 0;
+const int LEFT = 1;
+const int UP = 2;
+const int DOWN = 3;
+
+
+struct line
+{//struct to find the line between the two planets, in use only when the unit move to new planet
+	bool in_use = false;
+	float a;
+	float b;
+	sf::Vector2f target;
+	int direction;
 };
