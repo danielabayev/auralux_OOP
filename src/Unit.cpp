@@ -39,7 +39,7 @@ void Unit::moveAround(Planet* p)
 }
 
 void Unit::defineTowards(Planet* p)
-{
+{//check UP and DOWN
 	sf::Vector2f position = calculateNewPosition(p);
 	targetPlanet.in_use = true;
 	targetPlanet.target.x = position.x;

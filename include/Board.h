@@ -6,6 +6,7 @@ public:
 	Board();
 	virtual ~Board() = default;
 	//read level
-	hello
+	//save adjacency
+
 private:
 };
