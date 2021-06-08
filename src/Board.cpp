@@ -1,5 +1,5 @@
 #include "Board.h"
-#include <SFML/Graphics.hpp>
+#include "Unit.h"
 
 //-----------------------------------------------------------------------------
 Board::Board(const int levelNum)
@@ -16,7 +16,7 @@ void Board::readBoard(const int levelNum)
 	try {
 		int amount;
 		char planet;
-		int upgrades;
+		int upgrades = 0;
 		int x, y;
 		openFile(file, levelNum);
 		auto check = file.peek();
