@@ -1,34 +1,36 @@
 #include "Planet.h"
 
-Planet::Planet(sf::Color color, int maxLevel , sf::Vector2f pos)
+Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos)
 	:Object(color), m_unitToUpgrade(30), m_currentLevel(1), m_maxLevel(maxLevel)
 {
 	// need to get position - the 300,300 position is for the check
 	m_circle.setRadius(SMALLPLANET);
 	//m_circle.setOrigin(30, 30);
 	m_circle.setPosition(pos);
-	m_circle.setOrigin(SMALLPLANET/2, SMALLPLANET / 2);
+	m_circle.setOrigin(SMALLPLANET / 2, SMALLPLANET / 2);
 
 	//the make of the units
 	//sf::Vector2f center = m_circle.getOrigin();
 	m_units.resize(1000);
-	for (auto &unit : m_units)
-		unit = std::make_shared<Unit>(sf::Color::Cyan,this);
-	
-	if (color == sf::Color::Magenta)
-		return;
-	//the active units
-	for (size_t i = 0; i < START_UNIT_AMOUNT; i++)
-		m_units[i]->setActive(true);
-	m_amountOfUnits = START_UNIT_AMOUNT;
+	for (auto& unit : m_units)
+		unit = std::make_shared<Unit>(sf::Color::Cyan, this);
 
+
+
+	if (color != sf::Color::White)
+	{
+		for (size_t i = 0; i < START_UNIT_AMOUNT; i++)
+			m_units[i]->setActive(true);
+		m_amountOfUnits = START_UNIT_AMOUNT;
+		m_active = true;
+	}
 	m_clock.restart();
 }
 
 void Planet::draw(sf::RenderWindow& window)
 {
 	window.draw(m_circle);
-	
+
 	for (auto& unit : m_units)
 		if (unit->getActive())
 			unit->draw(window);
@@ -36,13 +38,16 @@ void Planet::draw(sf::RenderWindow& window)
 
 void Planet::move(Planet p)
 {
-	generateUnits();
-	for (auto& unit : m_units)
+	if (m_active)
 	{
-		if (p.getCenter() == this->getCenter())
-			unit->moveAround(this);
-		if (p.getCenter() != this->getCenter())
-			unit->defineTowards(&p);
+		generateUnits();
+		for (auto& unit : m_units)
+		{
+			if (p.getCenter() == this->getCenter())
+				unit->moveAround(this);
+			if (p.getCenter() != this->getCenter())
+				unit->defineTowards(&p);
+		}
 	}
 }
 
@@ -55,7 +60,7 @@ void Planet::generateUnits()
 			m_units[i]->setActive(true);
 		m_amountOfUnits += 10;
 		m_clock.restart();
-	
+
 	}
 }
 

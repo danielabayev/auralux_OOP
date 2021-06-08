@@ -10,9 +10,9 @@
 class Planet : public Object
 {
 public:
-	Planet(sf::Color color, int maxLevel , sf::Vector2f pos);
-	~Planet()=default;
-	virtual void draw(sf::RenderWindow &window);
+	Planet(sf::Color color, int maxLevel, sf::Vector2f pos);
+	~Planet() = default;
+	virtual void draw(sf::RenderWindow& window);
 	void move(Planet p);
 	void generateUnits();
 	void healPlanet();
@@ -33,5 +33,6 @@ private:
 	int m_amountOfUnits;
 	int m_currentLevel;
 	int m_maxLevel;
+	bool m_active = false;
 	std::vector<std::shared_ptr<Unit>> m_units;
 };
