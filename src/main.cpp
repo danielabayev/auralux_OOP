@@ -26,6 +26,7 @@ int main()
         else
             check_unit.move(&newPlanet);
         p.move(p);
+       
         if (auto event = sf::Event{}; window.pollEvent(event))
         {
             switch (event.type)

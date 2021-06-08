@@ -7,7 +7,7 @@ Planet::Planet(sf::Color color, int kind, int maxLevel, int owner)
 
 	//m_circle.setOrigin(30, 30);
 	m_circle.setPosition(300, 300);
-	m_circle.setOrigin(30, 30);
+	m_circle.setOrigin(SMALLPLANET/2, SMALLPLANET / 2);
 
 	//the make of the units
 	//sf::Vector2f center = m_circle.getOrigin();
@@ -20,11 +20,15 @@ Planet::Planet(sf::Color color, int kind, int maxLevel, int owner)
 	//the active units
 	for (size_t i = 0; i < START_UNIT_AMOUNT; i++)
 		m_units[i]->setActive(true);
+	m_amountOfUnits = START_UNIT_AMOUNT;
+
+	m_clock.restart();
 }
 
 void Planet::draw(sf::RenderWindow& window)
 {
 	window.draw(m_circle);
+	
 	for (auto& unit : m_units)
 		if (unit->getActive())
 			unit->draw(window);
@@ -32,6 +36,7 @@ void Planet::draw(sf::RenderWindow& window)
 
 void Planet::move(Planet p)
 {
+	generateUnits();
 	for (auto& unit : m_units)
 	{
 		if (p.getCenter() == this->getCenter())
@@ -43,11 +48,48 @@ void Planet::move(Planet p)
 
 void Planet::generateUnits()
 {
-	int toGenerate = rand()%10;
-	while (toGenerate > 0)
+	m_timePassed = m_clock.getElapsedTime();
+	if (m_timePassed.asSeconds() > 4)
 	{
-
+		for (int i = m_amountOfUnits; i < m_amountOfUnits + 10; i++)
+			m_units[i]->setActive(true);
+		m_amountOfUnits += 10;
+		m_clock.restart();
+	
 	}
+}
+
+void Planet::healPlanet()
+{
+	while (m_health != 100 && m_amountOfUnits != 0)
+	{
+		m_units[m_amountOfUnits - 1]->setActive(false);
+		m_health++;
+		m_amountOfUnits--;
+	}
+}
+
+void Planet::addToUpgrade()
+{
+	while (m_counterToUpgrade < m_unitToUpgrade && m_amountOfUnits > 0 && m_currentLevel < 3)
+	{
+		m_units[m_amountOfUnits - 1]->setActive(false);
+		m_counterToUpgrade++;
+		m_amountOfUnits--;
+	}
+}
+
+void Planet::upgradePlanet()
+{
+	int size;
+	if (m_circle.getRadius() == SMALLPLANET)
+		size = MEDIUMPLANET;
+	else
+		size = LARGEPLANET;
+	m_circle.setRadius(size);
+	m_circle.setOrigin(size / 2, size / 2);
+	m_counterToUpgrade = 0;
+	m_currentLevel++;
 }
 
 void Planet::setPosition(sf::Vector2f newPosition)
