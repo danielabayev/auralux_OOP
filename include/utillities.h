@@ -13,6 +13,7 @@ const int MAX_OWNERS = 5;
 const int PLAYER_OWN = 0;
 const int FIRST_COMPUTER_OWN = 1;
 const int SECONED_COMPUTER_OWN = 2;
+const int NO_OWN = 3;
 const int VELOCITY = 30;
 const int PLANET = 0;
 const int UNIT = 1;
@@ -23,6 +24,17 @@ const int RIGHT = 0;
 const int LEFT = 1;
 const int UP = 2;
 const int DOWN = 3;
+
+enum PlanetColor_t
+{
+	BLUE_BIG, GREEN_BIG, YELLOW_BIG, EMPTY
+};
+
+enum class PlanetType : char
+{
+	player = 'B', green = 'G', orange = 'O', empty = 'E'
+};
+
 
 
 struct line
