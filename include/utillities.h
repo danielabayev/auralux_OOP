@@ -27,7 +27,7 @@ const int DOWN = 3;
 
 enum PlanetColor_t
 {
-	BLUE_BIG, GREEN_BIG, YELLOW_BIG, EMPTY
+	BLUE_BIG, YELLOW_BIG, RED_BIG, EMPTY
 };
 
 enum class PlanetType : char

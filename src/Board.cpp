@@ -1,4 +1,5 @@
-#include "..\include\Board.h"
+#include "Board.h"
+#include <SFML/Graphics.hpp>
 
 //-----------------------------------------------------------------------------
 Board::Board(const int levelNum)
@@ -13,38 +14,30 @@ void Board::readBoard(const int levelNum)
 {
 	ifstream file;
 	try {
-		int rows;
-		int cols;
+		int amount;
 		char planet;
-		int key;
+		int upgrades;
+		int x, y;
 		openFile(file, levelNum);
 		auto check = file.peek();
 		if (!isdigit(check))
 			throw std::invalid_argument("wrong size argument , please enter a positive number\n");
-		file >> rows >> cols;
-		m_rows = rows;
-		m_cols = cols;
-		setBoardSize();
-		m_positions.resize(m_rows*m_cols);
+		file >> amount;
+		m_board.resize(amount);
 		file.get();
-		for (size_t i = 0; i < rows; i++)
+		for (size_t i = 0; i < amount; i++)
 		{
-			for (size_t j = 0; j < cols; j++)
-			{
-				if (file.eof())
-					throw std::runtime_error("not enough lines in file\n");
-				file >> planet;
-				if (isdigit(planet))
-					throw std::invalid_argument("invalid argument in line: " + std::to_string((i + 1) * (j + 1)) + "\n");
-				if (file.eof())
-					throw std::runtime_error("not enough lines or arguments in file\n");
-				file >> key;
-				if (isalpha(key) || key < 0)
-					throw std::invalid_argument("invalid argument in line : " + std::to_string((i + 1) * (j + 1)) + "\n");
-				sf::Vector2i pos(i, j);
-				m_positions[key] = pos;//enter the row and col of the current object
-				addToBoard(file, planet, key, i, j);
-			}
+			if (file.eof())
+				throw std::runtime_error("not enough lines in file\n");
+			file >> planet;
+			if (isdigit(planet))
+				//throw std::invalid_argument("invalid argument in line: " + std::to_string((i + 1) * (j + 1)) + "\n");
+				throw std::invalid_argument("invalid argument in line: " + std::to_string((i + 1) * (i + 1)) + "\n");
+			if (file.eof())
+				throw std::runtime_error("not enough lines or arguments in file\n");
+			file >> x , y , upgrades;
+			addToBoard(file, planet, x , y, upgrades , i);
+			
 		}
 	}
 	catch (const std::exception& t)
@@ -55,13 +48,7 @@ void Board::readBoard(const int levelNum)
 
 	file.close();
 }
-//--------------------------------------------------------------------------
-void Board::setBoardSize()
-{
-	m_board.resize(m_rows);
-	for (auto& x : m_board)
-		x.resize(m_rows);
-}
+
 //--------------------------------------------------------------------------
 void Board::openFile(ifstream& input, int level)
 {
@@ -71,31 +58,26 @@ void Board::openFile(ifstream& input, int level)
 		throw std::runtime_error("could not open file\n");
 }
 //--------------------------------------------------------------------------
-sf::Vector2f Board::getBoardSize()const
-{
-	sf::Vector2f boardSize;
-	boardSize.x = m_board.size() * 500;
-	boardSize.y = m_board[0].size() * 500;
-	return boardSize;
-}
+
 //--------------------------------------------------------------------------
-void Board::addToBoard(ifstream& input, char planet, int key, int i, int j)
+void Board::addToBoard(ifstream& input, char planet, int x,int y ,int upgrades , int i)
 {
 	PlanetColor_t color;
 	stringstream line;
 	string adjacency;
+	sf::Vector2f pos(x,y);
 	color = findColor(planet);
 	if (color == BLUE_BIG)
-		m_board[i][j] = std::make_unique<Planet>(sf::Color::Blue, BLUE_BIG, 1, 0);
+		m_board[i] = std::make_unique<Planet>(sf::Color::Blue,upgrades , pos);
 
-	else if (color == GREEN_BIG)
-		m_board[i][j] = std::make_unique<Planet>(sf::Color::Green, GREEN_BIG, 1, 1);
+	else if (color == RED_BIG)
+		m_board[i] = std::make_unique<Planet>(sf::Color::Red, upgrades, pos);
 
 	else if (color == YELLOW_BIG)
-		m_board[i][j] = std::make_unique<Planet>(sf::Color::Yellow, YELLOW_BIG, 1, 2);
+		m_board[i] = std::make_unique<Planet>(sf::Color::Yellow, upgrades, pos);
 
 	else if (color == EMPTY)
-		m_board[i][j] = std::make_unique<Planet>(sf::Color::White, EMPTY, 1, 3);
+		m_board[i] = std::make_unique<Planet>(sf::Color::White, upgrades, pos);
 
 	std::getline(input, adjacency);
 	line << adjacency;
@@ -122,13 +104,14 @@ void Board::makeAdjacencyList(stringstream& line)
 //this needs to be fixed. wrong planet.
 void Board::handleClick(const sf::Event& event, sf::RenderWindow& window)
 {
-	Unit unit(sf::Color::Blue, PLAYER_OWN, m_planet);
+//	Unit unit(sf::Color::Blue, PLAYER_OWN, m_planet);
 	int button;
 	if (event.mouseButton.button == sf::Mouse::Left)
-		unit.defineTowards(m_planet);
+		button = 15;//to delete
+//		unit.defineTowards(m_planet);
 }
 //--------------------------------------------------------------------------
-//this functions draws each one of the objects in the board
+/*//this functions draws each one of the objects in the board
 void Board::drawBoard(sf::RenderWindow& window)
 {
 	for (int i = 0; i < m_board.size(); i++)
@@ -139,7 +122,7 @@ void Board::drawBoard(sf::RenderWindow& window)
 		}
 	}
 	window.display();
-}
+}*/
 //--------------------------------------------------------------------------
 bool Board::isLevelUp() const
 {
@@ -162,8 +145,8 @@ PlanetColor_t Board::findColor(const char color)
 	case 'B':
 		return BLUE_BIG;
 		break;
-	case 'G':
-		return GREEN_BIG;
+	case 'R':
+		return RED_BIG;
 		break;
 	case 'Y':
 		return YELLOW_BIG;

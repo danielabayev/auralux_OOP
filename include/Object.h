@@ -10,7 +10,7 @@ const int LARGEPLANET = 70;
 class Object
 {
 public:
-	Object(sf::Color color, int kind);
+	Object(sf::Color color);
 	~Object() = default;
 	virtual void draw(sf::RenderWindow& window);
 

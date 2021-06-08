@@ -10,7 +10,7 @@
 class Planet : public Object
 {
 public:
-	Planet(sf::Color color, int kind, int maxLevel,int owner);
+	Planet(sf::Color color, int maxLevel , sf::Vector2f pos);
 	~Planet()=default;
 	virtual void draw(sf::RenderWindow &window);
 	void move(Planet p);

@@ -5,8 +5,9 @@
 #include <cmath>
 //class Planet;
 
-Unit::Unit(sf::Color color, int kind, Planet* p) : Object(color,kind)
+Unit::Unit(sf::Color color, Planet* p) : Object(color)
 {
+	m_circle.setRadius(2);
 	m_angle = rand() % 360;
 	sf::Vector2f position = calculateNewPosition(p);
 	m_circle.setPosition(position);

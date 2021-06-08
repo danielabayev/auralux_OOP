@@ -1,13 +1,12 @@
 #pragma once
 #include "Object.h"
 //#include "Planet.h"
-#include <utility>
 class Planet;
 
 class Unit : public Object
 {
 public:
-    Unit(sf::Color color, int kind, Planet* p);
+    Unit(sf::Color color, Planet* p);
     virtual ~Unit() = default;
 	sf::Vector2f calculateNewPosition(Planet* p);
 	void setActive(bool Active) { m_active = Active; };

@@ -1,19 +1,19 @@
 #include "Planet.h"
 
-Planet::Planet(sf::Color color, int kind, int maxLevel, int owner)
-	:Object(color, kind), m_unitToUpgrade(30), m_currentLevel(1), m_maxLevel(maxLevel), m_owner(owner)
+Planet::Planet(sf::Color color, int maxLevel , sf::Vector2f pos)
+	:Object(color), m_unitToUpgrade(30), m_currentLevel(1), m_maxLevel(maxLevel)
 {
 	// need to get position - the 300,300 position is for the check
-
+	m_circle.setRadius(SMALLPLANET);
 	//m_circle.setOrigin(30, 30);
-	m_circle.setPosition(300, 300);
+	m_circle.setPosition(pos);
 	m_circle.setOrigin(SMALLPLANET/2, SMALLPLANET / 2);
 
 	//the make of the units
 	//sf::Vector2f center = m_circle.getOrigin();
 	m_units.resize(1000);
 	for (auto &unit : m_units)
-		unit = std::make_shared<Unit>(sf::Color::Cyan,UNIT,this);
+		unit = std::make_shared<Unit>(sf::Color::Cyan,this);
 	
 	if (color == sf::Color::Magenta)
 		return;
