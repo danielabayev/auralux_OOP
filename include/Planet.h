@@ -33,5 +33,6 @@ private:
 	int m_amountOfUnits;
 	int m_currentLevel;
 	int m_maxLevel;
+	bool m_active = false;
 	std::vector<std::shared_ptr<Unit>> m_units;
 };
