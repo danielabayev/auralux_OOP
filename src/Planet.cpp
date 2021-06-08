@@ -15,15 +15,13 @@ Planet::Planet(sf::Color color, int maxLevel , sf::Vector2f pos)
 	for (auto &unit : m_units)
 		unit = std::make_shared<Unit>(sf::Color::Cyan,this);
 	
-	
-		
-	if (color != sf::Color::White)
-	{
-		for (size_t i = 0; i < START_UNIT_AMOUNT; i++)
-			m_units[i]->setActive(true);
-		m_amountOfUnits = START_UNIT_AMOUNT;
-		m_active = true;
-	}
+	if (color == sf::Color::Magenta)
+		return;
+	//the active units
+	for (size_t i = 0; i < START_UNIT_AMOUNT; i++)
+		m_units[i]->setActive(true);
+	m_amountOfUnits = START_UNIT_AMOUNT;
+
 	m_clock.restart();
 }
 
@@ -38,16 +36,13 @@ void Planet::draw(sf::RenderWindow& window)
 
 void Planet::move(Planet p)
 {
-	if (m_active)
+	generateUnits();
+	for (auto& unit : m_units)
 	{
-		generateUnits();
-		for (auto& unit : m_units)
-		{
-			if (p.getCenter() == this->getCenter())
-				unit->moveAround(this);
-			if (p.getCenter() != this->getCenter())
-				unit->defineTowards(&p);
-		}
+		if (p.getCenter() == this->getCenter())
+			unit->moveAround(this);
+		if (p.getCenter() != this->getCenter())
+			unit->defineTowards(&p);
 	}
 }
 

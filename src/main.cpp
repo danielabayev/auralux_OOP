@@ -18,7 +18,7 @@ int main()
     while (window.isOpen())
     {
         window.clear();
-        b.drawBoard(window);
+       // p.draw(window);
       //  newPlanet.draw(window);
       //  check_unit.draw(window);
         window.display();
@@ -26,7 +26,7 @@ int main()
           //  check_unit.move(&p);
         //else
            // check_unit.move(&newPlanet);
-        b.moveUnits();
+      //  p.move(p);
        
         if (auto event = sf::Event{}; window.pollEvent(event))
         {

@@ -1,6 +1,6 @@
 #include "Board.h"
 #include <SFML/Graphics.hpp>
-#include "Unit.h"
+
 //-----------------------------------------------------------------------------
 Board::Board(const int levelNum)
 {
@@ -16,8 +16,8 @@ void Board::readBoard(const int levelNum)
 	try {
 		int amount;
 		char planet;
-		int upgrades = 0;;
-		int x = 0, y = 0;
+		int upgrades;
+		int x, y;
 		openFile(file, levelNum);
 		auto check = file.peek();
 		if (!isdigit(check))
@@ -35,9 +35,7 @@ void Board::readBoard(const int levelNum)
 				throw std::invalid_argument("invalid argument in line: " + std::to_string((i + 1) * (i + 1)) + "\n");
 			if (file.eof())
 				throw std::runtime_error("not enough lines or arguments in file\n");
-			file >> x;
-			file >> y;
-			file >> upgrades;
+			file >> x , y , upgrades;
 			addToBoard(file, planet, x , y, upgrades , i);
 			
 		}
@@ -84,18 +82,6 @@ void Board::addToBoard(ifstream& input, char planet, int x,int y ,int upgrades ,
 	std::getline(input, adjacency);
 	line << adjacency;
 	makeAdjacencyList(line);
-}
-void Board::drawBoard(sf::RenderWindow& window)
-{
-	for (int i = 0; i < m_board.size(); i++)
-	{
-		m_board[i]->draw(window);
-	}
-}
-void Board::moveUnits()
-{
-	for (int i = 0; i < m_board.size(); i++)
-		m_board[i]->move(*m_board[i]);
 }
 //--------------------------------------------------------------------------
 //this function updates the adjacency list , for each object it holds the "keys" of it's neighbours
