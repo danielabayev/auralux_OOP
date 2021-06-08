@@ -3,6 +3,10 @@
 #include <SFML/Graphics/Texture.hpp>
 #include "utillities.h"
 
+const int SMALLPLANET = 30;
+const int MEDIUMPLANET = 50;
+const int LARGEPLANET = 70;
+
 class Object
 {
 public:
