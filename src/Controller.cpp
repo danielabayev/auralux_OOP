@@ -10,13 +10,13 @@ void Controller::run()
     auto window = sf::RenderWindow(sf::VideoMode(600, 600), "Example");
 
     window.setFramerateLimit(30);
-    bool tmp = true;
     while (window.isOpen())
     {
         window.clear();
         m_board.drawBoard(window);
         window.display();
         
+        m_board.generate();
         m_board.moveUnits();
 
         if (auto event = sf::Event{}; window.pollEvent(event))
@@ -27,9 +27,8 @@ void Controller::run()
                 window.close();
                 break;
             case sf::Event::MouseButtonReleased:
-                tmp = true;
-                // check_unit.defineTowards(&newPlanet);
-                // tmp = !tmp;
+                m_board.handleClick(event, window);
+              
             }
         }
     }

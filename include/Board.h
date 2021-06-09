@@ -30,6 +30,7 @@ public:
 	void drawBoard(sf::RenderWindow& window);
 	void moveUnits();
 	void handleClick(const sf::Event& event, sf::RenderWindow& window);
+	void generate();
 	
 	bool isLevelUp()const;
 
@@ -39,6 +40,8 @@ private:
 	vector<vector<int>> m_adjacencyList;
 	bool m_levelUp = false;
 	bool m_gameOver = false;
+	bool m_controlled = false;
+	int m_controlledIndex = -1;
 
 };
 

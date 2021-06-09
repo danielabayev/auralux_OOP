@@ -97,6 +97,11 @@ void Board::moveUnits()
 	for (int i = 0; i < m_board.size(); i++)
 		m_board[i]->move(*m_board[i]);
 }
+void Board::generate()
+{
+	for (auto& planet : m_board)
+		planet->generateUnits();
+}
 //--------------------------------------------------------------------------
 //this function updates the adjacency list , for each object it holds the "keys" of it's neighbours
 void Board::makeAdjacencyList(stringstream& line)
@@ -118,11 +123,30 @@ void Board::makeAdjacencyList(stringstream& line)
 //this needs to be fixed. wrong planet.
 void Board::handleClick(const sf::Event& event, sf::RenderWindow& window)
 {
-	//	Unit unit(sf::Color::Blue, PLAYER_OWN, m_planet);
-	int button;
-	if (event.mouseButton.button == sf::Mouse::Left)
-		button = 15;//to delete
-//		unit.defineTowards(m_planet);
+	auto location = window.mapPixelToCoords({ event.mouseButton.x,event.mouseButton.y });
+
+	if (!m_controlled)
+	{
+		for (int i = 0; i < m_board.size(); i++)
+			if (m_board[i]->getShape().getGlobalBounds().contains(location))
+			{
+				m_controlled = true;
+				m_controlledIndex = i;
+				break;
+			}
+					
+	}
+	else
+	{
+		for (auto& planet : m_board)
+			if (planet->getShape().getGlobalBounds().contains(location))
+			{
+				m_board[m_controlledIndex]->move(*planet);
+				m_controlled = false;
+			}
+
+	}
+		
 }
 
 //--------------------------------------------------------------------------

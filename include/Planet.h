@@ -17,10 +17,12 @@ public:
 	void generateUnits();
 	void healPlanet();
 	void addToUpgrade();
+	sf::CircleShape getShape()const;
 	void upgradePlanet();
 	void setPosition(sf::Vector2f newPosition);
 	sf::Vector2f getCenter();
 	float getRadius();
+	int getActiveAmount()const;
 
 private:
 	sf::Clock m_clock;

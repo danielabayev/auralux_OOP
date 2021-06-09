@@ -1,10 +1,9 @@
-#include "Object.h"
-#include "Planet.h"
-#include "Board.h"
+#include "Controller.h"
 #include <stdlib.h>
 #include <time.h>
 
 int main()
 {
-   
+	Controller controller{};
+	controller.run();
 }

@@ -40,27 +40,30 @@ void Planet::move(Planet p)
 {
 	if (m_active)
 	{
-		generateUnits();
-		for (auto& unit : m_units)
+		for ( int i = 0;i < m_amountOfUnits; i ++)
 		{
-			if (p.getCenter() == this->getCenter())
-				unit->moveAround(this);
+			//if (p.getCenter() == this->getCenter())
+				//unit->moveAround(this);
 			if (p.getCenter() != this->getCenter())
-				unit->defineTowards(&p);
+				m_units[i]->defineTowards(&p);
+
+			m_units[i]->move(&p);
 		}
 	}
 }
 
 void Planet::generateUnits()
 {
-	m_timePassed = m_clock.getElapsedTime();
-	if (m_timePassed.asSeconds() > 4)
-	{
-		for (int i = m_amountOfUnits; i < m_amountOfUnits + 10; i++)
-			m_units[i]->setActive(true);
-		m_amountOfUnits += 10;
-		m_clock.restart();
-
+	if(m_active)
+	{ 
+		m_timePassed = m_clock.getElapsedTime();
+		if (m_timePassed.asSeconds() > 4)
+		{
+			for (int i = m_amountOfUnits; i < m_amountOfUnits + 10; i++)
+				m_units[i]->setActive(true);
+			m_amountOfUnits += 10;
+			m_clock.restart();
+		}
 	}
 }
 
@@ -82,6 +85,11 @@ void Planet::addToUpgrade()
 		m_counterToUpgrade++;
 		m_amountOfUnits--;
 	}
+}
+
+sf::CircleShape Planet::getShape() const
+{
+	return m_circle;
 }
 
 void Planet::upgradePlanet()
@@ -110,4 +118,9 @@ sf::Vector2f Planet::getCenter()
 float Planet::getRadius()
 {
 	return m_circle.getRadius();
+}
+
+int Planet::getActiveAmount() const
+{
+	return m_amountOfUnits;
 }
