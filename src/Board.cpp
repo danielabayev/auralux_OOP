@@ -124,19 +124,7 @@ void Board::handleClick(const sf::Event& event, sf::RenderWindow& window)
 		button = 15;//to delete
 //		unit.defineTowards(m_planet);
 }
-//--------------------------------------------------------------------------
-/*//this functions draws each one of the objects in the board
-void Board::drawBoard(sf::RenderWindow& window)
-{
-	for (int i = 0; i < m_board.size(); i++)
-	{
-		for (int j = 0; j < m_board[i].size(); j++)
-		{
-			m_board[i][j]->draw(window);
-		}
-	}
-	window.display();
-}*/
+
 //--------------------------------------------------------------------------
 bool Board::isLevelUp() const
 {

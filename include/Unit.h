@@ -16,11 +16,12 @@ public:
 	void defineTowards(Planet* p);
 	void moveTowards();
 	bool checkDistance();
+	void handleCollision(Planet *p);
 private:
-	struct line targetPlanet;
+	struct line m_targetPlanet;
+	struct parabola m_otherWay;
 	bool m_active = false;
-	std::pair<int, int> m_target_position;
 	float m_angle = 0;
-	//rotation/move
-	//Planet* m_planet;
+
+	void defineTowards();
 };

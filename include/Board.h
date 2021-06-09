@@ -18,19 +18,23 @@ class Board
 public:
 	Board(const int levelNum);
 	virtual ~Board() = default;
+
+	void openFile(ifstream& input, int levelNum);
 	void readBoard(const int levelNum);
+
 	void addToBoard(ifstream& input, char planet, int x, int y, int upgrades, int i);
+	PlanetColor_t findColor(const char color);
+	void makeAdjacencyList(stringstream& line);
+	void resetBoard();
+
 	void drawBoard(sf::RenderWindow& window);
 	void moveUnits();
-	void openFile(ifstream& input, int levelNum);
-	void makeAdjacencyList(stringstream& line);
-	vector<sf::Vector2i> m_positions;//a vector that holds the row and col of each object
 	void handleClick(const sf::Event& event, sf::RenderWindow& window);
+	
 	bool isLevelUp()const;
-	void resetBoard();
-	PlanetColor_t findColor(const char color);
+
 private:
-	vector<std::unique_ptr<Planet>> m_board;
+	vector<std::unique_ptr<Planet>> m_board;//shared ptr
 	int m_level;
 	vector<vector<int>> m_adjacencyList;
 	bool m_levelUp = false;

@@ -45,3 +45,13 @@ struct line
 	sf::Vector2f target;
 	int direction;
 };
+
+struct parabola
+{//struct to find the parabola after the collision beetwen the unit and the planet
+	bool in_use = false;
+	float a;
+	float b;
+	float c;
+	sf::Vector2f target;
+	int direction;
+};

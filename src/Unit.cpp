@@ -26,7 +26,7 @@ sf::Vector2f Unit::calculateNewPosition(Planet* p)
 
 void Unit::move(Planet* p)
 {
-	if (targetPlanet.in_use)
+	if (m_targetPlanet.in_use)
 		moveTowards();
 	else
 		moveAround(p);
@@ -42,23 +42,24 @@ void Unit::moveAround(Planet* p)
 void Unit::defineTowards(Planet* p)
 {//check UP and DOWN
 	sf::Vector2f position = calculateNewPosition(p);
-	targetPlanet.in_use = true;
-	targetPlanet.target.x = position.x;
-	targetPlanet.target.y = position.y;
-	if (targetPlanet.target.x - m_circle.getPosition().x == 0)
-		if (targetPlanet.target.y - m_circle.getPosition().y > 0)
-			targetPlanet.direction = DOWN;
+	m_targetPlanet.in_use = true;
+	m_targetPlanet.target.x = position.x;
+	m_targetPlanet.target.y = position.y;
+
+	if (m_targetPlanet.target.x - m_circle.getPosition().x == 0)
+		if (m_targetPlanet.target.y - m_circle.getPosition().y > 0)
+			m_targetPlanet.direction = DOWN;
 		else 
-			targetPlanet.direction = UP;
+			m_targetPlanet.direction = UP;
 	else
 	{
-		targetPlanet.a = (targetPlanet.target.y - m_circle.getPosition().y) /
-			(targetPlanet.target.x - m_circle.getPosition().x);
-		targetPlanet.b = targetPlanet.target.y - (targetPlanet.target.x * targetPlanet.a);
-		if (targetPlanet.target.x - m_circle.getPosition().x < 0)
-			targetPlanet.direction = LEFT;
+		m_targetPlanet.a = (m_targetPlanet.target.y - m_circle.getPosition().y) /
+			(m_targetPlanet.target.x - m_circle.getPosition().x);
+		m_targetPlanet.b = m_targetPlanet.target.y - (m_targetPlanet.target.x * m_targetPlanet.a);
+		if (m_targetPlanet.target.x - m_circle.getPosition().x < 0)
+			m_targetPlanet.direction = LEFT;
 		else
-			targetPlanet.direction = RIGHT;
+			m_targetPlanet.direction = RIGHT;
 	}
 
 }
@@ -66,7 +67,7 @@ void Unit::defineTowards(Planet* p)
 void Unit::moveTowards()
 {
 	sf::Vector2f position = m_circle.getPosition();
-	switch (targetPlanet.direction)
+	switch (m_targetPlanet.direction)
 	{
 	case UP:
 		//to check
@@ -75,30 +76,42 @@ void Unit::moveTowards()
 	case RIGHT:
 		position.x += 0.5;
 		//y = ax + b
-		position.y = targetPlanet.a * position.x + targetPlanet.b;
+		position.y = m_targetPlanet.a * position.x + m_targetPlanet.b;
 		m_circle.setPosition(position);
 		break;
 	case LEFT:
 		position.x -= 0.5;
 		//y = ax + b
-		position.y = targetPlanet.a * position.x + targetPlanet.b;
+		position.y = m_targetPlanet.a * position.x + m_targetPlanet.b;
 		m_circle.setPosition(position);
 		break;
 	default:
 		break;
 	}
-	targetPlanet.in_use = checkDistance();
+	m_targetPlanet.in_use = checkDistance();
 }
 
 bool Unit::checkDistance()
 {
-	float distance = m_circle.getPosition().x - targetPlanet.target.x;
+	float distance = m_circle.getPosition().x - m_targetPlanet.target.x;
 	if (distance < 0.3 && distance > -0.3)
 	{
-		m_circle.setPosition(targetPlanet.target);
+		m_circle.setPosition(m_targetPlanet.target);
 		return false;
 	}
 	return true;
+}
+
+void Unit::handleCollision(Planet* p)
+{//back the x and y to previos position then 
+
+}
+
+void Unit::defineTowards()
+{
+	sf::Vector2f curentPosition = m_circle.getPosition();
+	sf::Vector2f targetPosition = m_targetPlanet.target;
+
 }
 
 /*void generate_dots(Unit* s) {
