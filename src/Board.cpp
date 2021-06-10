@@ -70,21 +70,22 @@ void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades,
 	sf::Vector2f pos(x, y);
 	color = findColor(planet);
 	if (color == BLUE_BIG)
-		m_board[i] = std::make_unique<Planet>(sf::Color::Blue, upgrades, pos);
+		m_board[i] = std::make_shared<ManagePlanet>(sf::Color::Blue, upgrades, pos);
 
 	else if (color == RED_BIG)
-		m_board[i] = std::make_unique<Planet>(sf::Color::Red, upgrades, pos);
+		m_board[i] = std::make_shared<ManagePlanet>(sf::Color::Red, upgrades, pos);
 
 	else if (color == YELLOW_BIG)
-		m_board[i] = std::make_unique<Planet>(sf::Color::Yellow, upgrades, pos);
+		m_board[i] = std::make_shared<ManagePlanet>(sf::Color::Yellow, upgrades, pos);
 
 	else if (color == EMPTY)
-		m_board[i] = std::make_unique<Planet>(sf::Color::White, upgrades, pos);
+		m_board[i] = std::make_shared<ManagePlanet>(sf::Color::White, upgrades, pos);
 
 	std::getline(input, adjacency);
 	line << adjacency;
 	makeAdjacencyList(line);
 }
+
 void Board::drawBoard(sf::RenderWindow& window)
 {
 	for (int i = 0; i < m_board.size(); i++)
@@ -92,11 +93,17 @@ void Board::drawBoard(sf::RenderWindow& window)
 		m_board[i]->draw(window);
 	}
 }
+
 void Board::moveUnits()
 {
 	for (int i = 0; i < m_board.size(); i++)
+	{
 		m_board[i]->move(*m_board[i]);
+		if (m_board[i]->getNeedToMove())
+			m_board[i]->moveOwnerships(m_board);
+	}
 }
+
 void Board::generate()
 {
 	for (auto& planet : m_board)
@@ -128,7 +135,7 @@ void Board::handleClick(const sf::Event& event, sf::RenderWindow& window)
 	if (!m_controlled)
 	{
 		for (int i = 0; i < m_board.size(); i++)
-			if (m_board[i]->getShape().getGlobalBounds().contains(location))
+			if (m_board[i]->getPlanet().getShape().getGlobalBounds().contains(location))
 			{
 				m_controlled = true;
 				m_controlledIndex = i;
@@ -139,7 +146,7 @@ void Board::handleClick(const sf::Event& event, sf::RenderWindow& window)
 	else
 	{
 		for (auto& planet : m_board)
-			if (planet->getShape().getGlobalBounds().contains(location))
+			if (planet->getPlanet().getShape().getGlobalBounds().contains(location))
 			{
 				m_board[m_controlledIndex]->move(*planet);
 				m_controlled = false;

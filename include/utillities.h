@@ -25,6 +25,8 @@ const int LEFT = 1;
 const int UP = 2;
 const int DOWN = 3;
 
+const sf::Vector2f NOTCENTERD(-1, -1);
+
 enum PlanetColor_t
 {
 	BLUE_BIG, YELLOW_BIG, RED_BIG, EMPTY
@@ -44,6 +46,7 @@ struct line
 	float b;
 	sf::Vector2f target;
 	int direction;
+	sf::Vector2f targetCenter;
 };
 
 struct parabola

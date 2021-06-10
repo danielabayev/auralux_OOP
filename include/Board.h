@@ -2,6 +2,7 @@
 
 #include "Planet.h"
 #include "Graphic.h"
+#include "ManagePlanet.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -35,7 +36,7 @@ public:
 	bool isLevelUp()const;
 
 private:
-	vector<std::unique_ptr<Planet>> m_board;//shared ptr
+	vector<std::shared_ptr<ManagePlanet>> m_board;//shared ptr
 	int m_level;
 	vector<vector<int>> m_adjacencyList;
 	bool m_levelUp = false;

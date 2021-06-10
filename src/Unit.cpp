@@ -24,12 +24,13 @@ sf::Vector2f Unit::calculateNewPosition(Planet* p)
 	return position;
 }
 
-void Unit::move(Planet* p)
+sf::Vector2f Unit::move(Planet* p)
 {
 	if (m_targetPlanet.in_use)
-		moveTowards();
+		return moveTowards();
 	else
 		moveAround(p);
+	return NOTCENTERD;
 }
 
 void Unit::moveAround(Planet* p)
@@ -45,6 +46,7 @@ void Unit::defineTowards(Planet* p)
 	m_targetPlanet.in_use = true;
 	m_targetPlanet.target.x = position.x;
 	m_targetPlanet.target.y = position.y;
+	m_targetPlanet.targetCenter = p->getCenter();
 
 	if (m_targetPlanet.target.x - m_circle.getPosition().x == 0)
 		if (m_targetPlanet.target.y - m_circle.getPosition().y > 0)
@@ -64,7 +66,7 @@ void Unit::defineTowards(Planet* p)
 
 }
 
-void Unit::moveTowards()
+sf::Vector2f Unit::moveTowards()
 {
 	sf::Vector2f position = m_circle.getPosition();
 	switch (m_targetPlanet.direction)
@@ -89,6 +91,10 @@ void Unit::moveTowards()
 		break;
 	}
 	m_targetPlanet.in_use = checkDistance();
+	if (m_targetPlanet.in_use)
+		return NOTCENTERD;
+	else
+		return m_targetPlanet.targetCenter;
 }
 
 bool Unit::checkDistance()
@@ -97,6 +103,7 @@ bool Unit::checkDistance()
 	if (distance < 0.3 && distance > -0.3)
 	{
 		m_circle.setPosition(m_targetPlanet.target);
+		m_waitToMove = true;
 		return false;
 	}
 	return true;
@@ -105,6 +112,21 @@ bool Unit::checkDistance()
 void Unit::handleCollision(Planet* p)
 {//back the x and y to previos position then 
 
+}
+
+void Unit::setWaitToMove(bool moved)
+{
+	m_waitToMove = moved;
+}
+
+bool Unit::getWaitToMove()const
+{
+	return m_waitToMove;
+}
+
+sf::Vector2f Unit::getTargetPlanet()
+{
+	return m_targetPlanet.targetCenter;
 }
 
 void Unit::defineTowards()

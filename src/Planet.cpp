@@ -11,7 +11,7 @@ Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos)
 
 	//the make of the units
 	//sf::Vector2f center = m_circle.getOrigin();
-	m_units.resize(1000);
+	/*m_units.resize(1000);
 	for (auto& unit : m_units)
 		unit = std::make_shared<Unit>(sf::Color::Cyan, this);
 
@@ -24,19 +24,19 @@ Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos)
 		m_amountOfUnits = START_UNIT_AMOUNT;
 		m_active = true;
 	}
-	m_clock.restart();
+	m_clock.restart();*/
 }
 
 void Planet::draw(sf::RenderWindow& window)
 {
 	window.draw(m_circle);
 
-	for (auto& unit : m_units)
+	/*for (auto& unit : m_units)
 		if (unit->getActive())
-			unit->draw(window);
+			unit->draw(window);*/
 }
 
-void Planet::move(Planet p)
+/*void Planet::move(Planet p)
 {
 	if (m_active)
 	{
@@ -65,9 +65,9 @@ void Planet::generateUnits()
 			m_clock.restart();
 		}
 	}
-}
+}*/
 
-void Planet::healPlanet()
+void Planet::healPlanet(int &m_amountOfUnits, std::vector<std::shared_ptr<Unit>>& m_units)
 {
 	while (m_health != 100 && m_amountOfUnits != 0)
 	{
@@ -77,7 +77,7 @@ void Planet::healPlanet()
 	}
 }
 
-void Planet::addToUpgrade()
+void Planet::addToUpgrade(int &m_amountOfUnits, std::vector<std::shared_ptr<Unit>>& m_units)
 {
 	while (m_counterToUpgrade < m_unitToUpgrade && m_amountOfUnits > 0 && m_currentLevel < 3)
 	{
@@ -110,17 +110,27 @@ void Planet::setPosition(sf::Vector2f newPosition)
 	m_circle.setPosition(newPosition);
 }
 
-sf::Vector2f Planet::getCenter()
+sf::Vector2f Planet::getCenter()const
 {
 	return m_circle.getOrigin() + m_circle.getPosition();
 }
 
-float Planet::getRadius()
+float Planet::getRadius()const
 {
 	return m_circle.getRadius();
 }
 
-int Planet::getActiveAmount() const
+/*int Planet::getActiveAmount() const
 {
 	return m_amountOfUnits;
+}*/
+
+bool Planet::getActive() const
+{
+	return m_active;
+}
+
+void Planet::setActive(bool Active)
+{
+	m_active = Active;
 }
