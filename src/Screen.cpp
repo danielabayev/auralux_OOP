@@ -53,6 +53,11 @@ void Screen::drawLevel(sf::RenderWindow& window)
 	window.draw(m_leftArrow);
 }
 
+void Screen::drawBackground(sf::RenderWindow& window)
+{
+	window.draw(m_background);
+}
+
 Menuscreen Screen::checkMenu(const sf::Event& event, sf::RenderWindow& window)
 {
 	auto location = window.mapPixelToCoords({ event.mouseButton.x,event.mouseButton.y });

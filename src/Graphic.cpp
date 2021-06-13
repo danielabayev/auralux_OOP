@@ -20,7 +20,7 @@ sf::Font& Graphic::getFont()
 Graphic::Graphic()
 {
 	m_textures.resize(TEXTURES);
-	m_textures[STARTBACKGROUND].loadFromFile("backgroundStartPage.png");
+	m_textures[STARTBACKGROUND].loadFromFile("background.jpg");
 	m_textures[RIGHTARROW].loadFromFile("right-arrow.png");
 	//m_textures[STARTBACKGROUND].loadFromFile("startbutton.png");
 	m_font.loadFromFile("sansation.ttf");

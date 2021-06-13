@@ -56,6 +56,7 @@ void Controller::run()
     while (m_window.isOpen())
     {
         m_window.clear();
+        m_screen.drawBackground(m_window);
         m_board.drawBoard(m_window);
         m_window.display();
         
