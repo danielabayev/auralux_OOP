@@ -1,2 +1,7 @@
 ﻿configure_file ("1.txt" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("sansation.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("backgroundStartPage.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("startbutton.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("right-arrow.png" ${CMAKE_BINARY_DIR} COPYONLY)
 #configure_file ("level1.txt" ${CMAKE_BINARY_DIR} COPYONLY)
+#configure_file ("sansation.ttf" ${CMAKE_BINARY_DIR}/resources COPYONLY)
