@@ -2,13 +2,15 @@
 #include <SFML/Graphics.hpp>
 #include <utility>
 
+const int TEXTURES = 2;
+const int STARTBACKGROUND = 0;
+const int RIGHTARROW = 1;
+/*const int STARTBUTTON = 1;
+const int SPEEDBUTTON = 2;
+const int LEVELBUTTON = 3;*/
+const int STARTWIDTH = 700;
+const int STARTHEIGHT = 500;
 
-/*const sf::Vector2f KB_UP = { 0,-1 };
-const sf::Vector2f KB_DOWN = { 0,1 };
-const sf::Vector2f KB_LEFT = { -1,0 };
-const sf::Vector2f KB_RIGHT = { 1,0 };
-const sf::Vector2f KB_STAY = { 0,0 };
-const sf::Vector2f TO_DELETED = { -1,-1 };*/
 const int MAX_OWNERS = 5;
 const int PLAYER_OWN = 0;
 const int FIRST_COMPUTER_OWN = 1;
@@ -27,6 +29,11 @@ const int DOWN = 3;
 
 const sf::Vector2f NOTCENTERD(-1, -1);
 
+enum Menuscreen
+{//the menu screen choine enum
+	START, SPEED, LEVEL, CLOSE, DIDNTCHOOSE
+};
+
 enum PlanetColor_t
 {
 	BLUE_BIG, YELLOW_BIG, RED_BIG, EMPTY
@@ -36,8 +43,6 @@ enum class PlanetType : char
 {
 	player = 'B', green = 'G', orange = 'O', empty = 'E'
 };
-
-
 
 struct line
 {//struct to find the line between the two planets, in use only when the unit move to new planet

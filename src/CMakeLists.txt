@@ -4,4 +4,6 @@
 								  "Unit.cpp"
 								  "Board.cpp"
 								  "Controller.cpp"
-								  "ManagePlanet.cpp")
+								  "ManagePlanet.cpp"
+								  "Graphic.cpp"
+								  "Screen.cpp")
