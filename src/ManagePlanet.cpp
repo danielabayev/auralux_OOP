@@ -26,23 +26,23 @@ void ManagePlanet::draw(sf::RenderWindow& window)
 
 void ManagePlanet::move(ManagePlanet mp)
 {
-	//Planet* p;
-	//if (m_p.getActive())
-	//{
-	//	for (int i = 0; i < m_amountOfUnits; i++)
-	//	{
-	//		//if (p.getCenter() == this->getCenter())
-	//			//unit->moveAround(this);
-	//		if (m_p.getCenter() != mp.getPlanet().getCenter())///check if towards
-	//			m_units[i]->defineTowards(&mp.getPlanet());
+	Planet* p;
+	if (m_p.getActive())
+	{
+		for (int i = 0; i < m_amountOfUnits; i++)
+	{
+			//if (p.getCenter() == this->getCenter())
+				//unit->moveAround(this);
+			if (m_p.getCenter() != mp.getPlanet().getCenter())///check if towards
+				m_units[i]->defineTowards(&mp.getPlanet());
 
-	//		if (m_units[i]->move(&mp.getPlanet()) != NOTCENTERD)
-	//		{
-	//			m_amountToMove++;
-	//			m_needToMove = true;
-	//		}
-	//	}
-	//}
+			if (m_units[i]->move(&mp.getPlanet()) != NOTCENTERD)
+		{
+				m_amountToMove++;
+				m_needToMove = true;
+			}
+		}
+	}
 }
 
 void ManagePlanet::moveOwnerships(std::vector<std::shared_ptr<ManagePlanet>> planets)
@@ -81,6 +81,11 @@ void ManagePlanet::generateUnits()
 			m_clock.restart();
 		}
 	}
+}
+
+sf::Color ManagePlanet::getColor()
+{
+	return m_p.getColor();
 }
 
 Planet ManagePlanet::getPlanet() const

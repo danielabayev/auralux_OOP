@@ -12,7 +12,7 @@ public:
 	void move(ManagePlanet MP);
 	void moveOwnerships(std::vector<std::shared_ptr<ManagePlanet>> planets);
 	void generateUnits();
-
+	sf::Color getColor();
 	Planet getPlanet()const;
 	bool getNeedToMove()const;
 

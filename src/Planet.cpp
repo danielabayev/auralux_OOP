@@ -87,6 +87,11 @@ void Planet::addToUpgrade(int &m_amountOfUnits, std::vector<std::shared_ptr<Unit
 	}
 }
 
+sf::Color Planet::getColor()
+{
+	return m_color;
+}
+
 sf::CircleShape Planet::getShape() const
 {
 	return m_circle;

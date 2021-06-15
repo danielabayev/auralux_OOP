@@ -20,6 +20,7 @@ public:
 	void addToUpgrade(int &m_amountOfUnits, std::vector<std::shared_ptr<Unit>>& m_units);
 	void upgradePlanet();
 
+	sf::Color getColor();
 	sf::CircleShape getShape()const;
 	void setPosition(sf::Vector2f newPosition);
 	sf::Vector2f getCenter()const;

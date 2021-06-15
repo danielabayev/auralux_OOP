@@ -21,7 +21,7 @@ public:
 	virtual ~Board() = default;
 
 	void openFile(ifstream& input, int levelNum);
-	void readBoard(const int levelNum);
+	vector<std::shared_ptr<ManagePlanet>> & readBoard(const int levelNum);
 
 	void addToBoard(ifstream& input, char planet, int x, int y, int upgrades, int i);
 	PlanetColor_t findColor(const char color);
@@ -35,14 +35,15 @@ public:
 	
 	bool isLevelUp()const;
 
+	//vector<std::pair(sf::Color)
+
 private:
 	vector<std::shared_ptr<ManagePlanet>> m_board;//shared ptr
 	int m_level;
 	vector<vector<int>> m_adjacencyList;
 	bool m_levelUp = false;
 	bool m_gameOver = false;
-	bool m_controlled = false;
-	int m_controlledIndex = -1;
+	
 
 };
 

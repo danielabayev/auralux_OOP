@@ -4,7 +4,7 @@
 class Opponent : public ControlPlanet
 {
 public:
-    Opponent(const int speed);
+    Opponent(sf::Color color);
     virtual ~Opponent() = default;
 private:
 };

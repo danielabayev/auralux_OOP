@@ -8,8 +8,8 @@ const int RIGHTARROW = 1;
 /*const int STARTBUTTON = 1;
 const int SPEEDBUTTON = 2;
 const int LEVELBUTTON = 3;*/
-const int STARTWIDTH = 700;
-const int STARTHEIGHT = 500;
+const int STARTWIDTH = 800;
+const int STARTHEIGHT = 800;
 
 const int MAX_OWNERS = 5;
 const int PLAYER_OWN = 0;
@@ -27,6 +27,8 @@ const int LEFT = 1;
 const int UP = 2;
 const int DOWN = 3;
 
+const int OPPONENTS = 4;
+
 const sf::Vector2f NOTCENTERD(-1, -1);
 
 enum Menuscreen
@@ -37,6 +39,11 @@ enum Menuscreen
 enum PlanetColor_t
 {
 	BLUE_BIG, YELLOW_BIG, RED_BIG, EMPTY
+};
+
+enum Opponents
+{
+	RED , YELLOW , GREEN , CYAN
 };
 
 enum class PlanetType : char

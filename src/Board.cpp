@@ -7,16 +7,17 @@ Board::Board(const int levelNum)
 	//m_font.loadFromFile("C:/Windows/Fonts/SHOWG.TTF");
 	//m_showTime.setFillColor(sf::Color::Red);
 	//m_showTime.setFont(m_font);
-	readBoard(levelNum);
+	//readBoard(levelNum);
 };
 //-----------------------------------------------------------------------------
-void Board::readBoard(const int levelNum)
+vector<std::shared_ptr<ManagePlanet>> & Board::readBoard(const int levelNum)
 {
+	//vector<std::shared_ptr<ManagePlanet>> mp;
 	ifstream file;
 	try {
 		int amount;
 		char planet;
-		int upgrades = 0;;
+		int upgrades = 0;
 		int x = 0, y = 0;
 		openFile(file, levelNum);
 		auto check = file.peek();
@@ -49,6 +50,8 @@ void Board::readBoard(const int levelNum)
 	}
 
 	file.close();
+
+	return m_board;
 }
 
 //--------------------------------------------------------------------------
@@ -86,7 +89,7 @@ void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades,
 	makeAdjacencyList(line);
 }
 
-void Board::drawBoard(sf::RenderWindow& window)
+/*void Board::drawBoard(sf::RenderWindow& window)
 {
 	for (int i = 0; i < m_board.size(); i++)
 	{
@@ -103,12 +106,13 @@ void Board::moveUnits()
 			m_board[i]->moveOwnerships(m_board);
 	}
 }
-
-void Board::generate()
+*/
+/*void Board::generate()
 {
 	for (auto& planet : m_board)
 		planet->generateUnits();
 }
+*/
 //--------------------------------------------------------------------------
 //this function updates the adjacency list , for each object it holds the "keys" of it's neighbours
 void Board::makeAdjacencyList(stringstream& line)
@@ -128,7 +132,7 @@ void Board::makeAdjacencyList(stringstream& line)
 }
 //----------------------------------------------------------------------------
 //this needs to be fixed. wrong planet.
-void Board::handleClick(const sf::Event& event, sf::RenderWindow& window)
+/*void Board::handleClick(const sf::Event& event, sf::RenderWindow& window)
 {
 	auto location = window.mapPixelToCoords({ event.mouseButton.x,event.mouseButton.y });
 
@@ -155,6 +159,7 @@ void Board::handleClick(const sf::Event& event, sf::RenderWindow& window)
 	}
 		
 }
+*/
 
 //--------------------------------------------------------------------------
 bool Board::isLevelUp() const
@@ -162,13 +167,11 @@ bool Board::isLevelUp() const
 	return m_levelUp;
 }
 //--------------------------------------------------------------------------
-//resets all the objects of the board class before reading a new level
+
 void Board::resetBoard()
 {
-	m_board.clear();
 	m_adjacencyList.clear();
-	//m_size = 0;
-	m_levelUp = false;
+	//לאפס כמות אויבים
 }
 //--------------------------------------------------------------------------
 PlanetColor_t Board::findColor(const char color)

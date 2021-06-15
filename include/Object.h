@@ -13,9 +13,11 @@ public:
 	Object(sf::Color color);
 	~Object() = default;
 	virtual void draw(sf::RenderWindow& window);
-
+	
 protected:
 	sf::CircleShape m_circle;
 	sf::Color m_color;
 	sf::Sprite m_objectPng;
+	
+	
 };

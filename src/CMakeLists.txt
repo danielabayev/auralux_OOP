@@ -6,4 +6,7 @@
 								  "Controller.cpp"
 								  "ManagePlanet.cpp"
 								  "Graphic.cpp"
-								  "Screen.cpp")
+								  "Screen.cpp"
+								  "ControlPlanet.cpp"
+								  "Player.cpp"
+								  "Opponent.cpp")

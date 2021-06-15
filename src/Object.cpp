@@ -13,3 +13,6 @@ void Object::draw(sf::RenderWindow& window)
 {
 	window.draw(m_circle);
 }
+
+
+
