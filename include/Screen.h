@@ -10,6 +10,7 @@ public:
 	~Screen() = default;
 	void drawMenu(sf::RenderWindow& window);
 	void drawLevel(sf::RenderWindow& window);
+	void drawBackground(sf::RenderWindow& window);
 	Menuscreen checkMenu(const sf::Event& event, sf::RenderWindow& window);
 private:
 	//sf::RenderWindow m_menuScreen;
