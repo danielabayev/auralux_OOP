@@ -33,10 +33,11 @@ void ManagePlanet::move(ManagePlanet mp)
 	{
 			//if (p.getCenter() == this->getCenter())
 				//unit->moveAround(this);
-			if (m_p.getCenter() != mp.getPlanet().getCenter())///check if towards
-				m_units[i]->defineTowards(&mp.getPlanet());
 
-			if (m_units[i]->move(&mp.getPlanet()) != NOTCENTERD)
+			if (m_p.getCenter() != mp.getPlanet().getCenter())///check if towards
+				m_units[i]->defineTowards(mp.getPlanet());
+
+			if (m_units[i]->move(mp.getPlanet()) != NOTCENTERD)
 		{
 				m_amountToMove++;
 				m_needToMove = true;

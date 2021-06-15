@@ -6,6 +6,7 @@
 class ManagePlanet
 {
 public:
+
 	ManagePlanet(sf::Color color, int maxLevel, sf::Vector2f pos);
 	~ManagePlanet() = default;
 	virtual void draw(sf::RenderWindow& window);

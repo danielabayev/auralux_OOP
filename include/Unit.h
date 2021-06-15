@@ -8,10 +8,10 @@ class Unit : public Object
 public:
     Unit(sf::Color color, Planet* p);
     virtual ~Unit() = default;
-	sf::Vector2f calculateNewPosition(Planet* p);
-	sf::Vector2f move(Planet* p);
-	void moveAround(Planet* p);
-	void defineTowards(Planet* p);
+	sf::Vector2f calculateNewPosition(Planet p);
+	sf::Vector2f move(Planet p);
+	void moveAround(Planet p);
+	void defineTowards(Planet p);
 	sf::Vector2f moveTowards();
 	bool checkDistance();
 	void handleCollision(Planet *p);

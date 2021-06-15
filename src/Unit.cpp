@@ -9,22 +9,22 @@ Unit::Unit(sf::Color color, Planet* p) : Object(color)
 {
 	m_circle.setRadius(2);
 	m_angle = rand() % 360;
-	sf::Vector2f position = calculateNewPosition(p);
+	sf::Vector2f position = calculateNewPosition(*p);
 	m_circle.setPosition(position);
 }
 
-sf::Vector2f Unit::calculateNewPosition(Planet* p)
+sf::Vector2f Unit::calculateNewPosition(Planet p)
 {
 	sf::Vector2f position;
 	float inRadian = PI * m_angle / 180;
-	sf::Vector2f centerOfPlanet = p->getCenter();
-	float radius = p->getRadius();
-	position.x = p->getCenter().x + (radius * 1.1 * std::cos(inRadian));
-	position.y = p->getCenter().y + (radius * 1.1 * std::sin(inRadian));
+	sf::Vector2f centerOfPlanet = p.getCenter();
+	float radius = p.getRadius();
+	position.x = p.getCenter().x + (radius * 1.1 * std::cos(inRadian));
+	position.y = p.getCenter().y + (radius * 1.1 * std::sin(inRadian));
 	return position;
 }
 
-sf::Vector2f Unit::move(Planet* p)
+sf::Vector2f Unit::move(Planet p)
 {
 	if (m_targetPlanet.in_use)
 		return moveTowards();
@@ -33,20 +33,20 @@ sf::Vector2f Unit::move(Planet* p)
 	return NOTCENTERD;
 }
 
-void Unit::moveAround(Planet* p)
+void Unit::moveAround(Planet p)
 {
 	m_angle += 10;
 	sf::Vector2f position = calculateNewPosition(p);
 	m_circle.setPosition(position);
 }
 
-void Unit::defineTowards(Planet* p)
+void Unit::defineTowards(Planet p)
 {//check UP and DOWN
 	sf::Vector2f position = calculateNewPosition(p);
 	m_targetPlanet.in_use = true;
 	m_targetPlanet.target.x = position.x;
 	m_targetPlanet.target.y = position.y;
-	m_targetPlanet.targetCenter = p->getCenter();
+	m_targetPlanet.targetCenter = p.getCenter();
 
 	if (m_targetPlanet.target.x - m_circle.getPosition().x == 0)
 		if (m_targetPlanet.target.y - m_circle.getPosition().y > 0)
@@ -110,7 +110,8 @@ bool Unit::checkDistance()
 }
 
 void Unit::handleCollision(Planet* p)
-{//back the x and y to previos position then 
+{//back the x and y to previos position then
+
 
 }
 
