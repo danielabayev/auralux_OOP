@@ -9,6 +9,18 @@ Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos)
 	m_circle.setPosition(pos);
 	m_circle.setOrigin(SMALLPLANET / 2, SMALLPLANET / 2);
 
+	m_statusBar.setPosition(pos.x - 18, pos.y + 60);
+	m_statusBar.setFillColor(sf::Color::Transparent);
+	m_statusBar.setOutlineColor(sf::Color::Transparent);
+	m_statusBar.setOutlineThickness(1);
+	sf::Vector2f test(60, 7);
+	m_statusBar.setSize(test);
+	m_fillBarSize = sf::Vector2f(0, 7);
+	m_fillBar.setPosition(pos.x - 16, pos.y + 60);
+	m_fillBar.setFillColor(sf::Color::Transparent);
+	m_fillBar.setSize(m_fillBarSize);
+
+
 	//the make of the units
 	//sf::Vector2f center = m_circle.getOrigin();
 	/*m_units.resize(1000);
@@ -30,6 +42,8 @@ Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos)
 void Planet::draw(sf::RenderWindow& window)
 {
 	window.draw(m_circle);
+	window.draw(m_statusBar);
+	window.draw(m_fillBar);
 
 	/*for (auto& unit : m_units)
 		if (unit->getActive())
@@ -67,29 +81,17 @@ void Planet::generateUnits()
 	}
 }*/
 
-void Planet::healPlanet(int &m_amountOfUnits, std::vector<std::shared_ptr<Unit>>& m_units)
-{
-	while (m_health != 100 && m_amountOfUnits != 0)
-	{
-		m_units[m_amountOfUnits - 1]->setActive(false);
-		m_health++;
-		m_amountOfUnits--;
-	}
-}
 
-void Planet::addToUpgrade(int &m_amountOfUnits, std::vector<std::shared_ptr<Unit>>& m_units)
-{
-	while (m_counterToUpgrade < m_unitToUpgrade && m_amountOfUnits > 0 && m_currentLevel < 3)
-	{
-		m_units[m_amountOfUnits - 1]->setActive(false);
-		m_counterToUpgrade++;
-		m_amountOfUnits--;
-	}
-}
 
 sf::Color Planet::getColor()
 {
 	return m_color;
+}
+
+void Planet::setColor(sf::Color newColor)
+{
+	m_color = newColor;
+	m_circle.setFillColor(newColor);
 }
 
 sf::CircleShape Planet::getShape() const
@@ -138,4 +140,62 @@ bool Planet::getActive() const
 void Planet::setActive(bool Active)
 {
 	m_active = Active;
+}
+
+int Planet::getHealth() const
+{
+	return m_health;
+}
+
+void Planet::setHealth(HealthAction action)
+{
+	if (action == INC)
+		m_health++;
+	else
+		m_health--;
+}
+
+int Planet::getCounterToUpgrade() const
+{
+	return m_counterToUpgrade;
+}
+
+void Planet::setCounterToUpgrade()
+{
+	m_counterToUpgrade++;
+}
+
+void Planet::setFillBar(HealthAction action , sf::Color color)
+{
+	if (action == INC)
+	{
+		m_statusBar.setOutlineColor(sf::Color::White);
+		if (m_fillBar.getFillColor() == sf::Color::Transparent)
+			m_fillBar.setFillColor(color);
+		m_fillBarSize.x += 10;
+		m_fillBar.setSize(m_fillBarSize);
+		if (m_fillBarSize.x == m_statusBar.getSize().x)
+		{
+			m_fillBar.setFillColor(sf::Color::Transparent);
+			m_statusBar.setOutlineColor(sf::Color::Transparent);
+		}
+	}
+	else
+	{
+		m_fillBarSize.x -= 10;
+		m_fillBar.setSize(m_fillBarSize);
+		if(m_fillBarSize.x == 0)
+			m_fillBar.setFillColor(sf::Color::Transparent);
+	}
+
+}
+
+int Planet::getAmountToUpgrade() const
+{
+	return m_unitToUpgrade;
+}
+
+bool Planet::isMaxUpgrade() const
+{
+	return m_currentLevel == m_maxLevel;
 }

@@ -12,7 +12,12 @@ public:
 	virtual void draw(sf::RenderWindow& window);
 	void move(ManagePlanet MP);
 	void moveOwnerships(std::vector<std::shared_ptr<ManagePlanet>> planets);
+	void healPlanet();
+	void addToUpgrade();
+	void upgradePlanet();
+	void charge(sf::Color);
 	void generateUnits();
+	void determineAction();
 	sf::Color getColor();
 	Planet getPlanet()const;
 	bool getNeedToMove()const;
@@ -25,5 +30,7 @@ private:
 	std::vector<std::shared_ptr<Unit>> m_units; //unique_ptr
 	bool m_needToMove = false;
 	int m_amountToMove;
+	sf::Color m_chargeColor = sf::Color::White;
+	int m_counterToCharge = 0;
 	
 };
