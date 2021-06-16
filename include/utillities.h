@@ -28,13 +28,23 @@ const int UP = 2;
 const int DOWN = 3;
 
 const int OPPONENTS = 4;
+enum HealthAction
+{
+	INC, DEC
+};
+const int MAX_HEALTH = 100;
 
 const sf::Vector2f NOTCENTERD(-1, -1);
 
-enum Menuscreen
+enum class Menu : int
 {//the menu screen choine enum
-	START, SPEED, LEVEL, CLOSE, DIDNTCHOOSE
+	START = 2, EXIT = 4
 };
+
+//enum class Menu : int
+//{//the menu screen choine enum
+//	Background, BlackStart, WhiteStart, BlackSpeed, WhiteSpeed, BlackLevel, WhiteLevel, BlackClose, WhiteClose
+//};
 
 enum PlanetColor_t
 {

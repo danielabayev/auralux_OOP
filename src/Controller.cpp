@@ -1,4 +1,4 @@
-#include "Controller.h"
+ï»¿#include "Controller.h"
 
 Controller::Controller() 
     :m_window(sf::VideoMode(STARTWIDTH, STARTHEIGHT), "Example"), 
@@ -14,61 +14,41 @@ Controller::Controller()
     srand(time(NULL));
     m_window.setFramerateLimit(30);
     readLevel();
+    std::array <sf::Sprite, Graphic::MENU_TEXTURES> m_sprites;
+    loadSprites();
+    mainMenu(false);
+    while (m_window.isOpen())
+    {
+        run();
+        mainMenu(true);
+    }
 }
-
+//-----------------------------------------------------------------
+void Controller::loadSprites()
+{
+    for (int i = 0; i < Graphic::PicturesObject().MENU_TEXTURES; i++)
+        m_sprites[i].setTexture(Graphic::PicturesObject().getTexture(i));
+    m_sprites[1].setPosition((float)STARTWIDTH / 2 - m_sprites[1].getGlobalBounds().width / 2, 90.f);
+    for (size_t i = 2; i < m_sprites.size() - 1; i += 2)
+    {
+        m_sprites[i].setPosition((float)STARTWIDTH /2 - m_sprites[i].getGlobalBounds().width / 2, 280.f + i * 60.f);
+        m_sprites[i + 1].setPosition((float)STARTWIDTH / 2 - m_sprites[i + 1].getGlobalBounds().width / 2,
+            280.f + i * 60.f);
+    }
+}
+//------------------------------------------------------------------------------
 void Controller::run()
 {
-    //make the controll planet , every cp gets his mp`s.
-
-    Menuscreen choice = menuScreen();
-    int a;
-    while (choice != START && choice != CLOSE)
-    {
-        switch (choice)
-        {
-        case SPEED:
-            a = 0;
-            break;
-        case LEVEL:
-            a = 3;
-            break;
-        case START:
-            a = 4;
-            break;
-        case CLOSE:
-            m_window.close();
-            break;
-        default:
-            break;
-        }
-    }
-
-    /*while (m_window.isOpen())
-    {
-        m_window.clear();
-        m_screen.draw(m_window);
-        m_window.display();
-        if (auto event = sf::Event{}; m_window.pollEvent(event))
-        {
-            switch (event.type)
-            {
-            case sf::Event::Closed:
-                m_window.close();
-                break;
-            }
-        }
-    }*/
-    
- 
     while (m_window.isOpen())
     {
         m_window.clear();
         m_screen.drawBackground(m_window);
         drawPlanets(m_window);
         m_window.display();
-        
+
         generate();
         moveUnits();
+        checkForNewPlanets();
 
         if (auto event = sf::Event{}; m_window.pollEvent(event))
         {
@@ -78,58 +58,96 @@ void Controller::run()
                 m_window.close();
                 break;
             case sf::Event::MouseButtonReleased:
-                handleClick(event, m_window);//òãëåï ùì äùç÷ï ùì äáçéøä
-                
+                handleClick(event, m_window);//×¢×“×›×•×Ÿ ×©×œ ×”×©×—×§×Ÿ ×©×œ ×”×‘×—×™×¨×”
+
             }
         }
-       // CP->makesomething();//in the enemy every 4 sec
+        // CP->makesomething();//in the enemy every 4 sec
 
-        //update the current mp in cp
+         //update the current mp in c
     }
-}
-
-Menuscreen Controller::menuScreen()
+    }
+//------------------------------------------------------------
+void Controller::mainMenu(bool gameOver)
 {
-    while (m_window.isOpen())
+    auto option = -1, candidate = (int)Menu::START;
+   
+    while (m_window.isOpen() && option == -1)
     {
         m_window.clear();
-        m_screen.drawMenu(m_window);
+        m_window.draw(m_sprites[0]);
+        Graphic::PicturesObject().getTexture(0).setRepeated(true);
+        if ((0 - m_sprites[0].getPosition().x) == m_sprites[0].getTextureRect().width - STARTWIDTH)
+            m_sprites[0].setPosition(0.f, 0.f);
+        m_sprites[0].move(sf::Vector2f(5.f, 0.f));
+        m_window.draw(m_sprites[0]);
+        m_sprites[0].move(sf::Vector2f(-10.f, 0.f));
+        m_window.draw(m_sprites[1]);
+        for (int i = 2; i < m_sprites.size() - 1; i += 2)
+            m_window.draw(m_sprites[(i == candidate) ? i + 1 : i]);
         m_window.display();
+   
         if (auto event = sf::Event{}; m_window.pollEvent(event))
         {
             switch (event.type)
             {
             case sf::Event::Closed:
-                return CLOSE;
-            case sf::Event::MouseButtonReleased:
-                return m_screen.checkMenu(event, m_window);
-            }
-        }
-    }
-    return CLOSE;
-}
-
-int Controller::levelScreen()
-{
-    while (m_window.isOpen())
-    {
-        m_window.clear();
-        m_screen.drawLevel(m_window);
-        m_window.display();
-        if (auto event = sf::Event{}; m_window.pollEvent(event))
-        {
-            switch (event.type)
-            {
-            case sf::Event::Closed:
-                return -1;
-            case sf::Event::MouseButtonReleased:
+                m_window.close();
                 break;
-               // return m_screen.checkLevel(event, m_window);
+            case sf::Event::MouseMoved:
+            {
+                auto location = m_window.mapPixelToCoords(
+                    { event.mouseMove.x, event.mouseMove.y });
+                checkIfcontains(location, candidate);
+                break;
+            }
+            case sf::Event::MouseButtonReleased:
+            {
+                auto location = m_window.mapPixelToCoords(
+                    { event.mouseButton.x, event.mouseButton.y });
+
+                checkIfcontains(location, option);
+               // Music::instance().startClickSound();
+                break;
+            }
+            case sf::Event::KeyPressed:
+                switch (event.key.code)
+                {
+                case sf::Keyboard::Key::Up:
+                   //Music::instance().startClickSound();
+                    candidate = (int)Menu::START;
+                    break;
+                case sf::Keyboard::Key::Down:
+                  //  Music::instance().startClickSound();
+                    candidate = (candidate == (int)Menu::START) ? (int)Menu::EXIT :
+                        (int)Menu::START;
+                    break;
+                case sf::Keyboard::Key::Enter:
+                    //Music::instance().startClickSound();
+                    option = candidate;
+                    break;
+                }
+                break;
             }
         }
     }
+    if (option == (int)Menu::EXIT)
+        m_window.close();
 }
 
+
+//-------------------------------------------------------------------------
+void Controller::checkIfcontains(sf::Vector2f location, int& wantedValue)
+{
+    for (int i = 2; i < m_sprites.size(); i += 2)
+        if (m_sprites[i].getGlobalBounds().contains(location))
+        {
+            wantedValue = i;
+            //Music::instance().startClickSound();
+            break;
+        }
+}
+//---------------------------------------------------------------------------------
 void Controller::readLevel()
 {
     m_board.resetBoard();
@@ -142,22 +160,22 @@ void Controller::readLevel()
             m_player->addPlanet(p);
         else
         {
-            for (auto &opp : m_opponents)
+            for (auto& opp : m_opponents)
                 if (p->getColor() == opp->getColor())
                 {
                     opp->addPlanet(p);
                 }
-        } 
+        }
     }
 }
-
+//-------------------------------------------------------------------------
 void Controller::resetData()
 {
     m_player->resetData();
     for (auto& opp : m_opponents)
         opp->resetData();
 }
-
+//-------------------------------------------------------------------------------------
 void Controller::handleClick(const sf::Event& event, sf::RenderWindow& window)
 {
     auto location = window.mapPixelToCoords({ event.mouseButton.x,event.mouseButton.y });
@@ -169,8 +187,11 @@ void Controller::handleClick(const sf::Event& event, sf::RenderWindow& window)
         for (int i = 0; i < m_planets.size(); i++)
             if (m_planets[i]->getPlanet().getShape().getGlobalBounds().contains(location))
             {
-                m_player->setControlled(true, i);
-                break;
+                if (m_player->checkIfBelongs(m_planets[i]))
+                {
+                    m_player->setControlled(true, i);
+                    break;
+                }
             }
 
     }
@@ -179,17 +200,30 @@ void Controller::handleClick(const sf::Event& event, sf::RenderWindow& window)
         for (auto& planet : m_planets)
             if (planet->getPlanet().getShape().getGlobalBounds().contains(location))
             {
-                m_planets[controlled.second]->move(*planet);
+                if (planet == m_planets[controlled.second])
+                   planet->determineAction();
+                else
+                    m_planets[controlled.second]->move(*planet);
+
                 m_player->setControlled(false, -1);
-                //æîðé
+                //×–×ž× ×™
             }
 
+    }
+}
+//-----------------------------------------------------------------------------------
+void Controller::checkForNewPlanets()
+{
+    for (auto& p : m_planets)
+    {
+        if (p->getColor() == sf::Color::Blue && !(m_player->checkIfBelongs(p)))
+            m_player->addPlanet(p);
     }
 }
 
 void Controller::drawPlanets(sf::RenderWindow& window)
 {
-    for (auto &p:m_planets)
+    for (auto& p : m_planets)
     {
         p->draw(window);
     }

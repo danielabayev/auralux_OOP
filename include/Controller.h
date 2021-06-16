@@ -10,10 +10,14 @@ class Controller
 {//אחראי על השלב עצמו, עליית שלב וניהול המשחק
 public:
 	Controller(); // ctor
+	void loadSprites();
 	virtual ~Controller() = default;
 	void run();
-	Menuscreen menuScreen();
-	int levelScreen();
+	sf::Vector2f getViewCenter(sf::Vector2f location) const;
+	//Menuscreen menuScreen();
+	void mainMenu(bool gameOver);
+	void checkIfcontains(sf::Vector2f location, int& wantedValue);
+	//int levelScreen();
 	void readLevel();
 	void resetData();
 
@@ -23,7 +27,10 @@ public:
 	void moveUnits();
 	void handleClick(const sf::Event& event, sf::RenderWindow& window);
 
+	void checkForNewPlanets();
+
 private:
+	std::array <sf::Sprite, Graphic::MENU_TEXTURES> m_sprites;
 	sf::RenderWindow m_window;
 	Board m_board;
 	Screen m_screen;
