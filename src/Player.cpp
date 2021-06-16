@@ -15,5 +15,13 @@ void Player::setControlled(bool c , int i)
 	m_controlled.second = i;
 }
 
+bool Player::checkIfBelongs(std::shared_ptr<ManagePlanet> mp) const
+{
+	for (auto& p : m_mp)
+		if (p == mp)
+			return true;
+	return false;
+}
+
 
 

@@ -16,11 +16,11 @@ public:
 	//void move(Planet p);
 	//void generateUnits();
 
-	void healPlanet(int &m_amountOfUnits, std::vector<std::shared_ptr<Unit>>& m_units);
-	void addToUpgrade(int &m_amountOfUnits, std::vector<std::shared_ptr<Unit>>& m_units);
+
 	void upgradePlanet();
 
 	sf::Color getColor();
+	void setColor(sf::Color);
 	sf::CircleShape getShape()const;
 	void setPosition(sf::Vector2f newPosition);
 	sf::Vector2f getCenter()const;
@@ -28,12 +28,18 @@ public:
 	//int getActiveAmount()const;
 	bool getActive()const;
 	void setActive(bool Active);
+	int getHealth()const;
+	void setHealth(HealthAction action);
+	int getCounterToUpgrade()const;
+	void setCounterToUpgrade();
+	void setFillBar(HealthAction action, sf::Color color);
+	int getAmountToUpgrade()const;
+	bool isMaxUpgrade()const;
 
 private:
 	//sf::Clock m_clock;
 	//sf::Time m_timePassed;
 	int m_owner = 0;
-	sf::Sprite m_precentBar;
 	int m_health = 100;
 	int m_unitToUpgrade;
 	int m_counterToUpgrade = 0;
@@ -41,5 +47,8 @@ private:
 	int m_currentLevel;
 	int m_maxLevel;
 	bool m_active = false;
+	sf::Vector2f m_fillBarSize;
+	sf::RectangleShape m_statusBar;
+	sf::RectangleShape m_fillBar;
 	//std::vector<std::shared_ptr<Unit>> m_units; //unique_ptr
 };

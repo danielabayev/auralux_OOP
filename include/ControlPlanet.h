@@ -18,7 +18,7 @@ public:
 	//void move units
 	//heal planet
 
-private:
+protected:
 
 	std::vector<std::shared_ptr<ManagePlanet>> m_mp;
 	sf::Color m_color;
