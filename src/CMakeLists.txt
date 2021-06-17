@@ -9,4 +9,5 @@
 								  "Screen.cpp"
 								  "ControlPlanet.cpp"
 								  "Player.cpp"
-								  "Opponent.cpp")
+								  "Opponent.cpp"
+								  "Music.cpp")
