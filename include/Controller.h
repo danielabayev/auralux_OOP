@@ -5,7 +5,6 @@
 #include "Screen.h"
 #include "Player.h"
 #include "Opponent.h"
-#include "Music.h"
 
 class Controller
 {//אחראי על השלב עצמו, עליית שלב וניהול המשחק
@@ -14,7 +13,7 @@ public:
 	void loadSprites();
 	virtual ~Controller() = default;
 	void run();
-	//sf::Vector2f getViewCenter(sf::Vector2f location) const;
+	sf::Vector2f getViewCenter(sf::Vector2f location) const;
 	//Menuscreen menuScreen();
 	void mainMenu(bool gameOver);
 	void checkIfcontains(sf::Vector2f location, int& wantedValue);
