@@ -21,6 +21,7 @@ public:
 	sf::Color getColor();
 	Planet getPlanet()const;
 	bool getNeedToMove()const;
+	void underAttack();
 
 private:
 	sf::Clock m_clock;
@@ -32,5 +33,6 @@ private:
 	int m_amountToMove;
 	sf::Color m_chargeColor = sf::Color::White;
 	int m_counterToCharge = 0;
+	bool upgraded = false;
 	
 };

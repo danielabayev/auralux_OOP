@@ -108,8 +108,12 @@ void Planet::upgradePlanet()
 		size = LARGEPLANET;
 	m_circle.setRadius(size);
 	m_circle.setOrigin(size / 2, size / 2);
-	m_counterToUpgrade = 0;
 	m_currentLevel++;
+	m_counterToUpgrade = 0;
+	sf::Vector2f newpos(m_statusBar.getPosition().x +(size / 4), m_statusBar.getPosition().y + (size / 2));
+	m_statusBar.setPosition(newpos);
+	m_fillBar.setPosition(newpos);
+
 }
 
 void Planet::setPosition(sf::Vector2f newPosition)
@@ -152,7 +156,36 @@ void Planet::setHealth(HealthAction action)
 	if (action == INC)
 		m_health++;
 	else
+	{
 		m_health--;
+	}
+
+	if (m_health < 100)
+	{
+		m_statusBar.setOutlineColor(sf::Color::White);
+		m_fillBar.setFillColor(m_color);
+
+		if (m_health > 80)
+		{
+			m_fillBarSize.x = (m_health * 0.6);
+			m_fillBar.setSize(m_fillBarSize);
+		}
+		else
+		{
+			m_fillBarSize.x = (m_health / 2);
+			m_fillBar.setSize(m_fillBarSize);
+		}
+	}
+
+	if (m_health == 0 || m_health == MAX_HEALTH)
+	{
+		m_statusBar.setOutlineColor(sf::Color::Transparent);
+		m_fillBar.setFillColor(sf::Color::Transparent);
+		m_fillBarSize.x = 0;
+		m_fillBar.setSize(m_fillBarSize);
+	}
+	
+		
 }
 
 int Planet::getCounterToUpgrade() const
@@ -176,6 +209,7 @@ void Planet::setFillBar(HealthAction action , sf::Color color)
 		m_fillBar.setSize(m_fillBarSize);
 		if (m_fillBarSize.x == m_statusBar.getSize().x)
 		{
+			m_fillBarSize.x = 0;
 			m_fillBar.setFillColor(sf::Color::Transparent);
 			m_statusBar.setOutlineColor(sf::Color::Transparent);
 		}

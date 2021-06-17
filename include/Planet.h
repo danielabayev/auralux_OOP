@@ -41,7 +41,7 @@ private:
 	//sf::Time m_timePassed;
 	int m_owner = 0;
 	int m_health = 100;
-	int m_unitToUpgrade;
+	int m_unitToUpgrade ;
 	int m_counterToUpgrade = 0;
 	//int m_amountOfUnits;
 	int m_currentLevel;

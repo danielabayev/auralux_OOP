@@ -60,7 +60,7 @@ void ManagePlanet::moveOwnerships(const std::vector<std::unique_ptr<ManagePlanet
 					else if (mp->getColor() == getColor())
 					{
 						mp->m_units[mp->m_amountOfUnits] = std::move(m_units[i]);
-						
+						mp->m_units[mp->m_amountOfUnits]->setWaitToMove(false);
 						//mp->m_units.insert(mp->m_units.begin(), m_units[i]);
 						//mp->m_units[mp->m_amountOfUnits].swap(m_units[i]);
 						mp->m_amountOfUnits++;
@@ -68,8 +68,10 @@ void ManagePlanet::moveOwnerships(const std::vector<std::unique_ptr<ManagePlanet
 					else
 					{//to another MP , attack other planet
 						//change of the planet status
-						mp->m_units[mp->m_amountOfUnits - 1]->setActive(false);
-						mp->m_amountOfUnits--;
+						mp->underAttack();
+						//mp->m_units[mp->m_amountOfUnits - 1]->setActive(false);
+						//mp->m_amountOfUnits--;
+
 					}
 
 					//m_units[i]->setWaitToMove(false);
@@ -102,6 +104,8 @@ void ManagePlanet::addToUpgrade()
 	{
 		m_units[m_amountOfUnits - 1]->setActive(false);
 		m_p.setCounterToUpgrade();
+		if(m_p.getCounterToUpgrade() % 5 == 0)
+			m_p.setFillBar(INC, m_p.getColor());
 		m_amountOfUnits--;
 		if (m_p.getCounterToUpgrade() == m_p.getAmountToUpgrade())
 			m_p.upgradePlanet();
@@ -176,4 +180,20 @@ Planet ManagePlanet::getPlanet() const
 bool ManagePlanet::getNeedToMove() const
 {
 	return m_needToMove;
+}
+
+void ManagePlanet::underAttack()
+{
+	if (m_amountOfUnits == 0)
+		m_p.setHealth(DEC);
+	else
+	{
+		m_units[m_amountOfUnits - 1]->setActive(false);
+		m_amountOfUnits--;
+	}
+	if (m_p.getHealth() == 0)
+	{
+		m_p.setActive(false);
+		m_p.setColor(sf::Color::White);
+	}
 }
