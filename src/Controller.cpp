@@ -71,7 +71,7 @@ void Controller::run()
 void Controller::mainMenu(bool gameOver)
 {
     auto option = -1, candidate = (int)Menu::START;
-    Music::instance().startMenuSound();
+    //Music::instance().startMenuSound();
     while (m_window.isOpen() && option == -1)
     {
         m_window.clear();
@@ -107,23 +107,23 @@ void Controller::mainMenu(bool gameOver)
                     { event.mouseButton.x, event.mouseButton.y });
 
                 checkIfcontains(location, option);
-                Music::instance().startClickSound();
+                //Music::instance().startClickSound();
                 break;
             }
             case sf::Event::KeyPressed:
                 switch (event.key.code)
                 {
                 case sf::Keyboard::Key::Up:
-                   Music::instance().startClickSound();
+                   //Music::instance().startClickSound();
                     candidate = (int)Menu::START;
                     break;
                 case sf::Keyboard::Key::Down:
-                    Music::instance().startClickSound();
+                   // Music::instance().startClickSound();
                     candidate = (candidate == (int)Menu::START) ? (int)Menu::EXIT :
                         (int)Menu::START;
                     break;
                 case sf::Keyboard::Key::Enter:
-                    Music::instance().startClickSound();
+                    //Music::instance().startClickSound();
                     option = candidate;
                     break;
                 }
