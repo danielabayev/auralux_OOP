@@ -37,5 +37,5 @@ private:
 	int m_level = 1;
 	std::unique_ptr<Player> m_player;
 	vector<std::unique_ptr<Opponent>> m_opponents;
-	vector<std::shared_ptr<ManagePlanet>> m_planets;
+	vector<std::unique_ptr<ManagePlanet>> m_planets;
 };

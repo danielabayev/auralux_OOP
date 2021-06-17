@@ -21,9 +21,11 @@ public:
 	virtual ~Board() = default;
 
 	void openFile(ifstream& input, int levelNum);
-	vector<std::shared_ptr<ManagePlanet>> & readBoard(const int levelNum);
+	//vector<std::shared_ptr<ManagePlanet>> readBoard(const int levelNum);
+	vector<std::unique_ptr<ManagePlanet>> readBoard(const int levelNum);
 
-	void addToBoard(ifstream& input, char planet, int x, int y, int upgrades, int i);
+	//void addToBoard(ifstream& input, char planet, int x, int y, int upgrades, int i, vector<std::shared_ptr<ManagePlanet>>&);
+	void addToBoard(ifstream& input, char planet, int x, int y, int upgrades, int i, vector<std::unique_ptr<ManagePlanet>>&);
 	PlanetColor_t findColor(const char color);
 	void makeAdjacencyList(stringstream& line);
 	void resetBoard();
@@ -38,7 +40,7 @@ public:
 	//vector<std::pair(sf::Color)
 
 private:
-	vector<std::shared_ptr<ManagePlanet>> m_board;//shared ptr
+	//vector<std::shared_ptr<ManagePlanet>> m_board;//shared ptr
 	int m_level;
 	vector<vector<int>> m_adjacencyList;
 	bool m_levelUp = false;

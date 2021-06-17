@@ -7,8 +7,8 @@ public:
 	ControlPlanet(sf::Color color);
 	~ControlPlanet() = default;
 
-	void addPlanet(std::shared_ptr<ManagePlanet> mp);
-	void removePlanet(std::shared_ptr<ManagePlanet> mp);
+	void addPlanet(ManagePlanet* mp);
+	void removePlanet(ManagePlanet* mp);
 	void resetData();
 
 	void doAction();
@@ -20,7 +20,8 @@ public:
 
 protected:
 
-	std::vector<std::shared_ptr<ManagePlanet>> m_mp;
+	//std::vector<std::shared_ptr<ManagePlanet>> m_mp;
+	std::vector<ManagePlanet*> m_mp;
 	sf::Color m_color;
 	
 	

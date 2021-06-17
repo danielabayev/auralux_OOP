@@ -46,7 +46,7 @@ void ManagePlanet::move(ManagePlanet mp)
 	
 }
 
-void ManagePlanet::moveOwnerships(std::vector<std::shared_ptr<ManagePlanet>> planets)
+void ManagePlanet::moveOwnerships(const std::vector<std::unique_ptr<ManagePlanet>>& planets)
 {
 	sf::Vector2f targetPosition;
 	int amountOfUnit = m_amountOfUnits;

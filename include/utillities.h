@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <utility>
 
+const int OPTIONS = 6;
+
 const int TEXTURES = 2;
 const int STARTBACKGROUND = 0;
 const int RIGHTARROW = 1;

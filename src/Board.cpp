@@ -10,9 +10,10 @@ Board::Board(const int levelNum)
 	//readBoard(levelNum);
 };
 //-----------------------------------------------------------------------------
-vector<std::shared_ptr<ManagePlanet>> & Board::readBoard(const int levelNum)
+//vector<std::shared_ptr<ManagePlanet>> Board::readBoard(const int levelNum)
+vector<std::unique_ptr<ManagePlanet>> Board::readBoard(const int levelNum)
 {
-	//vector<std::shared_ptr<ManagePlanet>> mp;
+	vector<std::unique_ptr<ManagePlanet>> mp;
 	ifstream file;
 	try {
 		int amount;
@@ -24,7 +25,7 @@ vector<std::shared_ptr<ManagePlanet>> & Board::readBoard(const int levelNum)
 		if (!isdigit(check))
 			throw std::invalid_argument("wrong size argument , please enter a positive number\n");
 		file >> amount;
-		m_board.resize(amount);
+		mp.resize(amount);
 		file.get();
 		for (size_t i = 0; i < amount; i++)
 		{
@@ -39,7 +40,7 @@ vector<std::shared_ptr<ManagePlanet>> & Board::readBoard(const int levelNum)
 			file >> x;
 			file >> y;
 			file >> upgrades;
-			addToBoard(file, planet, x, y, upgrades, i);
+			addToBoard(file, planet, x, y, upgrades, i, mp);
 
 		}
 	}
@@ -51,7 +52,7 @@ vector<std::shared_ptr<ManagePlanet>> & Board::readBoard(const int levelNum)
 
 	file.close();
 
-	return m_board;
+	return mp;
 }
 
 //--------------------------------------------------------------------------
@@ -65,7 +66,8 @@ void Board::openFile(ifstream& input, int level)
 //--------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------
-void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades, int i)
+//void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades, int i, vector<std::shared_ptr<ManagePlanet>>& mp)
+void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades, int i, vector<std::unique_ptr<ManagePlanet>>& mp)
 {
 	PlanetColor_t color;
 	stringstream line;
@@ -73,16 +75,16 @@ void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades,
 	sf::Vector2f pos(x, y);
 	color = findColor(planet);
 	if (color == BLUE_BIG)
-		m_board[i] = std::make_shared<ManagePlanet>(sf::Color::Blue, upgrades, pos);
+		mp[i] = std::make_unique<ManagePlanet>(sf::Color::Blue, upgrades, pos);
 
 	else if (color == RED_BIG)
-		m_board[i] = std::make_shared<ManagePlanet>(sf::Color::Red, upgrades, pos);
+		mp[i] = std::make_unique<ManagePlanet>(sf::Color::Red, upgrades, pos);
 
 	else if (color == YELLOW_BIG)
-		m_board[i] = std::make_shared<ManagePlanet>(sf::Color::Yellow, upgrades, pos);
+		mp[i] = std::make_unique<ManagePlanet>(sf::Color::Yellow, upgrades, pos);
 
 	else if (color == EMPTY)
-		m_board[i] = std::make_shared<ManagePlanet>(sf::Color::White, upgrades, pos);
+		mp[i] = std::make_unique<ManagePlanet>(sf::Color::White, upgrades, pos);
 
 	std::getline(input, adjacency);
 	line << adjacency;

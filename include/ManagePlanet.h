@@ -11,7 +11,7 @@ public:
 	~ManagePlanet() = default;
 	virtual void draw(sf::RenderWindow& window);
 	void move(ManagePlanet MP);
-	void moveOwnerships(std::vector<std::shared_ptr<ManagePlanet>> planets);
+	void moveOwnerships(const std::vector<std::unique_ptr<ManagePlanet>>& planets);
 	void healPlanet();
 	void addToUpgrade();
 	void upgradePlanet();
