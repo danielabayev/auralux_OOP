@@ -12,7 +12,7 @@ public:
 	Controller(); // ctor
 	void loadSprites();
 	virtual ~Controller() = default;
-	void run();
+	void run() ;
 	sf::Vector2f getViewCenter(sf::Vector2f location) const;
 	//Menuscreen menuScreen();
 	void mainMenu(bool gameOver);
@@ -25,7 +25,7 @@ public:
 	void drawPlanets(sf::RenderWindow& window);
 	void generate();
 	void moveUnits();
-	void handleClick(const sf::Event& event, sf::RenderWindow& window);
+	void handleClick(const sf::Event& event, sf::RenderWindow& window) ;
 
 	void checkForNewPlanets();
 

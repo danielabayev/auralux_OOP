@@ -20,7 +20,7 @@ public:
 	Board(const int levelNum);
 	virtual ~Board() = default;
 
-	void openFile(ifstream& input, int levelNum);
+	void openFile(ifstream& input,const int levelNum);
 	//vector<std::shared_ptr<ManagePlanet>> readBoard(const int levelNum);
 	vector<std::unique_ptr<ManagePlanet>> readBoard(const int levelNum);
 

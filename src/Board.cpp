@@ -56,7 +56,7 @@ vector<std::unique_ptr<ManagePlanet>> Board::readBoard(const int levelNum)
 }
 
 //--------------------------------------------------------------------------
-void Board::openFile(ifstream& input, int level)
+void Board::openFile(ifstream& input,const int level)
 {
 	string fileName = std::to_string(level) + ".txt";
 	input.open(fileName);

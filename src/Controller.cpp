@@ -66,7 +66,7 @@ void Controller::run()
 
          //update the current mp in c
     }
-    }
+}
 //------------------------------------------------------------
 void Controller::mainMenu(bool gameOver)
 {
@@ -201,10 +201,10 @@ void Controller::handleClick(const sf::Event& event, sf::RenderWindow& window)
             if (planet->getPlanet().getShape().getGlobalBounds().contains(location))
             {
                 if (planet == m_planets[controlled.second])
-                   planet->determineAction();
+                    planet->determineAction();
                 else
                     m_planets[controlled.second]->move(*planet);
-
+                
                 m_player->setControlled(false, -1);
                 //זמני
             }

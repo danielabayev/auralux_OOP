@@ -31,12 +31,13 @@ void Opponent::resetScore()
 int Opponent::checkStatus(ManagePlanet* p)
 {
 	///	6 priorities:
-	/// 1 - heal
-	/// 2 - need reinforcment
+	/// 1 - heal - 500
+	/// 2 - need reinforcment - 400
 	/// 3 - conquer empty planet
 	/// 4 - upgrade
 	/// 5 - conquer near planet 
-	/// 6 - send reinforcment
+	/// 6 - send reinforcment - 100
+	/// p->getPlanet().getHealth();
 	/*if (p->needHeal())
 		return HEAL;*/
 	return 8;
