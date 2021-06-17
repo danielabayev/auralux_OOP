@@ -11,7 +11,7 @@ class Object
 {
 public:
 	Object(sf::Color color);
-	~Object() = default;
+	virtual ~Object() = default;
 	virtual void draw(sf::RenderWindow& window);
 	
 protected:

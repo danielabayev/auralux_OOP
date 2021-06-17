@@ -5,12 +5,12 @@ ControlPlanet::ControlPlanet(sf::Color color) : m_color(color)
 
 }
 
-void ControlPlanet::addPlanet(std::shared_ptr<ManagePlanet> mp)
+void ControlPlanet::addPlanet(ManagePlanet* mp)
 {
 	m_mp.push_back(mp);
 }
 
-void ControlPlanet::removePlanet(std::shared_ptr<ManagePlanet> mp)
+void ControlPlanet::removePlanet(ManagePlanet* mp)
 {
 	auto it = m_mp.begin();
 	while(it!= m_mp.end())

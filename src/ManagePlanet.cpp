@@ -5,7 +5,7 @@ ManagePlanet::ManagePlanet(sf::Color color, int maxLevel, sf::Vector2f pos)
 {
 	m_units.resize(1000);
 	for (auto& unit : m_units)
-		unit = std::make_shared<Unit>(sf::Color::Cyan, &m_p);
+		unit = std::make_unique<Unit>(sf::Color::Cyan, &m_p);
 	if (color != sf::Color::White)
 	{
 		for (size_t i = 0; i < START_UNIT_AMOUNT; i++)
@@ -24,10 +24,8 @@ void ManagePlanet::draw(sf::RenderWindow& window)
 			unit->draw(window);
 }
 
-void ManagePlanet::move(ManagePlanet mp)
+void ManagePlanet::move(ManagePlanet& mp)
 {
-	Planet* p;
-	
 	for (int i = 0; i < m_amountOfUnits; i++)
 	{
 				//if (p.getCenter() == this->getCenter())
@@ -39,14 +37,10 @@ void ManagePlanet::move(ManagePlanet mp)
 			m_amountToMove++;
 			m_needToMove = true;
 		}
-		
-		
 	}
-	
-	
 }
 
-void ManagePlanet::moveOwnerships(std::vector<std::shared_ptr<ManagePlanet>> planets)
+void ManagePlanet::moveOwnerships(const std::vector<std::unique_ptr<ManagePlanet>>& planets)
 {
 	sf::Vector2f targetPosition;
 	int amountOfUnit = m_amountOfUnits;
@@ -59,19 +53,28 @@ void ManagePlanet::moveOwnerships(std::vector<std::shared_ptr<ManagePlanet>> pla
 				{
 				
 					if (mp->getColor() == sf::Color::White)
+					{
 						mp->charge(getColor());
+						
+					}
 					else if (mp->getColor() == getColor())
 					{
-						mp->m_units.insert(mp->m_units.begin(), m_units[i]);
+						mp->m_units[mp->m_amountOfUnits] = std::move(m_units[i]);
+						
+						//mp->m_units.insert(mp->m_units.begin(), m_units[i]);
+						//mp->m_units[mp->m_amountOfUnits].swap(m_units[i]);
 						mp->m_amountOfUnits++;
 					}
 					else
-					{
+					{//to another MP , attack other planet
+						//change of the planet status
 						mp->m_units[mp->m_amountOfUnits - 1]->setActive(false);
 						mp->m_amountOfUnits--;
 					}
 
-					m_units[i]->setWaitToMove(false);
+					//m_units[i]->setWaitToMove(false);
+					//m_units.erase(m_units.begin() + i);
+					//m_units.erase(m_units.begin() + i);
 					m_units.erase(m_units.begin() + i);
 					m_amountOfUnits--;
 					m_amountToMove--;
@@ -133,7 +136,6 @@ void ManagePlanet::charge(sf::Color newCharger)
 		m_p.setActive(true);
 		m_amountOfUnits = 0;
 	}
-		
 }
 
 void ManagePlanet::generateUnits()

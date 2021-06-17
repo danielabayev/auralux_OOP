@@ -66,7 +66,7 @@ void Controller::run()
 
          //update the current mp in c
     }
-    }
+}
 //------------------------------------------------------------
 void Controller::mainMenu(bool gameOver)
 {
@@ -157,13 +157,13 @@ void Controller::readLevel()
     for (auto& p : m_planets)
     {
         if (p->getColor() == sf::Color::Blue)
-            m_player->addPlanet(p);
+            m_player->addPlanet(p.get());
         else
         {
             for (auto& opp : m_opponents)
                 if (p->getColor() == opp->getColor())
                 {
-                    opp->addPlanet(p);
+                    opp->addPlanet(p.get());
                 }
         }
     }
@@ -187,7 +187,7 @@ void Controller::handleClick(const sf::Event& event, sf::RenderWindow& window)
         for (int i = 0; i < m_planets.size(); i++)
             if (m_planets[i]->getPlanet().getShape().getGlobalBounds().contains(location))
             {
-                if (m_player->checkIfBelongs(m_planets[i]))
+                if (m_player->checkIfBelongs(m_planets[i].get()))
                 {
                     m_player->setControlled(true, i);
                     break;
@@ -201,10 +201,10 @@ void Controller::handleClick(const sf::Event& event, sf::RenderWindow& window)
             if (planet->getPlanet().getShape().getGlobalBounds().contains(location))
             {
                 if (planet == m_planets[controlled.second])
-                   planet->determineAction();
+                    planet->determineAction();
                 else
                     m_planets[controlled.second]->move(*planet);
-
+                
                 m_player->setControlled(false, -1);
                 //זמני
             }
@@ -216,8 +216,8 @@ void Controller::checkForNewPlanets()
 {
     for (auto& p : m_planets)
     {
-        if (p->getColor() == sf::Color::Blue && !(m_player->checkIfBelongs(p)))
-            m_player->addPlanet(p);
+        if (p->getColor() == sf::Color::Blue && !(m_player->checkIfBelongs(p.get())))
+            m_player->addPlanet(p.get());
     }
 }
 
