@@ -58,13 +58,9 @@ void Controller::run()
                 m_window.close();
                 break;
             case sf::Event::MouseButtonReleased:
-                handleClick(event, m_window);//עדכון של השחקן של הבחירה
-
+                handleClick(event, m_window);//update player choice
             }
         }
-        // CP->makesomething();//in the enemy every 4 sec
-
-         //update the current mp in c
     }
 }
 //------------------------------------------------------------
@@ -206,7 +202,7 @@ void Controller::handleClick(const sf::Event& event, sf::RenderWindow& window)
                     m_planets[controlled.second]->move(*planet);
                 
                 m_player->setControlled(false, -1);
-                //זמני
+                //temp - should to be in the player?
             }
 
     }

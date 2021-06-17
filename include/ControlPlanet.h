@@ -11,16 +11,9 @@ public:
 	void removePlanet(ManagePlanet* mp);
 	void resetData();
 
-	void doAction();
-
 	sf::Color getColor()const;
-	//void upgradePlanet();
-	//void move units
-	//heal planet
 
 protected:
-
-	//std::vector<std::shared_ptr<ManagePlanet>> m_mp;
 	std::vector<ManagePlanet*> m_mp;
 	sf::Color m_color;
 	

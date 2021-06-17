@@ -26,7 +26,7 @@ private:
 	struct parabola m_otherWay;
 	bool m_active = false;
 	float m_angle = 0;
-	bool m_waitToMove = false;/////////////////////////// todo
+	bool m_waitToMove = false;
 
 	void defineTowards();
 };

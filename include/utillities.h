@@ -3,13 +3,17 @@
 #include <utility>
 
 const int OPTIONS = 6;
+const int HEAL = 0;
+const int REINFORCMENT_TO = 1;
+const int CONQUER_NEW = 2;
+const int UPGRADE = 3;
+const int CONQUER_CONQUER = 4;
+const int REINFORCMENT_FROM = 5;
 
 const int TEXTURES = 2;
 const int STARTBACKGROUND = 0;
 const int RIGHTARROW = 1;
-/*const int STARTBUTTON = 1;
-const int SPEEDBUTTON = 2;
-const int LEVELBUTTON = 3;*/
+
 const int STARTWIDTH = 800;
 const int STARTHEIGHT = 800;
 
@@ -42,11 +46,6 @@ enum class Menu : int
 {//the menu screen choine enum
 	START = 2, EXIT = 4
 };
-
-//enum class Menu : int
-//{//the menu screen choine enum
-//	Background, BlackStart, WhiteStart, BlackSpeed, WhiteSpeed, BlackLevel, WhiteLevel, BlackClose, WhiteClose
-//};
 
 enum PlanetColor_t
 {

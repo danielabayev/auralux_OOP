@@ -1,8 +1,7 @@
 #include "Player.h"
 
 Player::Player():ControlPlanet(sf::Color::Blue)
-{
-}
+{}
 
 std::pair<bool,int> Player::controlled() const
 {

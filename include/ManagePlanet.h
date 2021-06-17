@@ -28,7 +28,7 @@ private:
 	sf::Time m_timePassed;
 	Planet m_p;
 	int m_amountOfUnits;
-	std::vector<std::unique_ptr<Unit>> m_units; //unique_ptr
+	std::vector<std::unique_ptr<Unit>> m_units;
 	bool m_needToMove = false;
 	int m_amountToMove;
 	sf::Color m_chargeColor = sf::Color::White;

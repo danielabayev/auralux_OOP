@@ -3,14 +3,8 @@
 #include "Unit.h"
 //-----------------------------------------------------------------------------
 Board::Board(const int levelNum)
-{
-	//m_font.loadFromFile("C:/Windows/Fonts/SHOWG.TTF");
-	//m_showTime.setFillColor(sf::Color::Red);
-	//m_showTime.setFont(m_font);
-	//readBoard(levelNum);
-};
+{};
 //-----------------------------------------------------------------------------
-//vector<std::shared_ptr<ManagePlanet>> Board::readBoard(const int levelNum)
 vector<std::unique_ptr<ManagePlanet>> Board::readBoard(const int levelNum)
 {
 	vector<std::unique_ptr<ManagePlanet>> mp;
@@ -33,7 +27,6 @@ vector<std::unique_ptr<ManagePlanet>> Board::readBoard(const int levelNum)
 				throw std::runtime_error("not enough lines in file\n");
 			file >> planet;
 			if (isdigit(planet))
-				//throw std::invalid_argument("invalid argument in line: " + std::to_string((i + 1) * (j + 1)) + "\n");
 				throw std::invalid_argument("invalid argument in line: " + std::to_string((i + 1) * (i + 1)) + "\n");
 			if (file.eof())
 				throw std::runtime_error("not enough lines or arguments in file\n");
@@ -66,7 +59,6 @@ void Board::openFile(ifstream& input,const int level)
 //--------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------
-//void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades, int i, vector<std::shared_ptr<ManagePlanet>>& mp)
 void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades, int i, vector<std::unique_ptr<ManagePlanet>>& mp)
 {
 	PlanetColor_t color;
@@ -91,30 +83,6 @@ void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades,
 	makeAdjacencyList(line);
 }
 
-/*void Board::drawBoard(sf::RenderWindow& window)
-{
-	for (int i = 0; i < m_board.size(); i++)
-	{
-		m_board[i]->draw(window);
-	}
-}
-
-void Board::moveUnits()
-{
-	for (int i = 0; i < m_board.size(); i++)
-	{
-		m_board[i]->move(*m_board[i]);
-		if (m_board[i]->getNeedToMove())
-			m_board[i]->moveOwnerships(m_board);
-	}
-}
-*/
-/*void Board::generate()
-{
-	for (auto& planet : m_board)
-		planet->generateUnits();
-}
-*/
 //--------------------------------------------------------------------------
 //this function updates the adjacency list , for each object it holds the "keys" of it's neighbours
 void Board::makeAdjacencyList(stringstream& line)
@@ -133,35 +101,6 @@ void Board::makeAdjacencyList(stringstream& line)
 
 }
 //----------------------------------------------------------------------------
-//this needs to be fixed. wrong planet.
-/*void Board::handleClick(const sf::Event& event, sf::RenderWindow& window)
-{
-	auto location = window.mapPixelToCoords({ event.mouseButton.x,event.mouseButton.y });
-
-	if (!m_controlled)
-	{
-		for (int i = 0; i < m_board.size(); i++)
-			if (m_board[i]->getPlanet().getShape().getGlobalBounds().contains(location))
-			{
-				m_controlled = true;
-				m_controlledIndex = i;
-				break;
-			}
-					
-	}
-	else
-	{
-		for (auto& planet : m_board)
-			if (planet->getPlanet().getShape().getGlobalBounds().contains(location))
-			{
-				m_board[m_controlledIndex]->move(*planet);
-				m_controlled = false;
-			}
-
-	}
-		
-}
-*/
 
 //--------------------------------------------------------------------------
 bool Board::isLevelUp() const
@@ -173,7 +112,7 @@ bool Board::isLevelUp() const
 void Board::resetBoard()
 {
 	m_adjacencyList.clear();
-	//לאפס כמות אויבים
+	//restart amount of enemy
 }
 //--------------------------------------------------------------------------
 PlanetColor_t Board::findColor(const char color)
@@ -193,4 +132,5 @@ PlanetColor_t Board::findColor(const char color)
 		return EMPTY;
 		break;
 	}
+	//add defualt return
 }

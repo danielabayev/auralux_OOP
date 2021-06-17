@@ -28,8 +28,6 @@ void ManagePlanet::move(ManagePlanet& mp)
 {
 	for (int i = 0; i < m_amountOfUnits; i++)
 	{
-				//if (p.getCenter() == this->getCenter())
-					//unit->moveAround(this);
 		if (m_p.getCenter() != mp.getPlanet().getCenter())///check if towards
 			m_units[i]->defineTowards(mp.getPlanet());
 		if (m_units[i]->move(mp.getPlanet()) != NOTCENTERD)
@@ -61,28 +59,19 @@ void ManagePlanet::moveOwnerships(const std::vector<std::unique_ptr<ManagePlanet
 					{
 						mp->m_units[mp->m_amountOfUnits] = std::move(m_units[i]);
 						mp->m_units[mp->m_amountOfUnits]->setWaitToMove(false);
-						//mp->m_units.insert(mp->m_units.begin(), m_units[i]);
-						//mp->m_units[mp->m_amountOfUnits].swap(m_units[i]);
 						mp->m_amountOfUnits++;
 					}
 					else
 					{//to another MP , attack other planet
 						//change of the planet status
 						mp->underAttack();
-						//mp->m_units[mp->m_amountOfUnits - 1]->setActive(false);
-						//mp->m_amountOfUnits--;
-
 					}
 
-					//m_units[i]->setWaitToMove(false);
-					//m_units.erase(m_units.begin() + i);
-					//m_units.erase(m_units.begin() + i);
 					m_units.erase(m_units.begin() + i);
 					m_amountOfUnits--;
 					m_amountToMove--;
 					if (m_amountToMove == 0)
 						m_needToMove = false;
-
 					break;	
 				}
 		}

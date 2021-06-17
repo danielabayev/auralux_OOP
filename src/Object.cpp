@@ -2,10 +2,6 @@
 
 Object::Object(sf::Color color) :m_color(color)
 {
-/*	if (kind == PLANET)
-		
-	else
-		*/
 	m_circle.setFillColor(color);
 }
 

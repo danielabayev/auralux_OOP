@@ -13,17 +13,13 @@ public:
 	void drawLevel(sf::RenderWindow& window);
 	void drawBackground(sf::RenderWindow& window);
 	void Render(sf::RenderWindow& window);
-	//Menuscreen checkMenu(const sf::Event& event, sf::RenderWindow& window);
 private:
-	//sf::RenderWindow m_menuScreen;
 	float m_background1;
 	float m_background2;
 	sf::Text m_start;
 	sf::Text m_level;
 	float m_speed;
 	sf::Sprite m_background;
-	//sf::Sprite m_rightArrow;
-	//sf::Sprite m_leftArrow;
 	sf::Vector2f m_size;
 	sf::Sprite m_sprite1;
 	sf::Sprite m_sprite2;

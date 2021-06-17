@@ -1,9 +1,7 @@
 #include "ControlPlanet.h"
 
 ControlPlanet::ControlPlanet(sf::Color color) : m_color(color)
-{
-
-}
+{}
 
 void ControlPlanet::addPlanet(ManagePlanet* mp)
 {

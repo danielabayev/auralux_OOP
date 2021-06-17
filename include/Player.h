@@ -4,7 +4,7 @@
 class Player : public ControlPlanet
 {
 public:
-    Player();//
+    Player();
     virtual ~Player() = default;
     std::pair<bool,int> controlled()const;
     void setControlled(bool,int);

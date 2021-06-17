@@ -20,14 +20,6 @@ sf::Font& Graphic::getFont()
 Graphic::Graphic()
 {
 	loadMenuTextures();
-//	m_textures.resize(TEXTURES);
-//	m_textures[STARTBACKGROUND].loadFromFile("background.jpg");
-//	m_textures[RIGHTARROW].loadFromFile("right-arrow.png");
-//	//m_textures[STARTBACKGROUND].loadFromFile("startbutton.png");
-//	m_font.loadFromFile("sansation.ttf");
-///*	m_textures[STARTBUTTON].loadFromFile("startbutton.png");
-//	m_textures[SPEEDBUTTON].loadFromFile("speedbutton.png");
-//	m_textures[LEVELBUTTON].loadFromFile("levelbutton.png");*/
 }
 //-----------------------------------------------------------------------------------------------
 void Graphic::loadMenuTextures()
@@ -37,6 +29,5 @@ void Graphic::loadMenuTextures()
 
 	for (int i = 0; i < texturesName.size(); i++)
 		m_textures[i].loadFromFile(texturesName[i] + ".png");
-	//m_textures[0].setRepeated(true);
 }
 //-----------------------------------------------------------------------------------------------
