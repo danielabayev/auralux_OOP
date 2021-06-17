@@ -21,7 +21,7 @@ const int NO_OWN = 3;
 const int VELOCITY = 30;
 const int PLANET = 0;
 const int UNIT = 1;
-const int START_UNIT_AMOUNT = 5;
+const int START_UNIT_AMOUNT = 20;
 const float PI = 3.14159265358979323846;
 
 const int RIGHT = 0;

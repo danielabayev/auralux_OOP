@@ -53,11 +53,16 @@ void ManagePlanet::moveOwnerships(const std::vector<std::unique_ptr<ManagePlanet
 				{
 				
 					if (mp->getColor() == sf::Color::White)
+					{
 						mp->charge(getColor());
+						
+					}
 					else if (mp->getColor() == getColor())
 					{
+						mp->m_units[mp->m_amountOfUnits] = std::move(m_units[i]);
+						
 						//mp->m_units.insert(mp->m_units.begin(), m_units[i]);
-						mp->m_units[mp->m_amountOfUnits].swap(m_units[i]);
+						//mp->m_units[mp->m_amountOfUnits].swap(m_units[i]);
 						mp->m_amountOfUnits++;
 					}
 					else
@@ -67,8 +72,10 @@ void ManagePlanet::moveOwnerships(const std::vector<std::unique_ptr<ManagePlanet
 						mp->m_amountOfUnits--;
 					}
 
-					m_units[i]->setWaitToMove(false);
+					//m_units[i]->setWaitToMove(false);
 					//m_units.erase(m_units.begin() + i);
+					//m_units.erase(m_units.begin() + i);
+					m_units.erase(m_units.begin() + i);
 					m_amountOfUnits--;
 					m_amountToMove--;
 					if (m_amountToMove == 0)
