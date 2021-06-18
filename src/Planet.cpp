@@ -17,6 +17,11 @@ Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos)
 	m_fillBar.setPosition(pos.x - 16, pos.y + 60);
 	m_fillBar.setFillColor(sf::Color::Transparent);
 	m_fillBar.setSize(m_fillBarSize);
+
+	int pcolor = findColor(color);
+	m_circle.setTexture(&Graphic::PicturesObject().getPlanet(pcolor));
+	
+
 }
 
 void Planet::draw(sf::RenderWindow& window)
@@ -24,6 +29,7 @@ void Planet::draw(sf::RenderWindow& window)
 	window.draw(m_circle);
 	window.draw(m_statusBar);
 	window.draw(m_fillBar);
+
 }
 
 sf::Color Planet::getColor()
@@ -34,7 +40,7 @@ sf::Color Planet::getColor()
 void Planet::setColor(sf::Color newColor)
 {
 	m_color = newColor;
-	m_circle.setFillColor(newColor);
+	m_circle.setTexture(&Graphic::PicturesObject().getPlanet(findColor(newColor)));
 }
 
 sf::CircleShape Planet::getShape() const
@@ -77,6 +83,21 @@ float Planet::getRadius()const
 bool Planet::getActive() const
 {
 	return m_active;
+}
+
+int Planet::findColor(sf::Color color)
+{
+	if (color == sf::Color::Blue)
+		return BLUEP;
+	else if (color == sf::Color::Red)
+		return REDP;
+	else if (color == sf::Color::Yellow)
+		return YELLOWP;
+	else if (color == sf::Color::Green)
+		return GREENP;
+	else
+		return GREYP;
+	
 }
 
 void Planet::setActive(bool Active)

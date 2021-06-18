@@ -20,6 +20,11 @@ sf::Font& Graphic::getFont()
 Graphic::Graphic()
 {
 	loadMenuTextures();
+	planets[BLUEP].loadFromFile("bluep.png");
+	planets[REDP].loadFromFile("redp.png");
+	planets[YELLOWP].loadFromFile("yellowp.png");
+	planets[GREENP].loadFromFile("greenp.png");
+	planets[GREYP].loadFromFile("greyp.png");
 }
 //-----------------------------------------------------------------------------------------------
 void Graphic::loadMenuTextures()
@@ -31,3 +36,7 @@ void Graphic::loadMenuTextures()
 		m_textures[i].loadFromFile(texturesName[i] + ".png");
 }
 //-----------------------------------------------------------------------------------------------
+sf::Texture& Graphic::getPlanet(int planet)
+{
+	return planets[planet];
+}

@@ -2,7 +2,7 @@
 
 Object::Object(sf::Color color) :m_color(color)
 {
-	m_circle.setFillColor(color);
+	//m_circle.setFillColor(color);
 }
 
 void Object::draw(sf::RenderWindow& window)

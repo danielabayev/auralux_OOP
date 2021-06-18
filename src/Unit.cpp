@@ -7,9 +7,11 @@
 Unit::Unit(sf::Color color, Planet* p) : Object(color)
 {
 	m_circle.setRadius(2);
+	m_circle.setFillColor(color);
 	m_angle = rand() % 360;
 	sf::Vector2f position = calculateNewPosition(*p);
 	m_circle.setPosition(position);
+	
 }
 
 sf::Vector2f Unit::calculateNewPosition(Planet p)

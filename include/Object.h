@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include "utillities.h"
+#include "Graphic.h"
 
 const int SMALLPLANET = 30;
 const int MEDIUMPLANET = 50;

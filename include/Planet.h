@@ -21,6 +21,7 @@ public:
 	sf::Vector2f getCenter()const;
 	float getRadius()const;
 	bool getActive()const;
+	int findColor(sf::Color);
 	void setActive(bool Active);
 	int getHealth()const;
 	void setHealth(HealthAction action);
@@ -41,4 +42,5 @@ private:
 	sf::Vector2f m_fillBarSize;
 	sf::RectangleShape m_statusBar;
 	sf::RectangleShape m_fillBar;
+	sf::Sprite m_sprite;
 };

@@ -52,6 +52,10 @@ enum PlanetColor_t
 	BLUE_BIG, YELLOW_BIG, RED_BIG, EMPTY
 };
 
+enum Planets
+{
+	BLUEP , REDP , YELLOWP , GREENP, GREYP
+};
 enum Opponents
 {
 	RED , YELLOW , GREEN , CYAN
