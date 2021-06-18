@@ -22,11 +22,13 @@ public:
 	Planet getPlanet()const;
 	bool getNeedToMove()const;
 	void underAttack();
+	void addNeighbor(ManagePlanet *neighbor);
 
 private:
 	sf::Clock m_clock;
 	sf::Time m_timePassed;
 	Planet m_p;
+	std::vector<ManagePlanet*> m_neighbors;
 	int m_amountOfUnits;
 	std::vector<std::unique_ptr<Unit>> m_units;
 	bool m_needToMove = false;

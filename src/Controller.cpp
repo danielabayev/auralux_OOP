@@ -130,8 +130,6 @@ void Controller::mainMenu(bool gameOver)
     if (option == (int)Menu::EXIT)
         m_window.close();
 }
-
-
 //-------------------------------------------------------------------------
 void Controller::checkIfcontains(sf::Vector2f location, int& wantedValue)
 {

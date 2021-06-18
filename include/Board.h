@@ -27,7 +27,7 @@ public:
 	PlanetColor_t findColor(const char color);
 	void makeAdjacencyList(stringstream& line);
 	void resetBoard();
-	
+	void makeAdj(vector<std::unique_ptr<ManagePlanet>>&);
 	bool isLevelUp()const;
 
 private:

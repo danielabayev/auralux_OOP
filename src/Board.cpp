@@ -44,7 +44,7 @@ vector<std::unique_ptr<ManagePlanet>> Board::readBoard(const int levelNum)
 	}
 
 	file.close();
-
+	makeAdj(mp);
 	return mp;
 }
 
@@ -113,6 +113,19 @@ void Board::resetBoard()
 {
 	m_adjacencyList.clear();
 	//restart amount of enemy
+}
+
+void Board::makeAdj(vector<std::unique_ptr<ManagePlanet>>& mp)
+{
+	int index;
+	for (int i = 0; i < m_adjacencyList.size(); i++)
+	{
+		for (int j = 0; j < m_adjacencyList[i].size(); j++) 
+		{
+			index = m_adjacencyList[i][j];
+			mp[i]->addNeighbor(mp[index].get());
+		}
+	}
 }
 //--------------------------------------------------------------------------
 PlanetColor_t Board::findColor(const char color)

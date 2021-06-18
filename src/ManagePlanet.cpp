@@ -14,6 +14,7 @@ ManagePlanet::ManagePlanet(sf::Color color, int maxLevel, sf::Vector2f pos)
 		m_p.setActive(true);
 	}
 	m_clock.restart();
+	m_neighbors.clear();
 }
 
 void ManagePlanet::draw(sf::RenderWindow& window)
@@ -185,4 +186,9 @@ void ManagePlanet::underAttack()
 		m_p.setActive(false);
 		m_p.setColor(sf::Color::White);
 	}
+}
+
+void ManagePlanet::addNeighbor(ManagePlanet* neighbor)
+{
+	m_neighbors.push_back(neighbor);
 }
