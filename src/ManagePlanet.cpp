@@ -5,7 +5,7 @@ ManagePlanet::ManagePlanet(sf::Color color, int maxLevel, sf::Vector2f pos)
 {
 	m_units.resize(1000);
 	for (auto& unit : m_units)
-		unit = std::make_unique<Unit>(sf::Color::Cyan, &m_p);
+		unit = std::make_unique<Unit>(color, &m_p);
 	if (color != sf::Color::White)
 	{
 		for (size_t i = 0; i < START_UNIT_AMOUNT; i++)
@@ -128,6 +128,8 @@ void ManagePlanet::charge(sf::Color newCharger)
 	{
 		m_p.setColor(m_chargeColor);
 		m_p.setActive(true);
+		for (auto& unit : m_units)
+			unit->setColor(m_chargeColor);
 		m_amountOfUnits = 0;
 	}
 }

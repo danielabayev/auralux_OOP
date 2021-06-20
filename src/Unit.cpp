@@ -11,7 +11,7 @@ Unit::Unit(sf::Color color, Planet* p) : Object(color)
 	m_angle = rand() % 360;
 	sf::Vector2f position = calculateNewPosition(*p);
 	m_circle.setPosition(position);
-	
+	m_clock.restart();
 }
 
 sf::Vector2f Unit::calculateNewPosition(Planet p)
@@ -30,7 +30,15 @@ sf::Vector2f Unit::move(Planet p)
 	if (m_targetPlanet.in_use)
 		return moveTowards();
 	else
-		moveAround(p);
+	{
+		m_timePassed = m_clock.getElapsedTime();
+		if (m_timePassed.asSeconds() > 0.06)
+		{
+			moveAround(p);
+			m_clock.restart();
+		}
+				
+	}
 	return NOTCENTERD;
 }
 
@@ -43,6 +51,8 @@ void Unit::moveAround(Planet p)
 
 void Unit::defineTowards(Planet p)
 {//check UP and DOWN
+	if (m_targetPlanet.in_use)
+		return;
 	sf::Vector2f position = calculateNewPosition(p);
 	m_targetPlanet.in_use = true;
 	m_targetPlanet.target.x = position.x;
@@ -114,6 +124,11 @@ void Unit::handleCollision(Planet* p)
 {//back the x and y to previos position then
 
 
+}
+
+void Unit::setColor(sf::Color newColor)
+{
+	m_circle.setFillColor(newColor);
 }
 
 void Unit::setWaitToMove(bool moved)

@@ -16,6 +16,7 @@ public:
 	bool checkDistance();
 	void handleCollision(Planet *p);
 
+	void setColor(sf::Color);
 	void setActive(bool Active) { m_active = Active; };
 	bool getActive() { return m_active; };
 	void setWaitToMove(bool moved);
@@ -27,6 +28,9 @@ private:
 	bool m_active = false;
 	float m_angle = 0;
 	bool m_waitToMove = false;
+
+	sf::Clock m_clock;
+	sf::Time m_timePassed;
 
 	void defineTowards();
 };
