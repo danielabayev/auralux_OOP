@@ -192,3 +192,13 @@ void ManagePlanet::addNeighbor(ManagePlanet* neighbor)
 {
 	m_neighbors.push_back(neighbor);
 }
+
+int ManagePlanet::getAmountOfUnits() const
+{
+	return m_amountOfUnits;
+}
+
+std::vector<ManagePlanet*> ManagePlanet::getNeighbors() const
+{
+	return m_neighbors;
+}

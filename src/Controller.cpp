@@ -49,6 +49,8 @@ void Controller::run()
         generate();
         moveUnits();
         checkForNewPlanets();
+        for (auto& oppo : m_opponents)
+            oppo->nextMove();
 
         if (auto event = sf::Event{}; m_window.pollEvent(event))
         {

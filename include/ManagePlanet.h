@@ -14,7 +14,6 @@ public:
 	void moveOwnerships(const std::vector<std::unique_ptr<ManagePlanet>>& planets);
 	void healPlanet();
 	void addToUpgrade();
-	void upgradePlanet();
 	void charge(sf::Color);
 	void generateUnits();
 	void determineAction();
@@ -23,6 +22,8 @@ public:
 	bool getNeedToMove()const;
 	void underAttack();
 	void addNeighbor(ManagePlanet *neighbor);
+	int getAmountOfUnits()const;
+	std::vector<ManagePlanet*> getNeighbors()const;
 
 private:
 	sf::Clock m_clock;
