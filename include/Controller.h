@@ -18,7 +18,7 @@ public:
 	void resetData();
 	void drawPlanets(sf::RenderWindow& window);
 	void generate();
-	void moveUnits();
+	void moveUnits(sf::Time timePassed);
 	void checkCollisions();
 	void handleClick(const sf::Event& event, sf::RenderWindow& window) ;
 	void checkForNewPlanets();
@@ -32,4 +32,5 @@ private:
 	vector<std::unique_ptr<Opponent>> m_opponents;
 	vector<std::unique_ptr<ManagePlanet>> m_planets;
 	Menu m_menu;
+	sf::Clock m_clock;
 };

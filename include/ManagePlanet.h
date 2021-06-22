@@ -11,7 +11,7 @@ public:
 	ManagePlanet(sf::Color color, int maxLevel, sf::Vector2f pos);
 	~ManagePlanet() = default;
 	virtual void draw(sf::RenderWindow& window);
-	void move(ManagePlanet& MP);
+	void move(ManagePlanet& MP , sf::Time timePassed);
 	void moveOwnerships(const std::vector<std::unique_ptr<ManagePlanet>>& planets);
 	void healPlanet();
 	void arrangeUnits();

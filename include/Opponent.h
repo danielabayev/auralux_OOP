@@ -6,8 +6,8 @@ class Opponent : public ControlPlanet
 public:
     Opponent(sf::Color color);
     virtual ~Opponent() = default;
-    void nextMove();
-    void makePlanetMove(ManagePlanet* p,int todo);
+    void nextMove(sf::Time timePassed);
+    void makePlanetMove(ManagePlanet* p,int todo , sf::Time timePassed);
 
 private:
     std::vector<std::vector<std::pair<bool, int>>> m_planets_score;
@@ -31,5 +31,5 @@ private:
     int getReinforcmentFromValue(ManagePlanet* p);
     int getNeighborValue(ManagePlanet* p);
 
-    void makeMoves();
+    void makeMoves(sf::Time timePassed);
 };

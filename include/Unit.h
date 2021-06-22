@@ -9,10 +9,10 @@ public:
     Unit(sf::Color color, Planet* p);
     virtual ~Unit() = default;
 	sf::Vector2f calculateNewPosition(Planet p);
-	sf::Vector2f move(Planet p);
-	void moveAround(Planet p);
+	sf::Vector2f move(Planet p , sf::Time timePassed);
+	void moveAround(Planet p , sf::Time timePassed);
 	void defineTowards(Planet p);
-	sf::Vector2f moveTowards();
+	sf::Vector2f moveTowards(sf::Time timePassed);
 	bool checkDistance();
 	void handleCollision(Planet *p);
 

@@ -4,7 +4,7 @@
 Opponent::Opponent(sf::Color color) :ControlPlanet(color),m_number_of_planets(m_mp.size())
 {}
 
-void Opponent::nextMove()
+void Opponent::nextMove(sf::Time timePassed)
 {
 	if (m_mp.size() == 0)
 		return;
@@ -23,10 +23,10 @@ void Opponent::nextMove()
 	if (considerVeterans)
 		veteransBonus(old_score, old_number_planets);
 
-	makeMoves();
+	makeMoves(timePassed);
 }
 
-void Opponent::makePlanetMove(ManagePlanet* p, int todo)
+void Opponent::makePlanetMove(ManagePlanet* p, int todo , sf::Time timePassed)
 {
 	ManagePlanet* PlanetFrom;
 	ManagePlanet* toConquer;
@@ -38,19 +38,19 @@ void Opponent::makePlanetMove(ManagePlanet* p, int todo)
 	case REINFORCMENT_TO:
 		PlanetFrom = findNeighborReinforcment(p);
 		if (PlanetFrom)
-			return PlanetFrom->move(*p);
+			return PlanetFrom->move(*p , timePassed);
 		else
 			if (PlanetFrom = findProtectedPlanet())
-				return PlanetFrom->move(*p);
+				return PlanetFrom->move(*p , timePassed);
 		//check other option?
 		return;
 	case CONQUER_NEW:
 		toConquer = findConquer(p,sf::Color::White);
-		p->move(*toConquer);
+		p->move(*toConquer , timePassed);
 		return;
 	case CONQUER_CONQUER:
 		toConquer = findConquer(p, p->getColor());
-		p->move(*toConquer);
+		p->move(*toConquer , timePassed);
 		return;
 	case UPGRADE:
 		p->getPlanet().addToUpgrade();
@@ -58,10 +58,10 @@ void Opponent::makePlanetMove(ManagePlanet* p, int todo)
 	case REINFORCMENT_FROM:
 		PlanetFrom = findNeighborReinforcment(p);
 		if (PlanetFrom)
-			return p->move(*PlanetFrom);
+			return p->move(*PlanetFrom , timePassed);
 		else
 			if (PlanetFrom = findProtectedPlanet())
-				return p->move(*PlanetFrom);
+				return p->move(*PlanetFrom , timePassed);
 		//check other option?
 		return;
 	}
@@ -274,7 +274,7 @@ int Opponent::getNeighborValue(ManagePlanet* p)
 	return value;
 }
 
-void Opponent::makeMoves()
+void Opponent::makeMoves(sf::Time timePassed)
 {
 	int number_of_moves = m_mp.size() / 3;
 	if (number_of_moves < 1)
@@ -299,6 +299,6 @@ void Opponent::makeMoves()
 		number_of_moves--;
 		//first index indicate the planet number , seconed index indicate the option want to do
 		std::pair<int,int> index = indexes[values_of_indexes[number_of_moves].first];
-		makePlanetMove(m_mp[index.first],index.second);
+		makePlanetMove(m_mp[index.first],index.second , timePassed);
 	}
 }
