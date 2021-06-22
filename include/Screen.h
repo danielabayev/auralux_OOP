@@ -10,8 +10,8 @@ public:
 	static Screen& instance();
 	~Screen() = default;
 	void Update(sf::RenderWindow& window, float deltaTime);
-	void drawLevel(sf::RenderWindow& window);
 	void drawBackground(sf::RenderWindow& window);
+	void drawMenu(sf::RenderWindow& window);
 	void Render(sf::RenderWindow& window);
 private:
 	float m_background1;

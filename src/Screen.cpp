@@ -33,3 +33,10 @@ void Screen::drawBackground(sf::RenderWindow& window)
 {
 	window.draw(sf::Sprite(Graphic::PicturesObject().getTexture(0)));
 }
+
+void Screen::drawMenu(sf::RenderWindow& window)
+{
+	window.draw(sf::Sprite(Graphic::PicturesObject().getTexture(0)));
+}
+
+

@@ -9,7 +9,7 @@ Graphic& Graphic::PicturesObject()
 //-------------------------------------------------------------------
 sf::Texture& Graphic::getTexture(int texture)
 {
-	return m_textures[texture];
+	return m_menuTextures[texture];
 }
 //-------------------------------------------------------------------
 sf::Font& Graphic::getFont()
@@ -30,10 +30,19 @@ Graphic::Graphic()
 void Graphic::loadMenuTextures()
 {
 	std::array <std::string, MENU_TEXTURES> texturesName =
-	{ "Space", "Auralux", "startWhite", "startBlue", "exitWhite", "exitBlue" };
+	{ "Space", "Auralux", "startWhite", "startBlue", "levelWhite", "levelBlue", "speedWhite", "speedBlue","exitWhite", "exitBlue"};
 
 	for (int i = 0; i < texturesName.size(); i++)
-		m_textures[i].loadFromFile(texturesName[i] + ".png");
+		m_menuTextures[i].loadFromFile(texturesName[i] + ".png");
+}
+//----------------------------------------------------------------------------------------------
+void Graphic::loadLevelTextures()
+{
+	std::array <std::string, LEVEL_TEXTURES> levelName =
+	{ "Level", "Pegasus", "Lupus", "Hercules"};
+
+	for (int i = 0; i < levelName.size(); i++)
+		m_menuTextures[i].loadFromFile(levelName[i] + ".png");
 }
 //-----------------------------------------------------------------------------------------------
 sf::Texture& Graphic::getPlanet(int planet)

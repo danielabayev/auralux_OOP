@@ -42,9 +42,9 @@ const int MAX_HEALTH = 100;
 
 const sf::Vector2f NOTCENTERD(-1, -1);
 
-enum class Menu : int
+enum class MenuOptions : int
 {//the menu screen choine enum
-	START = 2, EXIT = 4
+	START = 2, LEVEL = 4, SPEED = 6, EXIT = 8
 };
 
 enum PlanetColor_t
