@@ -14,9 +14,9 @@ public:
 
 	void upgradePlanet();
 
-	sf::Color getColor();
+	
 	void setColor(sf::Color);
-	sf::CircleShape getShape()const;
+	
 	void setPosition(sf::Vector2f newPosition);
 	sf::Vector2f getCenter()const;
 	float getRadius()const;
@@ -30,6 +30,13 @@ public:
 	void setFillBar(HealthAction action, sf::Color color);
 	int getAmountToUpgrade()const;
 	bool isMaxUpgrade()const;
+	void charge(sf::Color);
+	void underAttack();
+	void addToUpgrade();
+	int getAmountOfUnits()const;
+	void addUnits(int i);
+	void decUnits();
+	void resetUnits();
 
 private:
 	int m_owner = 0;
@@ -37,8 +44,11 @@ private:
 	int m_unitToUpgrade ;
 	int m_counterToUpgrade = 0;
 	int m_currentLevel;
+	int m_amountOfUnits;
 	int m_maxLevel;
 	bool m_active = false;
+	sf::Color m_chargeColor;
+	int m_counterToCharge = 0;
 	sf::Vector2f m_fillBarSize;
 	sf::RectangleShape m_statusBar;
 	sf::RectangleShape m_fillBar;

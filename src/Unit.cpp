@@ -20,8 +20,8 @@ sf::Vector2f Unit::calculateNewPosition(Planet p)
 	float inRadian = PI * m_angle / 180;
 	sf::Vector2f centerOfPlanet = p.getCenter();
 	float radius = p.getRadius();
-	position.x = p.getCenter().x + (radius * 1.1 * std::cos(inRadian));
-	position.y = p.getCenter().y + (radius * 1.1 * std::sin(inRadian));
+	position.x = p.getCenter().x + (radius * 1.4 * std::cos(inRadian));
+	position.y = p.getCenter().y + (radius * 1.4 * std::sin(inRadian));
 	return position;
 }
 
@@ -31,12 +31,8 @@ sf::Vector2f Unit::move(Planet p)
 		return moveTowards();
 	else
 	{
-		m_timePassed = m_clock.getElapsedTime();
-		if (m_timePassed.asSeconds() > 0.06)
-		{
 			moveAround(p);
-			m_clock.restart();
-		}
+			//m_clock.restart();
 				
 	}
 	return NOTCENTERD;
@@ -53,7 +49,7 @@ void Unit::defineTowards(Planet p)
 {//check UP and DOWN
 	if (m_targetPlanet.in_use)
 		return;
-	sf::Vector2f position = calculateNewPosition(p);
+	sf::Vector2f position = p.getCenter();
 	m_targetPlanet.in_use = true;
 	m_targetPlanet.target.x = position.x;
 	m_targetPlanet.target.y = position.y;
@@ -114,7 +110,7 @@ bool Unit::checkDistance()
 	if (distance < 0.3 && distance > -0.3)
 	{
 		m_circle.setPosition(m_targetPlanet.target);
-		m_waitToMove = true;
+		//m_waitToMove = true;
 		return false;
 	}
 	return true;
@@ -129,6 +125,16 @@ void Unit::handleCollision(Planet* p)
 void Unit::setColor(sf::Color newColor)
 {
 	m_circle.setFillColor(newColor);
+}
+
+void Unit::setActive(bool Active)
+{
+	m_active = Active;
+	if (Active)
+	{
+		m_targetPlanet.in_use = false;
+		m_otherWay.in_use = false;
+	}
 }
 
 void Unit::setWaitToMove(bool moved)
@@ -151,4 +157,8 @@ void Unit::defineTowards()
 	sf::Vector2f curentPosition = m_circle.getPosition();
 	sf::Vector2f targetPosition = m_targetPlanet.target;
 
+}
+bool Unit::inUse()const
+{
+	return m_targetPlanet.in_use;
 }

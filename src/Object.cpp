@@ -10,5 +10,13 @@ void Object::draw(sf::RenderWindow& window)
 	window.draw(m_circle);
 }
 
+sf::Color Object::getColor()const
+{
+	return m_color;
+}
 
+sf::CircleShape Object::getShape() const
+{
+	return m_circle;
+}
 

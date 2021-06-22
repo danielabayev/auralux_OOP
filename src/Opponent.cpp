@@ -53,7 +53,7 @@ void Opponent::makePlanetMove(ManagePlanet* p, int todo)
 		p->move(*toConquer);
 		return;
 	case UPGRADE:
-		p->addToUpgrade();
+		p->getPlanet().addToUpgrade();
 		return;
 	case REINFORCMENT_FROM:
 		PlanetFrom = findNeighborReinforcment(p);
@@ -263,7 +263,8 @@ int Opponent::getNeighborValue(ManagePlanet* p)
 		}
 		else
 			friends++;
-
+	if (enemy == 0)
+		enemy += 100;
 	double relation = friends / enemy;
 	if (relation > 1 )
 		value += 100;

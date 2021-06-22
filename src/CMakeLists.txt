@@ -9,4 +9,6 @@
 								  "Screen.cpp"
 								  "ControlPlanet.cpp"
 								  "Player.cpp"
-								  "Opponent.cpp")
+								  "Opponent.cpp"
+								  "CollisionHandling.cpp"
+								  "Menu.cpp")

@@ -34,3 +34,11 @@ sf::Color ControlPlanet::getColor() const
 {
 	return m_color;
 }
+
+bool ControlPlanet::checkIfBelongs(ManagePlanet* mp) const
+{
+	for (auto& p : m_mp)
+		if (p == mp)
+			return true;
+	return false;
+}

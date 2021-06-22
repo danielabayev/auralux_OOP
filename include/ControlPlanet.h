@@ -10,6 +10,7 @@ public:
 	void addPlanet(ManagePlanet* mp);
 	void removePlanet(ManagePlanet* mp);
 	void resetData();
+	bool checkIfBelongs(ManagePlanet*)const;
 
 	sf::Color getColor()const;
 

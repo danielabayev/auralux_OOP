@@ -17,6 +17,7 @@ Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos)
 	m_fillBar.setPosition(pos.x - 16, pos.y + 60);
 	m_fillBar.setFillColor(sf::Color::Transparent);
 	m_fillBar.setSize(m_fillBarSize);
+	
 
 	int pcolor = findColor(color);
 	m_circle.setTexture(&Graphic::PicturesObject().getPlanet(pcolor));
@@ -32,10 +33,7 @@ void Planet::draw(sf::RenderWindow& window)
 
 }
 
-sf::Color Planet::getColor()
-{
-	return m_color;
-}
+
 
 void Planet::setColor(sf::Color newColor)
 {
@@ -43,10 +41,7 @@ void Planet::setColor(sf::Color newColor)
 	m_circle.setTexture(&Graphic::PicturesObject().getPlanet(findColor(newColor)));
 }
 
-sf::CircleShape Planet::getShape() const
-{
-	return m_circle;
-}
+
 
 void Planet::upgradePlanet()
 {
@@ -161,9 +156,11 @@ void Planet::setFillBar(HealthAction action , sf::Color color)
 {
 	if (action == INC)
 	{
-		m_statusBar.setOutlineColor(sf::Color::White);
+		m_statusBar.setOutlineColor(color);
 		if (m_fillBar.getFillColor() == sf::Color::Transparent)
+		{
 			m_fillBar.setFillColor(color);
+		}
 		m_fillBarSize.x += 10;
 		m_fillBar.setSize(m_fillBarSize);
 		if (m_fillBarSize.x == m_statusBar.getSize().x)
@@ -191,4 +188,105 @@ int Planet::getAmountToUpgrade() const
 bool Planet::isMaxUpgrade() const
 {
 	return m_currentLevel == m_maxLevel;
+}
+
+void Planet::charge(sf::Color newCharger)
+{
+	if (m_chargeColor == sf::Color::White)
+		m_chargeColor = newCharger;
+
+	if (newCharger == m_chargeColor)
+	{
+		m_counterToCharge++;
+		if (m_counterToCharge % 5 == 0)
+		{
+			setFillBar(INC, newCharger);
+		}
+	}
+	else
+	{
+		if (m_counterToCharge != 0)
+		{
+			m_counterToCharge--;
+			if (m_counterToCharge % 5 == 0)
+			{
+				setFillBar(DEC, newCharger);
+			}
+		}
+		else
+		{
+			m_chargeColor = newCharger;
+			m_counterToCharge++;
+			if (m_counterToCharge % 5 == 0)
+			{
+				setFillBar(INC, newCharger);
+			}
+		}
+	}
+	
+
+	if (m_counterToCharge == m_unitToUpgrade)
+	{
+		setColor(m_chargeColor);
+		setActive(true);
+		m_counterToCharge = 0;
+		//for (auto& unit : m_units)
+			//unit->setColor(m_chargeColor);
+		//m_amountOfUnits = 0;
+	}
+}
+
+void Planet::underAttack()
+{
+	setHealth(DEC);
+
+	if (m_health == 0)
+	{
+		setActive(false);
+		setColor(sf::Color::White);
+		m_health = MAX_HEALTH;
+		m_currentLevel = 1;
+		m_counterToUpgrade = 0;
+		if (m_circle.getRadius() != SMALLPLANET)
+		{
+			m_circle.setRadius(SMALLPLANET);
+			m_circle.setOrigin(SMALLPLANET / 2, SMALLPLANET / 2);
+		}	
+	}
+}
+
+void Planet::addToUpgrade()
+{
+	if(m_counterToUpgrade < m_unitToUpgrade)
+	{
+		m_counterToUpgrade++;
+		if (m_counterToUpgrade % 5 == 0)
+			setFillBar(INC, getColor());
+		if (m_counterToUpgrade == m_unitToUpgrade)
+			upgradePlanet();
+	}
+}
+
+int Planet::getAmountOfUnits() const
+{
+	return m_amountOfUnits;
+}
+
+void Planet::addUnits(int i)
+{
+	m_amountOfUnits += i;
+}
+
+void Planet::decUnits()
+{
+	if (m_amountOfUnits != 0)
+		m_amountOfUnits--;
+	else
+		throw "zero units";
+
+}
+
+void Planet::resetUnits()
+{
+	m_amountOfUnits = 0;
 }
