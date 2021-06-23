@@ -79,6 +79,7 @@ struct line
 	sf::Vector2f target;
 	int direction;
 	sf::Vector2f targetCenter;
+	int targetIndex;
 };
 
 struct parabola

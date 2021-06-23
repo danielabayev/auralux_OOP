@@ -25,22 +25,24 @@ sf::Vector2f Unit::calculateNewPosition(Planet p)
 	return position;
 }
 
-sf::Vector2f Unit::move(Planet p , sf::Time timePassed)
+sf::Vector2f Unit::move(Planet p , sf::Time timePassed , int angle)
 {
 	if (m_targetPlanet.in_use)
 		return moveTowards(timePassed);
 	else
 	{
-			moveAround(p , timePassed);
-			//m_clock.restart();
-				
+		
+		moveAround(p, timePassed, angle);
+					
 	}
 	return NOTCENTERD;
 }
 
-void Unit::moveAround(Planet p , sf::Time timePassed)
+void Unit::moveAround(Planet p , sf::Time timePassed , int angle)
 {
-	m_angle += 10 * timePassed.asSeconds();
+	float diff = m_angle - angle;
+	m_angle += (diff/10) * timePassed.asSeconds();
+	m_angle = int(m_angle) % 360;
 	sf::Vector2f position = calculateNewPosition(p);
 	m_circle.setPosition(position);
 }
@@ -51,6 +53,7 @@ void Unit::defineTowards(Planet p)
 		return;
 	sf::Vector2f position = p.getCenter();
 	m_targetPlanet.in_use = true;
+	m_targetPlanet.targetIndex = p.getIndex();
 	m_targetPlanet.target.x = position.x;
 	m_targetPlanet.target.y = position.y;
 	m_targetPlanet.targetCenter = p.getCenter();
@@ -148,7 +151,12 @@ bool Unit::getWaitToMove()const
 	return m_waitToMove;
 }
 
-sf::Vector2f Unit::getTargetPlanet()
+int Unit::getTargetIndex() const
+{
+	return m_targetPlanet.targetIndex;
+}
+
+sf::Vector2f Unit::getTargetPlanet()const
 {
 	return m_targetPlanet.targetCenter;
 }

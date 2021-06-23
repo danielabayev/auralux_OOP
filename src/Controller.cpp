@@ -17,7 +17,7 @@ Controller::Controller() :
 //------------------------------------------------------------------------------
 void Controller::run()
 {
-    Music::instance().startMenuSound();
+    //Music::instance().startMenuSound();
 
     while (true)
     {
@@ -35,26 +35,28 @@ void Controller::run()
             m_window.create(sf::VideoMode(STARTWIDTH, STARTHEIGHT), "Example");
             m_window.setFramerateLimit(30);
             sf::Event event;
-            sf::Texture texture;
-            texture.loadFromFile("upgradeBlue.png");
+           // sf::Texture texture;
+            //texture.loadFromFile("upgradeBlue.png");
             //sf::IntRect rectSourceSprite(65, 0, 65, 66);
-            sf::IntRect rectSourceSprite(0, 0, 214, 214);
-            sf::Sprite sprite(texture, rectSourceSprite);
+            //sf::IntRect rectSourceSprite(0, 0, 214, 214);
+           // sf::Sprite sprite(texture, rectSourceSprite);
             sf::Clock clock;
             sf::Time timePassed;
             while (m_window.isOpen())
             {
-                sprite.setPosition(90.f, 90.f);
+               // sprite.setPosition(90.f, 90.f);
                 m_window.clear();
                 m_screen.drawBackground(m_window);
-                m_window.draw(sprite);
+                //m_window.draw(sprite);
                 drawPlanets(m_window);
                 m_window.display();
                 timePassed = m_clock.restart();
-                timePassed *= 25.f;
+                timePassed *= 15.f;
+                generate();
                 moveUnits(timePassed);
                 checkCollisions();
                 checkForNewPlanets();
+                
                 for (auto& oppo : m_opponents)
                     oppo->nextMove(timePassed);
                 if (auto event = sf::Event{}; m_window.pollEvent(event))
@@ -68,14 +70,14 @@ void Controller::run()
                         handleClick(event, m_window);//update player choice
                     }
                 }
-                if (clock.getElapsedTime().asSeconds() > 0.5f) {
+               /* if (clock.getElapsedTime().asSeconds() > 0.5f) {
                     if (rectSourceSprite.left == 1075)
                         rectSourceSprite.left = 0;
                     else
                         rectSourceSprite.left += 214;
                     sprite.setTextureRect(rectSourceSprite);
                     clock.restart();
-                }
+                }*/
             }
         }
     }

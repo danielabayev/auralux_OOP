@@ -13,7 +13,7 @@ void Menu::openMenu()
     auto option = -1, candidate = (int)MenuOptions::START;
     Graphic::PicturesObject().getTexture(0).setRepeated(true);
     drawMenu(m_window, candidate);
-    Music::instance().startMenuSound();
+   // Music::instance().startMenuSound();
     while (m_window.isOpen() && option == -1)
     {
         for (auto event = sf::Event{}; m_window.pollEvent(event);)
@@ -88,19 +88,36 @@ void Menu::loadMenuSprite()
 //---------------------------------------------------------------------------------------------------------------------
 void Menu::loadLevelSprite()
 {
+    int counter = 1;
     for (int i = 0; i < Graphic::PicturesObject().LEVEL_TEXTURES; i++)
         m_levelSprites[i].setTexture(Graphic::PicturesObject().getLevelTexture(i));
     m_levelSprites[0].setOrigin(200.f,50.f);
     m_levelSprites[0].setPosition((float)STARTWIDTH/2, 105.f);
+    m_levelSprites[1].setOrigin(157.f, 40.f);
+    m_levelSprites[1].setPosition((float)STARTWIDTH / 2, 750.f);
+    m_levelSprites[2].setOrigin(160.f, 150.f);
+    m_levelSprites[2].setPosition(50, 250.f);
+    m_levelSprites[3].setOrigin(160.f, 150.f);
+    m_levelSprites[3].setPosition(320, 250.f);
+    m_levelSprites[4].setOrigin(160.f, 150.f);
+    m_levelSprites[4].setPosition(590, 250.f);
+    m_levelSprites[5].setOrigin(160.f, 150.f);
+    m_levelSprites[5].setPosition(50, 560.f);
     //for (size_t i = 2; i < m_levelSprites.size() - 1; i++)
     //{
-    //    m_levelSprites[i].setOrigin
+    //    float height = 200;
+    //    float width = 200;
+    //    //m_levelSprites[i].setOrigin(400.f, 244.f);
+    //    m_levelSprites[i].setPosition(width * counter, height);
+    //    counter++;
+    //    if (counter % 3 == 0)
+    //    {
+    //        counter = 1;
+    //        height = height + 150;
+    //    }
     //}
 
-    for (size_t i = 2; i < m_levelSprites.size() - 1; i++)
-    {
-        m_levelSprites[i].setPosition((float)STARTWIDTH / 4 - m_levelSprites[i].getGlobalBounds().width / 4, 270.f + i * 50.f);
-    }
+   
 }
 //----------------------------------------------------------------------------------------------------------------------
 void Menu::addOptions()

@@ -8,7 +8,7 @@
 class Planet : public Object
 {
 public:
-	Planet(sf::Color color, int maxLevel, sf::Vector2f pos);
+	Planet(sf::Color color, int maxLevel, sf::Vector2f pos , int index);
 	~Planet() = default;
 
 	virtual void draw(sf::RenderWindow& window);
@@ -37,10 +37,11 @@ public:
 	int getAmountOfUnits()const;
 	void addUnits(int i);
 	void decUnits();
+	int getIndex()const;
 	void resetUnits();
 
 private:
-	int m_owner = 0;
+	int m_index;
 	int m_health = 100;
 	int m_unitToUpgrade ;
 	int m_counterToUpgrade = 0;
