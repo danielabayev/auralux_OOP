@@ -1,7 +1,7 @@
 #include "Planet.h"
 
-Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos)
-	:Object(color), m_unitToUpgrade(30), m_currentLevel(1), m_maxLevel(maxLevel)
+Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos, int index)
+	:Object(color), m_unitToUpgrade(30), m_currentLevel(1), m_maxLevel(maxLevel),m_index(index)
 {
 	m_circle.setRadius(SMALLPLANET);
 	m_circle.setPosition(pos);
@@ -19,7 +19,7 @@ Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos)
 	m_fillBar.setSize(m_fillBarSize);
 	m_chargeColor = sf::Color::White;
 	
-
+	
 	int pcolor = findColor(color);
 	m_circle.setTexture(&Graphic::PicturesObject().getPlanet(pcolor));
 	
@@ -305,6 +305,11 @@ void Planet::decUnits()
 	else
 		throw "zero units";
 
+}
+
+int Planet::getIndex() const
+{
+	return m_index;
 }
 
 void Planet::resetUnits()

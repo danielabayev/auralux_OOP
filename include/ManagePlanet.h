@@ -8,7 +8,7 @@ class ManagePlanet
 {
 public:
 
-	ManagePlanet(sf::Color color, int maxLevel, sf::Vector2f pos);
+	ManagePlanet(sf::Color color, int maxLevel, sf::Vector2f pos , int index);
 	~ManagePlanet() = default;
 	virtual void draw(sf::RenderWindow& window);
 	void move(ManagePlanet& MP , sf::Time timePassed);
@@ -38,5 +38,7 @@ private:
 	bool m_needToMove = false;
 	int m_amountToMove;
 	bool upgraded = false;
+	int m_angle;
+	int m_around = 1;
 	
 };

@@ -1,7 +1,7 @@
 #include "ManagePlanet.h"
 
-ManagePlanet::ManagePlanet(sf::Color color, int maxLevel, sf::Vector2f pos)
-	:m_p(color,maxLevel,pos),m_amountToMove(0)
+ManagePlanet::ManagePlanet(sf::Color color, int maxLevel, sf::Vector2f pos ,int index)
+	:m_p(color,maxLevel,pos,index),m_amountToMove(0)
 {
 	m_units.resize(1000);
 	for (auto& unit : m_units)
@@ -31,17 +31,25 @@ void ManagePlanet::draw(sf::RenderWindow& window)
 
 void ManagePlanet::move(ManagePlanet& mp , sf::Time timePassed)
 {
+	m_angle += 10;
+	m_angle = int(m_angle) % 360;
+	int unitsAround = m_around;
+	m_around = 0;
+	int angle = 360 / unitsAround;
 	for (int i = 0; i < m_p.getAmountOfUnits(); i++)
 	{
 		if (m_p.getCenter() != mp.getPlanet().getCenter())///check if towards
 			m_units[i]->defineTowards(mp.getPlanet());
-		if (m_units[i]->move(mp.getPlanet() , timePassed) != NOTCENTERD)
+		if (m_units[i]->move(mp.getPlanet() , timePassed , m_angle) != NOTCENTERD)
 		{
+			m_around++;
 			//m_amountToMove++;
 			//m_needToMove = true;
 		}
 		
 	}
+	if (m_around == 0)
+		m_around++;
 }
 
 /*void ManagePlanet::moveOwnerships(const std::vector<std::unique_ptr<ManagePlanet>>& planets)
@@ -229,21 +237,27 @@ bool ManagePlanet::getNeedToMove() const
 void ManagePlanet::findCollisions(ManagePlanet& mp)
 {
 	int amount = m_p.getAmountOfUnits();
+	
 	for (int i = 0; i < m_p.getAmountOfUnits(); i++)
 	{
 		if (m_units[i]->inUse())
 		{
-			if (collide(mp.m_p, *m_units[i]) && m_units[i]->getTargetPlanet() == mp.getPlanet().getCenter())
+			if (collide(mp.m_p, *m_units[i]) && m_units[i]->getTargetIndex() == mp.getPlanet().getIndex())
 			{
 				processCollision(mp.m_p, *m_units[i]);
 				if (m_units[i]->getActive())
 				{
-					if (m_p.getCenter() != mp.getPlanet().getCenter())
+					if (m_p.getIndex() != mp.getPlanet().getIndex())
 					{
-						mp.m_units[mp.getAmountOfUnits()] = std::move(m_units[i]);
-						m_units.erase(m_units.begin() + i);
+						//mp.m_units[mp.getAmountOfUnits()] = std::move(m_units[i]);
+						mp.m_units[mp.getAmountOfUnits()]->setActive(true);
 						mp.m_p.addUnits(1);
+						//m_units.erase(m_units.begin() + i);
+						m_units[i]->setActive(false);
+						m_units[i].swap(m_units[m_p.getAmountOfUnits() - 1]);
 						m_p.decUnits();
+						//mp.m_p.addUnits(1);
+						//m_p.decUnits();
 					}
 				}
 				else

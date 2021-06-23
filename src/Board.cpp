@@ -67,16 +67,16 @@ void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades,
 	sf::Vector2f pos(x, y);
 	color = findColor(planet);
 	if (color == BLUE_BIG)
-		mp[i] = std::make_unique<ManagePlanet>(sf::Color::Blue, upgrades, pos);
+		mp[i] = std::make_unique<ManagePlanet>(sf::Color::Blue, upgrades, pos , i);
 
 	else if (color == RED_BIG)
-		mp[i] = std::make_unique<ManagePlanet>(sf::Color::Red, upgrades, pos);
+		mp[i] = std::make_unique<ManagePlanet>(sf::Color::Red, upgrades, pos , i);
 
 	else if (color == YELLOW_BIG)
-		mp[i] = std::make_unique<ManagePlanet>(sf::Color::Yellow, upgrades, pos);
+		mp[i] = std::make_unique<ManagePlanet>(sf::Color::Yellow, upgrades, pos , i);
 
 	else if (color == EMPTY)
-		mp[i] = std::make_unique<ManagePlanet>(sf::Color::White, upgrades, pos);
+		mp[i] = std::make_unique<ManagePlanet>(sf::Color::White, upgrades, pos, i);
 
 	std::getline(input, adjacency);
 	line << adjacency;
