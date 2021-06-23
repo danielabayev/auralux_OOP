@@ -13,7 +13,7 @@ void Menu::openMenu()
     auto option = -1, candidate = (int)MenuOptions::START;
     Graphic::PicturesObject().getTexture(0).setRepeated(true);
     drawMenu(m_window, candidate);
-    Music::instance().startMenuSound();
+    Music::().startMenuSound();
     while (m_window.isOpen() && option == -1)
     {
         for (auto event = sf::Event{}; m_window.pollEvent(event);)
@@ -53,7 +53,7 @@ void Menu::openMenu()
                     handleUp(candidate);
                     break;
                 case sf::Keyboard::Key::Down:
-                    // Music::instance().startClickSound();
+                    // Music::().startClickSound();
                     handleDown(candidate);
                     break;
                 case sf::Keyboard::Key::Enter:

@@ -17,6 +17,13 @@ sf::Texture& Graphic::getLevelTexture(int texture)
 	return m_levelTextures[texture];
 }
 //-------------------------------------------------------------------
+sf::Texture& Graphic::getUpgradeTexture(int texture)
+{
+	if(texture == GREYP)
+		texture = 0;
+	return m_upgradeTextures[texture];
+}
+//-------------------------------------------------------------------
 sf::Font& Graphic::getFont()
 {
 	return m_font;
@@ -26,6 +33,7 @@ Graphic::Graphic()
 {
 	loadMenuTextures();
 	loadLevelTextures();
+	loadUpgradeTextures();
 	planets[BLUEP].loadFromFile("bluep.png");
 	planets[REDP].loadFromFile("redp.png");
 	planets[YELLOWP].loadFromFile("yellowp.png");
@@ -33,6 +41,15 @@ Graphic::Graphic()
 	planets[GREYP].loadFromFile("greyp.png");
 }
 //-----------------------------------------------------------------------------------------------
+void Graphic::loadUpgradeTextures()
+{
+	std::array <std::string, UPGRADE_TEXTURES> upgradeName =
+	{ "blueUpgrade", "orangeUpgrade", "yellowUpgrade", "greenUpgrade" };
+
+	for (int i = 0; i < upgradeName.size(); i++)
+		m_upgradeTextures[i].loadFromFile(upgradeName[i] + ".png");
+}
+//----------------------------------------------------------------------------------------------
 void Graphic::loadMenuTextures()
 {
 	std::array <std::string, MENU_TEXTURES> texturesName =

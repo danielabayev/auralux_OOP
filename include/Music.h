@@ -5,7 +5,7 @@ class Music
 {
 public:
 	virtual ~Music() = default; // close music file
-	static Music& instance();
+	static Music&();
 	//void startBackgroundMusic();
 	void startMenuSound();
 	//void startCoinSound();
