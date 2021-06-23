@@ -17,15 +17,19 @@ Controller::Controller() :
 //------------------------------------------------------------------------------
 void Controller::run()
 {
-    //Music::instance().startMenuSound();
-    //float deltaTime = 0;
+    Music::instance().startMenuSound();
 
     while (true)
     {
         m_menu.openMenu();
         MenuOptions option = m_menu.getSelected();
+        LevelOptions level = m_menu.getLevel();
         if (option == MenuOptions::EXIT)
             return;
+        else if (option == MenuOptions::LEVEL)
+        {
+            m_menu.levelWindow();
+        }
         else if (option == MenuOptions::START)
         {
             m_window.create(sf::VideoMode(STARTWIDTH, STARTHEIGHT), "Example");
@@ -46,11 +50,8 @@ void Controller::run()
                 m_window.draw(sprite);
                 drawPlanets(m_window);
                 m_window.display();
-
                 timePassed = m_clock.restart();
                 timePassed *= 25.f;
-
-                generate();
                 moveUnits(timePassed);
                 checkCollisions();
                 checkForNewPlanets();
@@ -67,13 +68,13 @@ void Controller::run()
                         handleClick(event, m_window);//update player choice
                     }
                 }
-                        if (clock.getElapsedTime().asSeconds() > 0.5f) {
-                            if (rectSourceSprite.left == 1075)
-                                rectSourceSprite.left = 0;
-                            else
-                                rectSourceSprite.left += 214;
-                            sprite.setTextureRect(rectSourceSprite);
-                            clock.restart();
+                if (clock.getElapsedTime().asSeconds() > 0.5f) {
+                    if (rectSourceSprite.left == 1075)
+                        rectSourceSprite.left = 0;
+                    else
+                        rectSourceSprite.left += 214;
+                    sprite.setTextureRect(rectSourceSprite);
+                    clock.restart();
                 }
             }
         }

@@ -22,7 +22,6 @@ public:
 	void checkCollisions();
 	void handleClick(const sf::Event& event, sf::RenderWindow& window) ;
 	void checkForNewPlanets();
-
 private:
 	sf::RenderWindow m_window;
 	Board m_board;

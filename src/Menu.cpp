@@ -92,15 +92,15 @@ void Menu::loadLevelSprite()
         m_levelSprites[i].setTexture(Graphic::PicturesObject().getLevelTexture(i));
     m_levelSprites[0].setOrigin(200.f,50.f);
     m_levelSprites[0].setPosition((float)STARTWIDTH/2, 105.f);
-    for (size_t i = 2; i < m_levelSprites.size() - 1; i++)
-    {
-        m_levelSprites[i].setOrigin
-    }
+    //for (size_t i = 2; i < m_levelSprites.size() - 1; i++)
+    //{
+    //    m_levelSprites[i].setOrigin
+    //}
 
     for (size_t i = 2; i < m_levelSprites.size() - 1; i++)
     {
         m_levelSprites[i].setPosition((float)STARTWIDTH / 4 - m_levelSprites[i].getGlobalBounds().width / 4, 270.f + i * 50.f);
-    }*/
+    }
 }
 //----------------------------------------------------------------------------------------------------------------------
 void Menu::addOptions()
