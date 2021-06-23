@@ -29,13 +29,13 @@ void ManagePlanet::draw(sf::RenderWindow& window)
 				m_units[i]->draw(window);
 }
 
-void ManagePlanet::move(ManagePlanet& mp)
+void ManagePlanet::move(ManagePlanet& mp , sf::Time timePassed)
 {
 	for (int i = 0; i < m_p.getAmountOfUnits(); i++)
 	{
 		if (m_p.getCenter() != mp.getPlanet().getCenter())///check if towards
 			m_units[i]->defineTowards(mp.getPlanet());
-		if (m_units[i]->move(mp.getPlanet()) != NOTCENTERD)
+		if (m_units[i]->move(mp.getPlanet() , timePassed) != NOTCENTERD)
 		{
 			//m_amountToMove++;
 			//m_needToMove = true;
@@ -113,6 +113,10 @@ void ManagePlanet::arrangeUnits()
 
 void ManagePlanet::movePlayer(ManagePlanet& MP)
 {
+	if (MP.getPlanet().getCenter() == m_p.getCenter())
+		if (m_p.getHealth() == MAX_HEALTH && m_p.isMaxUpgrade())
+			return;
+	
 	for (int i = 0; i < m_p.getAmountOfUnits(); i++)
 	{
 		m_units[i]->defineTowards(MP.getPlanet());
@@ -209,7 +213,10 @@ void ManagePlanet::changePlanet(sf::Color newColor)
 	{
 		unit->setColor(newColor);
 		if (newColor == sf::Color::White)
+		{
 			unit->setActive(false);
+		}
+			
 	}
 		
 }

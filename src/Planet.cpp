@@ -17,20 +17,38 @@ Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos)
 	m_fillBar.setPosition(pos.x - 16, pos.y + 60);
 	m_fillBar.setFillColor(sf::Color::Transparent);
 	m_fillBar.setSize(m_fillBarSize);
+	m_chargeColor = sf::Color::White;
 	
 
 	int pcolor = findColor(color);
 	m_circle.setTexture(&Graphic::PicturesObject().getPlanet(pcolor));
 	
+	/*m_font = Graphic::PicturesObject().getFont();
+	m_healthText.setFont(m_font);
+	m_healthText.setFillColor(sf::Color::Red);
+	m_healthText.setCharacterSize(20);
+	m_healthText.setScale(1, 1);
+	m_chargeText.setFont(m_font);
+	m_healthText.setFillColor(sf::Color::Black);
+	m_chargeText.setFillColor(sf::Color::Black);
+	m_healthText.setPosition(pos.x - 18, pos.y + 60);
+	m_chargeText.setPosition(pos.x - 50, pos.y + 60);*/
 
 }
 
 void Planet::draw(sf::RenderWindow& window)
 {
 	window.draw(m_circle);
-	window.draw(m_statusBar);
-	window.draw(m_fillBar);
-
+	//window.draw(m_statusBar);
+	//window.draw(m_fillBar);
+	/*std::string hp = std::to_string(m_health);
+	m_healthText.setString(hp);
+	if(m_color == sf::Color::White)
+		std::string st = "C" + std::to_string(m_counterToCharge);
+	else
+		std::string st = "U" + std::to_string(m_counterToUpgrade);
+	window.draw(m_healthText);
+	window.draw(m_chargeText)*/;
 }
 
 
@@ -247,6 +265,9 @@ void Planet::underAttack()
 		m_health = MAX_HEALTH;
 		m_currentLevel = 1;
 		m_counterToUpgrade = 0;
+		m_counterToCharge = 0;
+		m_amountOfUnits = 0;
+		m_chargeColor = sf::Color::White;
 		if (m_circle.getRadius() != SMALLPLANET)
 		{
 			m_circle.setRadius(SMALLPLANET);

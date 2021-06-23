@@ -11,7 +11,7 @@ public:
 	ManagePlanet(sf::Color color, int maxLevel, sf::Vector2f pos);
 	~ManagePlanet() = default;
 	virtual void draw(sf::RenderWindow& window);
-	void move(ManagePlanet& MP);
+	void move(ManagePlanet& MP , sf::Time timePassed);
 	void moveOwnerships(const std::vector<std::unique_ptr<ManagePlanet>>& planets);
 	void healPlanet();
 	void arrangeUnits();
@@ -37,8 +37,6 @@ private:
 	std::vector<std::unique_ptr<Unit>> m_units;
 	bool m_needToMove = false;
 	int m_amountToMove;
-	sf::Color m_chargeColor = sf::Color::White;
-	int m_counterToCharge = 0;
 	bool upgraded = false;
 	
 };

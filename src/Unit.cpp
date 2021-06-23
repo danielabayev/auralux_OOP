@@ -25,22 +25,22 @@ sf::Vector2f Unit::calculateNewPosition(Planet p)
 	return position;
 }
 
-sf::Vector2f Unit::move(Planet p)
+sf::Vector2f Unit::move(Planet p , sf::Time timePassed)
 {
 	if (m_targetPlanet.in_use)
-		return moveTowards();
+		return moveTowards(timePassed);
 	else
 	{
-			moveAround(p);
+			moveAround(p , timePassed);
 			//m_clock.restart();
 				
 	}
 	return NOTCENTERD;
 }
 
-void Unit::moveAround(Planet p)
+void Unit::moveAround(Planet p , sf::Time timePassed)
 {
-	m_angle += 10;
+	m_angle += 10 * timePassed.asSeconds();
 	sf::Vector2f position = calculateNewPosition(p);
 	m_circle.setPosition(position);
 }
@@ -73,7 +73,7 @@ void Unit::defineTowards(Planet p)
 
 }
 
-sf::Vector2f Unit::moveTowards()
+sf::Vector2f Unit::moveTowards(sf::Time timePassed)
 {
 	sf::Vector2f position = m_circle.getPosition();
 	switch (m_targetPlanet.direction)
@@ -83,13 +83,13 @@ sf::Vector2f Unit::moveTowards()
 	case DOWN:
 		//to check
 	case RIGHT:
-		position.x += 0.5;
+		position.x += 0.5 * timePassed.asSeconds();
 		//y = ax + b
 		position.y = m_targetPlanet.a * position.x + m_targetPlanet.b;
 		m_circle.setPosition(position);
 		break;
 	case LEFT:
-		position.x -= 0.5;
+		position.x -= 0.5 * timePassed.asSeconds();
 		//y = ax + b
 		position.y = m_targetPlanet.a * position.x + m_targetPlanet.b;
 		m_circle.setPosition(position);
@@ -125,6 +125,7 @@ void Unit::handleCollision(Planet* p)
 void Unit::setColor(sf::Color newColor)
 {
 	m_circle.setFillColor(newColor);
+	m_color = newColor;
 }
 
 void Unit::setActive(bool Active)
@@ -161,4 +162,9 @@ void Unit::defineTowards()
 bool Unit::inUse()const
 {
 	return m_targetPlanet.in_use;
+}
+
+void Unit::setInUse(bool used)
+{
+	m_targetPlanet.in_use = used;
 }

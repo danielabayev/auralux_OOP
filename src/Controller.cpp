@@ -12,6 +12,7 @@ Controller::Controller() :
     m_opponents[CYAN] = std::make_unique<Opponent>(sf::Color::Cyan);
     srand(time(NULL));
     readLevel();
+    m_clock.restart();
 }
 //------------------------------------------------------------------------------
 void Controller::run()
@@ -36,6 +37,7 @@ void Controller::run()
             sf::IntRect rectSourceSprite(0, 0, 214, 214);
             sf::Sprite sprite(texture, rectSourceSprite);
             sf::Clock clock;
+            sf::Time timePassed;
             while (m_window.isOpen())
             {
                 sprite.setPosition(90.f, 90.f);
@@ -44,12 +46,16 @@ void Controller::run()
                 m_window.draw(sprite);
                 drawPlanets(m_window);
                 m_window.display();
+
+                timePassed = m_clock.restart();
+                timePassed *= 25.f;
+
                 generate();
-                moveUnits();
+                moveUnits(timePassed);
                 checkCollisions();
                 checkForNewPlanets();
                 for (auto& oppo : m_opponents)
-                    oppo->nextMove();
+                    oppo->nextMove(timePassed);
                 if (auto event = sf::Event{}; m_window.pollEvent(event))
                 {
                     switch (event.type)
@@ -162,6 +168,7 @@ void Controller::checkForNewPlanets()
                 {
                     opp->removePlanet(p.get());
                     p->changePlanet(sf::Color::White);
+                    break;
                 }
             }
         }
@@ -196,11 +203,11 @@ void Controller::generate()
         planet->generateUnits();
 }
 //---------------------------------------------------------------------
-void Controller::moveUnits()
+void Controller::moveUnits(sf::Time timePassed)
 {
     for (int i = 0; i < m_planets.size(); i++)
     {
         if(m_planets[i]->getPlanet().getActive())
-            m_planets[i]->move(*m_planets[i]);
+            m_planets[i]->move(*m_planets[i] , timePassed);
     }
 }
