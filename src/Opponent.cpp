@@ -33,7 +33,7 @@ void Opponent::makePlanetMove(ManagePlanet* p, int todo , sf::Time timePassed)
 	switch (todo)
 	{
 	case HEAL:
-		p->healPlanet();
+		p->movePlayer(*p);
 		return;
 	case REINFORCMENT_TO:
 		PlanetFrom = findNeighborReinforcment(p);
@@ -53,7 +53,7 @@ void Opponent::makePlanetMove(ManagePlanet* p, int todo , sf::Time timePassed)
 		p->move(*toConquer , timePassed);
 		return;
 	case UPGRADE:
-		p->getPlanet().addToUpgrade();
+		p->movePlayer(*p);
 		return;
 	case REINFORCMENT_FROM:
 		PlanetFrom = findNeighborReinforcment(p);

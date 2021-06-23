@@ -17,6 +17,7 @@ public:
 	void handleCollision(Planet *p);
 
 	bool inUse()const;
+	void setInUse(bool used);
 	void setColor(sf::Color);
 	void setActive(bool Active);
 	bool getActive() { return m_active; };

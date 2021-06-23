@@ -39,7 +39,11 @@ void planetUnit(Object& planetObj,
              
          }
          else
+         {
+             unit.setInUse(false);
              return;
+         }
+             
      }
      else if (planet.getColor() == sf::Color::White)
      {

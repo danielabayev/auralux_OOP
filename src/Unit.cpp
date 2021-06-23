@@ -125,6 +125,7 @@ void Unit::handleCollision(Planet* p)
 void Unit::setColor(sf::Color newColor)
 {
 	m_circle.setFillColor(newColor);
+	m_color = newColor;
 }
 
 void Unit::setActive(bool Active)
@@ -161,4 +162,9 @@ void Unit::defineTowards()
 bool Unit::inUse()const
 {
 	return m_targetPlanet.in_use;
+}
+
+void Unit::setInUse(bool used)
+{
+	m_targetPlanet.in_use = used;
 }

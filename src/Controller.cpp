@@ -168,6 +168,7 @@ void Controller::checkForNewPlanets()
                 {
                     opp->removePlanet(p.get());
                     p->changePlanet(sf::Color::White);
+                    break;
                 }
             }
         }

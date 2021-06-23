@@ -3,6 +3,7 @@
 #include "Unit.h"
 #include <vector>
 #include <memory>
+#include <iostream>
 
 class Planet : public Object
 {
@@ -53,4 +54,7 @@ private:
 	sf::RectangleShape m_statusBar;
 	sf::RectangleShape m_fillBar;
 	sf::Sprite m_sprite;
+	sf::Text m_healthText;
+	sf::Text m_chargeText;
+	sf::Font m_font;
 };
