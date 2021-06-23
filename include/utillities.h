@@ -47,6 +47,13 @@ enum class MenuOptions : int
 	START = 2, LEVEL = 4, INSTRUCTIONS = 6, EXIT = 8
 };
 
+
+enum class UpgradeOptions : int
+{//the menu screen choine enum
+	ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5
+};
+
+
 enum class LevelOptions : int
 {//the menu screen choine enum
 	MENU = 2, ONE = 4, TWO = 6, THREE = 8, FOUR = 10

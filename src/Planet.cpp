@@ -3,9 +3,16 @@
 Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos, int index)
 	:Object(color), m_unitToUpgrade(30), m_currentLevel(1), m_maxLevel(maxLevel),m_index(index)
 {
+	sf::IntRect rect(480, 0, 120, 120);
+	m_rect = rect;
 	m_circle.setRadius(SMALLPLANET);
 	m_circle.setPosition(pos);
 	m_circle.setOrigin(SMALLPLANET / 2, SMALLPLANET / 2);
+
+	//m_upgrades = sf::Sprite(Graphic::PicturesObject().getUpgradeTexture(findColor(color)), rect);
+	m_upgrades.setOrigin(60, 60);
+	m_upgrades.setPosition(getCenter());
+	m_upgrades.setScale(0.8, 0.8);
 
 	m_statusBar.setPosition(pos.x - 18, pos.y + 60);
 	m_statusBar.setFillColor(sf::Color::Transparent);
@@ -276,13 +283,16 @@ void Planet::underAttack()
 	}
 }
 
+
 void Planet::addToUpgrade()
 {
-	if(m_counterToUpgrade < m_unitToUpgrade)
+	if (m_counterToUpgrade < m_unitToUpgrade)
 	{
+
 		m_counterToUpgrade++;
-		if (m_counterToUpgrade % 5 == 0)
-			setFillBar(INC, getColor());
+		UpgradeOptions status = getUpgrade(m_counterToUpgrade);
+		getUpgradeStage(status, m_color);
+
 		if (m_counterToUpgrade == m_unitToUpgrade)
 			upgradePlanet();
 	}
@@ -297,7 +307,7 @@ void Planet::addUnits(int i)
 {
 	m_amountOfUnits += i;
 }
-
+//-----------------------------------------------------
 void Planet::decUnits()
 {
 	if (m_amountOfUnits != 0)
@@ -306,13 +316,59 @@ void Planet::decUnits()
 		throw "zero units";
 
 }
-
 int Planet::getIndex() const
 {
-	return m_index;
+		return m_index;
 }
-
+//-----------------------------------------------------
 void Planet::resetUnits()
 {
 	m_amountOfUnits = 0;
+}
+//-----------------------------------------------------
+void Planet::getUpgradeStage(UpgradeOptions stage, sf::Color color)
+{
+	switch (stage)
+	{
+	case UpgradeOptions::ONE:
+		m_rect = sf::IntRect(0, 0, 120, 120);
+		break;
+	case UpgradeOptions::TWO:
+		m_rect = sf::IntRect(120, 0, 120, 120);
+		break;
+	case UpgradeOptions::THREE:
+		m_rect = sf::IntRect(240, 0, 120, 120);
+		break;
+	case UpgradeOptions::FOUR:
+		m_rect = sf::IntRect(360, 0, 120, 120);
+		break;
+	case  UpgradeOptions::FIVE:
+		m_rect = sf::IntRect(480, 0, 120, 120);
+		break;
+	default:
+		return;
+	}
+	m_upgrades = sf::Sprite(Graphic::PicturesObject().getUpgradeTexture(findColor(color)), m_rect);
+}
+//------------------------------------------------
+UpgradeOptions Planet::getUpgrade(int upgradeAmount)
+{
+	switch (upgradeAmount)
+	{
+	case 6:
+		return UpgradeOptions::ONE;
+		break;
+	case 12:
+		return UpgradeOptions::TWO;
+		break;
+	case 18:
+		return UpgradeOptions::THREE;
+		break;
+	case 24:
+		return UpgradeOptions::FOUR;
+		break;
+	case 30:
+		return UpgradeOptions::FIVE;
+		break;
+	}
 }

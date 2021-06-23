@@ -39,6 +39,8 @@ public:
 	void decUnits();
 	int getIndex()const;
 	void resetUnits();
+	void getUpgradeStage(UpgradeOptions stage, sf::Color color);
+	UpgradeOptions getUpgrade(int stage);
 
 private:
 	int m_index;
@@ -58,4 +60,7 @@ private:
 	sf::Text m_healthText;
 	sf::Text m_chargeText;
 	sf::Font m_font;
+	sf::IntRect m_rect;
+	sf::Sprite m_upgrades;
+	sf::Texture m_texture;
 };

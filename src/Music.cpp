@@ -14,7 +14,7 @@ Music::Music()
 	}
 }
 //------------------------------------------------------------
-Music& Music::()
+Music& Music::instance()
 {
 	static Music music;
 	return music;
