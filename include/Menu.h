@@ -1,4 +1,5 @@
 #pragma once
+#include "Music.h"
 #include "Graphic.h"
 #include "utillities.h"
 #include "Screen.h"
@@ -16,19 +17,21 @@ public:
 	void loadMenuSprite();
 	void loadLevelSprite();
 	void addOptions();
-	void activateOption();
 	bool performAction();
-	int getOptionFromUser();
 	bool executeStart();
-	bool executeLevel();
-	bool executeSpeed();
+	bool executeLevel(); bool exitShop = false;
+	bool executeInstructions();
+	void openInst();
 	bool executeExit();
+	bool levelWindow();
 	MenuOptions getSelected() { return m_selected; };
+	LevelOptions getLevel() { return m_level; };
 	void handleUp(int& candidate);
 	void handleDown(int& candidate);
 	void drawMenu(sf::RenderWindow& window, int candidate);
 	void drawLevel(sf::RenderWindow& window);
 	void checkIfcontains(sf::Vector2f& location, int& candidate);
+	void checkIfcontainsLevel(sf::Vector2f& location, bool exitLevel);
 private:
 	sf::RenderWindow m_window;
 	typedef pair<MenuOptions, bool(Menu::*)()> m_option;
@@ -36,4 +39,5 @@ private:
 	std::array <sf::Sprite, Graphic::MENU_TEXTURES> m_MenuSprites;
 	std::array <sf::Sprite, Graphic::LEVEL_TEXTURES> m_levelSprites;
 	MenuOptions m_selected;
+	LevelOptions m_level;
 };

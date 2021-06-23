@@ -11,4 +11,5 @@
 								  "Player.cpp"
 								  "Opponent.cpp"
 								  "CollisionHandling.cpp"
-								  "Menu.cpp")
+								  "Menu.cpp"
+								  "Music.cpp")

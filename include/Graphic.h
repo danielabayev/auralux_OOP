@@ -8,10 +8,11 @@ class Graphic
 {
 public:
 	const static auto MENU_TEXTURES = 10;
-	const static auto LEVEL_TEXTURES = 4;
+	const static auto LEVEL_TEXTURES = 8;
 	static Graphic& PicturesObject();
 	sf::Texture& getPlanet(int planet);
 	sf::Texture& getTexture(int texture);
+	sf::Texture& getLevelTexture(int texture);
 	sf::Font& getFont();
 	~Graphic() = default;
 

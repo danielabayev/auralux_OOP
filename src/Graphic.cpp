@@ -12,6 +12,11 @@ sf::Texture& Graphic::getTexture(int texture)
 	return m_menuTextures[texture];
 }
 //-------------------------------------------------------------------
+sf::Texture& Graphic::getLevelTexture(int texture)
+{
+	return m_levelTextures[texture];
+}
+//-------------------------------------------------------------------
 sf::Font& Graphic::getFont()
 {
 	return m_font;
@@ -20,6 +25,7 @@ sf::Font& Graphic::getFont()
 Graphic::Graphic()
 {
 	loadMenuTextures();
+	loadLevelTextures();
 	planets[BLUEP].loadFromFile("bluep.png");
 	planets[REDP].loadFromFile("redp.png");
 	planets[YELLOWP].loadFromFile("yellowp.png");
@@ -30,7 +36,7 @@ Graphic::Graphic()
 void Graphic::loadMenuTextures()
 {
 	std::array <std::string, MENU_TEXTURES> texturesName =
-	{ "Space", "Auralux", "startWhite", "startBlue", "levelWhite", "levelBlue", "speedWhite", "speedBlue","exitWhite", "exitBlue"};
+	{ "Space", "Auralux", "startWhite", "startBlue", "levelWhite", "levelBlue", "instructionsWhite", "instructionsBlue","exitWhite", "exitBlue"};
 
 	for (int i = 0; i < texturesName.size(); i++)
 		m_menuTextures[i].loadFromFile(texturesName[i] + ".png");
@@ -39,10 +45,10 @@ void Graphic::loadMenuTextures()
 void Graphic::loadLevelTextures()
 {
 	std::array <std::string, LEVEL_TEXTURES> levelName =
-	{ "Level", "Pegasus", "Lupus", "Hercules"};
+	{ "Level", "Menu","Pegasus", "Lupus", "Hercules", "Andromeda","Vergo"};
 
 	for (int i = 0; i < levelName.size(); i++)
-		m_menuTextures[i].loadFromFile(levelName[i] + ".png");
+		m_levelTextures[i].loadFromFile(levelName[i] + ".png");
 }
 //-----------------------------------------------------------------------------------------------
 sf::Texture& Graphic::getPlanet(int planet)

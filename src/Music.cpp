@@ -2,7 +2,7 @@
 //------------------------------------------------------------
 Music::Music()
 {
-	//m_BackgroundMusic.openFromFile("BackgroundMusic.wav");
+	m_BackgroundMusic.openFromFile("BackgroundMusic.wav");
 	std::array <std::string, MUSICS> soundNames =
 	{
 		"MusicMenu", "ClickSound"

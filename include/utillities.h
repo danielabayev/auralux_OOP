@@ -44,7 +44,12 @@ const sf::Vector2f NOTCENTERD(-1, -1);
 
 enum class MenuOptions : int
 {//the menu screen choine enum
-	START = 2, LEVEL = 4, SPEED = 6, EXIT = 8
+	START = 2, LEVEL = 4, INSTRUCTIONS = 6, EXIT = 8
+};
+
+enum class LevelOptions : int
+{//the menu screen choine enum
+	MENU = 2, ONE = 4, TWO = 6, THREE = 8, FOUR = 10
 };
 
 enum PlanetColor_t

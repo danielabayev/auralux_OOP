@@ -2,8 +2,10 @@
 Menu::Menu()
 {
     loadMenuSprite();
+    loadLevelSprite();
     addOptions();
 }
+//-------------------------------------------------------------------------
 void Menu::openMenu()
 {
     m_window.create(sf::VideoMode(STARTWIDTH, STARTHEIGHT), "MENU");
@@ -11,7 +13,7 @@ void Menu::openMenu()
     auto option = -1, candidate = (int)MenuOptions::START;
     Graphic::PicturesObject().getTexture(0).setRepeated(true);
     drawMenu(m_window, candidate);
-    //Music::instance().startMenuSound();
+    Music::instance().startMenuSound();
     while (m_window.isOpen() && option == -1)
     {
         for (auto event = sf::Event{}; m_window.pollEvent(event);)
@@ -70,9 +72,6 @@ void Menu::openMenu()
         m_window.display();
     }
 }
-
-
-
 //-------------------------------------------------------------------------------------------------------
 void Menu::loadMenuSprite()
 {
@@ -90,24 +89,28 @@ void Menu::loadMenuSprite()
 void Menu::loadLevelSprite()
 {
     for (int i = 0; i < Graphic::PicturesObject().LEVEL_TEXTURES; i++)
-        m_MenuSprites[i].setTexture(Graphic::PicturesObject().getTexture(i));
-    m_MenuSprites[1].setPosition((float)STARTWIDTH / 2 - m_MenuSprites[1].getGlobalBounds().width / 2, 90.f);
-    for (size_t i = 2; i < m_levelSprites.size() - 1; i += 2)
+        m_levelSprites[i].setTexture(Graphic::PicturesObject().getLevelTexture(i));
+    m_levelSprites[0].setOrigin(200.f,50.f);
+    m_levelSprites[0].setPosition((float)STARTWIDTH/2, 105.f);
+    for (size_t i = 2; i < m_levelSprites.size() - 1; i++)
     {
-        m_MenuSprites[i].setPosition((float)STARTWIDTH / 2 - m_MenuSprites[i].getGlobalBounds().width / 2, 270.f + i * 50.f);
-        m_MenuSprites[i + 1].setPosition((float)STARTWIDTH / 2 - m_MenuSprites[i + 1].getGlobalBounds().width / 2,
-            270.f + i * 50.f);
+        m_levelSprites[i].setOrigin
     }
+
+    for (size_t i = 2; i < m_levelSprites.size() - 1; i++)
+    {
+        m_levelSprites[i].setPosition((float)STARTWIDTH / 4 - m_levelSprites[i].getGlobalBounds().width / 4, 270.f + i * 50.f);
+    }*/
 }
 //----------------------------------------------------------------------------------------------------------------------
 void Menu::addOptions()
 {
 	m_options.emplace_back(m_option(MenuOptions::START, &Menu::executeStart));
 	m_options.emplace_back(m_option(MenuOptions::LEVEL, &Menu::executeLevel));
-	m_options.emplace_back(m_option(MenuOptions::SPEED, &Menu::executeSpeed));
+	m_options.emplace_back(m_option(MenuOptions::INSTRUCTIONS, &Menu::executeInstructions));
 	m_options.emplace_back(m_option(MenuOptions::EXIT, &Menu::executeExit));
 }
-
+//---------------------------------------------------------------------------------
 bool Menu::performAction()
 {
     for(int i = 0; i < m_options.size(); i++)
@@ -118,11 +121,6 @@ bool Menu::performAction()
     return false;
 }
 //---------------------------------------------------------------------------
-//int Menu::getOptionFromUser()
-//{
-//
-//}
-//---------------------------------------------------------------------------
 bool Menu::executeStart()
 {
     m_selected = MenuOptions::START;
@@ -131,10 +129,9 @@ bool Menu::executeStart()
 //---------------------------------------------------------------------------
 bool Menu::executeLevel()
 {
-    m_window.clear();
+    bool exitLevel = false;
     drawLevel(m_window);
-    m_window.display();
-    while (m_window.isOpen())
+    while (true)
     {
         for (auto event = sf::Event{}; m_window.pollEvent(event);)
         {
@@ -143,30 +140,95 @@ bool Menu::executeLevel()
             case sf::Event::Closed:
                 m_selected = MenuOptions::EXIT;
                 m_window.close();
+                return true;
+
+                //if the mouse press handle.
+            case sf::Event::MouseButtonReleased:
+                auto location = m_window.mapPixelToCoords(
+                    { event.mouseButton.x, event.mouseButton.y });
+                checkIfcontainsLevel(location, exitLevel);
+            }
+        }
+        if (exitLevel)
+            return false;
+
+        drawLevel(m_window);
+    }
+}
+//---------------------------------------------------------------------------
+bool Menu::executeInstructions()
+{
+    sf::RenderWindow inst;
+    sf::Sprite instBack;
+    sf::Texture texture;
+    texture.loadFromFile("instructions.png");
+    instBack.setTexture(texture);
+    instBack.setPosition(sf::Vector2f(0, 0));
+    inst.create(sf::VideoMode(1004, 636), "instructions", sf::Style::Titlebar | sf::Style::Close);
+    inst.clear();
+    inst.draw(m_MenuSprites[0]);
+    inst.draw(instBack);
+    inst.display();
+
+    while (inst.isOpen())
+    {
+        for (auto event = sf::Event{}; inst.pollEvent(event);)
+        {
+            switch (event.type)
+            {
+            case sf::Event::Closed:
+                inst.close();
                 break;
             }
         }
     }
-    return true;
-
-}
-//---------------------------------------------------------------------------
-bool Menu::executeSpeed()
-{
+    auto event = sf::Event{};
+    while(m_window.pollEvent(event))
+    {
+    }
     return false;
 }
-//---------------------------------------------------------------------------
+//-----------------------------------------------------------------
 bool Menu::executeExit()
 {
     m_selected = MenuOptions::EXIT;
     return true;
 }
+//-------------------------------------------------------------------------
+bool Menu::levelWindow()
+{
+    bool exitLevel = false;
+    drawLevel(m_window);
+    while (true)
+    {
+        for (auto event = sf::Event{}; m_window.pollEvent(event);)
+        {
+            switch (event.type)
+            {
+            case sf::Event::Closed:
+                m_selected = MenuOptions::EXIT;
+                m_window.close();
+                return true;
+
+                //if the mouse press handle.
+            case sf::Event::MouseButtonReleased:
+                auto location = m_window.mapPixelToCoords(
+                    { event.mouseButton.x, event.mouseButton.y });
+                checkIfcontainsLevel(location, exitLevel);
+            }
+        }
+        if (exitLevel)
+            return false;
+
+        drawLevel(m_window);
+    }
+}
 //------------------------------------------------------------------------------
 void Menu::handleUp(int& candidate)
 {
     if (candidate == (int)MenuOptions::EXIT)
-        candidate = (int)MenuOptions::SPEED;
-    else if (candidate == (int)MenuOptions::SPEED)
+        candidate = (int)MenuOptions::INSTRUCTIONS;
+    else if (candidate == (int)MenuOptions::INSTRUCTIONS)
         candidate = (int)MenuOptions::LEVEL;
     else if (candidate == (int)MenuOptions::LEVEL)
         candidate = (int)MenuOptions::START;
@@ -177,8 +239,8 @@ void Menu::handleDown(int& candidate)
     if (candidate == (int)MenuOptions::START)
         candidate = (int)MenuOptions::LEVEL;
     else if (candidate == (int)MenuOptions::LEVEL)
-        candidate = (int)MenuOptions::SPEED;
-    else if (candidate == (int)MenuOptions::SPEED)
+        candidate = (int)MenuOptions::INSTRUCTIONS;
+    else if (candidate == (int)MenuOptions::INSTRUCTIONS)
         candidate = (int)MenuOptions::EXIT;
     else if (candidate == (int)MenuOptions::EXIT)
         candidate = (int)MenuOptions::START;
@@ -199,8 +261,14 @@ void Menu::drawMenu(sf::RenderWindow& window, int candidate)
 //-------------------------------------------------------------------------
 void Menu::drawLevel(sf::RenderWindow& window)
 {
-    window.draw(m_MenuSprites[0]);
-
+    m_window.clear();
+    m_window.draw(m_MenuSprites[0]);
+ 
+    for (int i = 0; i < m_levelSprites.size(); ++i)
+    {
+        window.draw(m_levelSprites[i]);
+    }
+    m_window.display();
 }
 //-------------------------------------------------------------
 void Menu::checkIfcontains(sf::Vector2f &location, int &candidate)
@@ -210,6 +278,17 @@ void Menu::checkIfcontains(sf::Vector2f &location, int &candidate)
         {
             candidate = i;
             m_selected = static_cast<MenuOptions>(i);
+            break;
+        }
+}
+//---------------------------------------------------------------------------------
+void Menu::checkIfcontainsLevel(sf::Vector2f& location, bool exitLevel)
+{
+    for (int i = 2; i < m_levelSprites.size(); i++)
+        if (m_MenuSprites[i].getGlobalBounds().contains(location))
+        {
+            m_level  = static_cast<LevelOptions>(i);
+            exitLevel = true;
             break;
         }
 }

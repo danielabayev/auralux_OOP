@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Planet.h"
 #include "Graphic.h"
 #include "ManagePlanet.h"
