@@ -5,7 +5,7 @@ Music::Music()
 	m_BackgroundMusic.openFromFile("MusicBackground.wav");
 	std::array <std::string, MUSICS> soundNames =
 	{
-		"MusicMenu", "ClickSound", "charge", "unit"
+		"MusicMenu", "ClickSound", "charge", "Upgrade"
 	};
 
 	for (int i = 0; i < soundNames.size(); i++)
@@ -43,12 +43,14 @@ void Music::startClickSound()
 //------------------------------------------------------------
 void Music::startUnitSound()
 {
+	m_sound[1].setVolume(70.f);
 	m_sound[2].setBuffer(m_buffers[2]);
 	m_sound[2].play();
 }
 //------------------------------------------------------------
 void Music::startChargeSound()
 {
+	m_sound[1].setVolume(70.f);
 	m_sound[3].setBuffer(m_buffers[3]);
 	m_sound[3].play();
 }
