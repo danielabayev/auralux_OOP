@@ -1,10 +1,10 @@
 #include "Opponent.h"
 #include <algorithm>
 
-Opponent::Opponent(sf::Color color) :ControlPlanet(color),m_number_of_planets(m_mp.size())
+Opponent::Opponent(const sf::Color& color) :ControlPlanet(color),m_number_of_planets(m_mp.size())
 {}
 
-void Opponent::nextMove(sf::Time timePassed)
+void Opponent::nextMove(const sf::Time& timePassed)
 {
 	if (m_mp.size() == 0)
 		return;
@@ -26,7 +26,7 @@ void Opponent::nextMove(sf::Time timePassed)
 	makeMoves(timePassed);
 }
 
-void Opponent::makePlanetMove(ManagePlanet* p, int todo , sf::Time timePassed)
+void Opponent::makePlanetMove(ManagePlanet* p, int todo ,const sf::Time& timePassed)
 {
 	ManagePlanet* PlanetFrom;
 	ManagePlanet* toConquer;
@@ -42,7 +42,6 @@ void Opponent::makePlanetMove(ManagePlanet* p, int todo , sf::Time timePassed)
 		else
 			if ((PlanetFrom = findProtectedPlanet()))
 				return PlanetFrom->move(*p , timePassed);
-		//check other option?
 		return;
 	case CONQUER_NEW:
 		toConquer = findConquer(p,sf::Color::White);
@@ -62,7 +61,6 @@ void Opponent::makePlanetMove(ManagePlanet* p, int todo , sf::Time timePassed)
 		else
 			if (PlanetFrom = findProtectedPlanet())
 				return p->move(*PlanetFrom , timePassed);
-		//check other option?
 		return;
 	}
 }
@@ -98,7 +96,7 @@ void Opponent::resetScore()
 	}
 }
 
-int Opponent::checkStatus(ManagePlanet* p)
+int Opponent::checkStatus(const ManagePlanet* p)const
 {
 	///	6 priorities:
 	/// 1 - heal 
@@ -135,7 +133,7 @@ int Opponent::checkStatus(ManagePlanet* p)
 	return REINFORCMENT_FROM;
 }
 
-void Opponent::veteransBonus(const std::vector<std::vector<std::pair<bool, int>>> old_score,const int old_planets)
+void Opponent::veteransBonus(const std::vector<std::vector<std::pair<bool, int>>>& old_score,const int old_planets)
 {
 	for (int i = 0; i < old_planets; i++)
 		for (int j = 0; j < OPTIONS; j++)
@@ -145,7 +143,7 @@ void Opponent::veteransBonus(const std::vector<std::vector<std::pair<bool, int>>
 		}
 }
 
-ManagePlanet* Opponent::findNeighborReinforcment(ManagePlanet* p)
+ManagePlanet* Opponent::findNeighborReinforcment(const ManagePlanet* p)const
 {
 	std::vector<ManagePlanet*> neig = p->getNeighbors();
 	for (int i = 0; i < neig.size(); i++)
@@ -156,7 +154,7 @@ ManagePlanet* Opponent::findNeighborReinforcment(ManagePlanet* p)
 	return NULL;
 }
 
-ManagePlanet* Opponent::findProtectedPlanet()
+ManagePlanet* Opponent::findProtectedPlanet()const
 {
 	for (int i = 0; i < m_mp.size(); i++)
 	{
@@ -173,7 +171,7 @@ ManagePlanet* Opponent::findProtectedPlanet()
 	return nullptr;
 }
 
-ManagePlanet* Opponent::findConquer(ManagePlanet* p, sf::Color color)
+ManagePlanet* Opponent::findConquer(const ManagePlanet* p, const sf::Color& color)const
 {
 	std::vector<ManagePlanet*> neig = p->getNeighbors();
 	std::vector<ManagePlanet*> toConquer;
@@ -197,7 +195,7 @@ ManagePlanet* Opponent::findConquer(ManagePlanet* p, sf::Color color)
 	return toConquer[planet];
 }
 
-int Opponent::getValue(ManagePlanet* p, int status)
+int Opponent::getValue(const ManagePlanet* p, int status)const
 {
 	switch (status)
 	{
@@ -218,49 +216,49 @@ int Opponent::getValue(ManagePlanet* p, int status)
 	return 0;
 }
 
-int Opponent::getHealValue(ManagePlanet* p)
+int Opponent::getHealValue(const ManagePlanet* p)const
 {
 	int value = 700;
 	value += getNeighborValue(p);
 	return value;
 }
 
-int Opponent::getReinforcmentToValue(ManagePlanet* p)
+int Opponent::getReinforcmentToValue(const ManagePlanet* p)const
 {
 	int value = 800;
 	value += getNeighborValue(p);
 	return value;
 }
 
-int Opponent::getConquerNewValue(ManagePlanet* p)
+int Opponent::getConquerNewValue(const ManagePlanet* p)const
 {
 	int value = 400;
 	value += getNeighborValue(p);
 	return value;
 }
 
-int Opponent::getConquerConquerValue(ManagePlanet* p)
+int Opponent::getConquerConquerValue(const ManagePlanet* p)const
 {
 	int value = 150;
 	value += getNeighborValue(p);
 	return value;
 }
 
-int Opponent::getUpgradeValue(ManagePlanet* p)
+int Opponent::getUpgradeValue(const ManagePlanet* p)const
 {
 	int value = 300;
 	value += getNeighborValue(p);
 	return value;
 }
 
-int Opponent::getReinforcmentFromValue(ManagePlanet* p)
+int Opponent::getReinforcmentFromValue(const ManagePlanet* p)const
 {
 	int value = 100;
 	value += getNeighborValue(p);
 	return value;
 }
 
-int Opponent::getNeighborValue(ManagePlanet* p)
+int Opponent::getNeighborValue(const ManagePlanet* p)const
 {
 	p->getPlanet();
 	int value = 0;
@@ -286,7 +284,7 @@ int Opponent::getNeighborValue(ManagePlanet* p)
 	return value;
 }
 
-void Opponent::makeMoves(sf::Time timePassed)
+void Opponent::makeMoves(const sf::Time& timePassed)
 {
 	int number_of_moves = m_mp.size() / 3;
 	if (number_of_moves < 1)

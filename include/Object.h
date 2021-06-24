@@ -11,13 +11,13 @@ const int LARGEPLANET = 70;
 class Object
 {
 public:
-	Object(sf::Color color);
+	Object(const sf::Color& color);
 	virtual ~Object() = default;
-	virtual void draw(sf::RenderWindow& window);
+	virtual void draw(sf::RenderWindow& window)const;
 	sf::Color getColor()const;
 	const sf::CircleShape& getShape()const;
 
-	int findColor(sf::Color color);
+	int findColor(const sf::Color& color)const;
 	
 protected:
 	sf::CircleShape m_circle;

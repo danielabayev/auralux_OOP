@@ -18,7 +18,7 @@ public:
 	sf::Texture& getLevelTexture(int texture);
 	sf::Texture& getUpgradeTexture(int texture);
 	sf::Font& getFont();
-	~Graphic() = default;
+	virtual ~Graphic() = default;
 
 private:
 	Graphic();
