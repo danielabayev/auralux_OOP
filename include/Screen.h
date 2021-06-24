@@ -12,7 +12,6 @@ public:
 	void Update(sf::RenderWindow& window, float deltaTime);
 	void drawBackground(sf::RenderWindow& window);
 	void drawLevelScreen(sf::RenderWindow& window);
-	void drawMenu(sf::RenderWindow& window);
 	void Render(sf::RenderWindow& window);
 private:
 	float m_background1;

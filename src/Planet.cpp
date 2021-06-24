@@ -128,7 +128,8 @@ void Planet::charge(const sf::Color& newCharger)
 	if (newCharger == m_chargeColor)
 	{
 		m_counterToCharge++;
-		Music::instance().startChargeSound();
+		if (m_chargeColor == sf::Color::Blue)
+			Music::instance().startChargeSound();
 	}
 	else
 	{
@@ -153,9 +154,6 @@ void Planet::charge(const sf::Color& newCharger)
 		setActive(true);
 		m_counterToCharge = 0;
 		m_charged = false;
-		//for (auto& unit : m_units)
-			//unit->setColor(m_chargeColor);
-		//m_amountOfUnits = 0;
 	}
 }
 //-----------------------------------------------------
@@ -188,7 +186,8 @@ void Planet::addToUpgrade()
 	{
 
 		m_counterToUpgrade++;
-		Music::instance().startUnitSound();
+		if (m_chargeColor == sf::Color::Blue)
+			Music::instance().startUnitSound();
 		UpgradeOptions status = getUpgrade(m_counterToUpgrade);
 		setUpgradeStage(status, m_color);
 
