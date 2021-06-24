@@ -12,7 +12,8 @@ public:
 private:
     std::vector<std::vector<std::pair<bool, int>>> m_planets_score;
     int m_number_of_planets;
-
+    sf::Time m_time;
+    sf::Clock m_clock;
     //private funcs
     void resetScore();
     int checkStatus(const ManagePlanet* p)const;

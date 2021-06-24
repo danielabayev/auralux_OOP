@@ -30,7 +30,19 @@ const int LEFT = 1;
 const int UP = 2;
 const int DOWN = 3;
 
-const int OPPONENTS = 4;
+
+const int SCREENS = 2;
+const int OPPONENTS = 3;
+
+enum Screens
+{
+	GAMEOVER , WIN
+};
+
+const sf::Vector2f NOTCENTERD(-1, -1);
+const int MAX_HEALTH = 100;
+
+
 enum HealthAction
 {
 	INC, DEC

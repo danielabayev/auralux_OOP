@@ -2,10 +2,17 @@
 #include <algorithm>
 
 Opponent::Opponent(const sf::Color& color) :ControlPlanet(color),m_number_of_planets(m_mp.size())
-{}
+{
+	m_clock.restart();
+}
 
 void Opponent::nextMove(const sf::Time& timePassed)
 {
+	 
+	
+	m_time = m_clock.getElapsedTime();
+	if (m_time.asSeconds() < 3)
+		return;
 	if (m_mp.size() == 0)
 		return;
 	std::vector<std::vector<std::pair<bool, int>>> old_score;
