@@ -14,6 +14,7 @@ public:
 	Controller(); // ctor
 	virtual ~Controller() = default;
 	void run() ;
+	void runGame();
 	void readLevel();
 	void resetData();
 	void drawPlanets(sf::RenderWindow& window);

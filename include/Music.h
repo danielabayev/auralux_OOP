@@ -6,13 +6,14 @@ class Music
 public:
 	virtual ~Music() = default; // close music file
 	static Music &instance();
-	//void startBackgroundMusic();
+	void startBackgroundMusic();
 	void startMenuSound();
+	void startUpgradeSound();
 	//void startCoinSound();
 	void startClickSound();
 	//void startGameOverSound();
-	//void pauseBackgroundMusic();
-	//void pauseGameOverSound();
+	void pauseBackgroundMusic();
+	void pauseMenuMusic();
 private:
 	const static auto MUSICS = 4;
 	Music(); // open music file

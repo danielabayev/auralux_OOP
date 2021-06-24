@@ -28,56 +28,50 @@ void Controller::run()
             return;
         else if (option == MenuOptions::LEVEL)
         {
-            m_menu.levelWindow();
+            m_level = (int)level - 2;
+            readLevel();
+            runGame();
         }
         else if (option == MenuOptions::START)
         {
-            m_window.create(sf::VideoMode(STARTWIDTH, STARTHEIGHT), "Example");
-            m_window.setFramerateLimit(30);
-            sf::Event event;
-           // sf::Texture texture;
-            //texture.loadFromFile("upgradeBlue.png");
-            //sf::IntRect rectSourceSprite(65, 0, 65, 66);
-            //sf::IntRect rectSourceSprite(0, 0, 214, 214);
-           // sf::Sprite sprite(texture, rectSourceSprite);
-            sf::Clock clock;
-            sf::Time timePassed;
-            while (m_window.isOpen())
+            m_level = 1;
+            readLevel();
+            runGame();
+        }
+    }
+}
+//-----------------------------------------------------------
+void Controller::runGame()
+{
+    m_window.create(sf::VideoMode(STARTWIDTH, STARTHEIGHT), "AURALUX");
+    m_window.setFramerateLimit(30);
+    sf::Event event;
+    sf::Clock clock;
+    sf::Time timePassed;
+    while (m_window.isOpen())
+    {
+        m_window.clear();
+        m_screen.drawBackground(m_window);
+        drawPlanets(m_window);
+        m_window.display();
+        timePassed = m_clock.restart();
+        timePassed *= 15.f;
+        generate();
+        moveUnits(timePassed);
+        checkCollisions();
+        checkForNewPlanets();
+
+        for (auto& oppo : m_opponents)
+            oppo->nextMove(timePassed);
+        if (auto event = sf::Event{}; m_window.pollEvent(event))
+        {
+            switch (event.type)
             {
-               // sprite.setPosition(90.f, 90.f);
-                m_window.clear();
-                m_screen.drawBackground(m_window);
-                //m_window.draw(sprite);
-                drawPlanets(m_window);
-                m_window.display();
-                timePassed = m_clock.restart();
-                timePassed *= 15.f;
-                generate();
-                moveUnits(timePassed);
-                checkCollisions();
-                checkForNewPlanets();
-                
-                for (auto& oppo : m_opponents)
-                    oppo->nextMove(timePassed);
-                if (auto event = sf::Event{}; m_window.pollEvent(event))
-                {
-                    switch (event.type)
-                    {
-                    case sf::Event::Closed:
-                        m_window.close();
-                        break;
-                    case sf::Event::MouseButtonReleased:
-                        handleClick(event, m_window);//update player choice
-                    }
-                }
-               /* if (clock.getElapsedTime().asSeconds() > 0.5f) {
-                    if (rectSourceSprite.left == 1075)
-                        rectSourceSprite.left = 0;
-                    else
-                        rectSourceSprite.left += 214;
-                    sprite.setTextureRect(rectSourceSprite);
-                    clock.restart();
-                }*/
+            case sf::Event::Closed:
+                m_window.close();
+                break;
+            case sf::Event::MouseButtonReleased:
+                handleClick(event, m_window);//update player choice
             }
         }
     }
@@ -128,7 +122,6 @@ void Controller::handleClick(const sf::Event& event, sf::RenderWindow& window)
                     break;
                 }
             }
-
     }
     else
     {

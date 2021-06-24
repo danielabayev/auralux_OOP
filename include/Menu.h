@@ -21,9 +21,9 @@ public:
 	bool executeStart();
 	bool executeLevel(); bool exitShop = false;
 	bool executeInstructions();
-	void openInst();
+	//void openInst();
 	bool executeExit();
-	bool levelWindow();
+	//bool levelWindow();
 	MenuOptions getSelected() { return m_selected; };
 	LevelOptions getLevel() { return m_level; };
 	void handleUp(int& candidate);
@@ -31,7 +31,7 @@ public:
 	void drawMenu(sf::RenderWindow& window, int candidate);
 	void drawLevel(sf::RenderWindow& window);
 	void checkIfcontains(sf::Vector2f& location, int& candidate);
-	void checkIfcontainsLevel(sf::Vector2f& location, bool exitLevel);
+	bool checkIfcontainsLevel(sf::Vector2f& location, bool &exitLevel);
 private:
 	sf::RenderWindow m_window;
 	typedef pair<MenuOptions, bool(Menu::*)()> m_option;

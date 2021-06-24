@@ -39,6 +39,12 @@ Graphic::Graphic()
 	planets[YELLOWP].loadFromFile("yellowp.png");
 	planets[GREENP].loadFromFile("greenp.png");
 	planets[GREYP].loadFromFile("greyp.png");
+
+	m_particleTextures[BLUE1].loadFromFile("bluepar.png");
+	m_particleTextures[RED1].loadFromFile("redpar.png");
+	m_particleTextures[YELLOW1].loadFromFile("yellowpar.png");
+	m_particleTextures[GREEN1].loadFromFile("greenpar.png");
+	m_healthTexture.loadFromFile("redUpgrade.png");
 }
 //-----------------------------------------------------------------------------------------------
 void Graphic::loadUpgradeTextures()
@@ -62,13 +68,24 @@ void Graphic::loadMenuTextures()
 void Graphic::loadLevelTextures()
 {
 	std::array <std::string, LEVEL_TEXTURES> levelName =
-	{ "Level", "Menu","Pegasus", "Lupus", "Hercules", "Andromeda","Vergo"};
+	{"LevelBackgroud", "Level", "BackToMenu","Pegasus", "Lupus", "Hercules", "Andromeda","Vergo", "Taurus"};
 
-	for (int i = 0; i < levelName.size(); i++)
+	for (int i = 1; i < levelName.size(); i++)
 		m_levelTextures[i].loadFromFile(levelName[i] + ".png");
+	m_levelTextures[0].loadFromFile(levelName[0] + ".jpg");
 }
 //-----------------------------------------------------------------------------------------------
 sf::Texture& Graphic::getPlanet(int planet)
 {
 	return planets[planet];
+}
+sf::Texture& Graphic::getHealthTexture()
+{
+	return m_healthTexture;
+}
+sf::Texture& Graphic::getParticleTexture(int texture)
+{
+	if (texture > 3)
+		texture = 0;
+	return m_particleTextures[texture];
 }
