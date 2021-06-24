@@ -1,26 +1,23 @@
 #include "..\include\Object.h"
 
-Object::Object(sf::Color color) :m_color(color)
-{
-	//m_circle.setFillColor(color);
-}
-
-void Object::draw(sf::RenderWindow& window)
+Object::Object(const sf::Color& color) :m_color(color){}
+//-----------------------------------------------------------------------------------------------
+void Object::draw(sf::RenderWindow& window)const
 {
 	window.draw(m_circle);
 }
-
+//-----------------------------------------------------------------------------------------------
 sf::Color Object::getColor()const
 {
 	return m_color;
 }
-
+//-----------------------------------------------------------------------------------------------
 const sf::CircleShape& Object::getShape() const
 {
 	return m_circle;
 }
-
-int Object::findColor(sf::Color color)
+//-----------------------------------------------------------------------------------------------
+int Object::findColor(const sf::Color& color)const
 {
 	if (color == sf::Color::Blue)
 		return BLUEP;

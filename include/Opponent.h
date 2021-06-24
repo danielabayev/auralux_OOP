@@ -4,10 +4,10 @@
 class Opponent : public ControlPlanet
 {
 public:
-    Opponent(sf::Color color);
+    Opponent(const sf::Color& color);
     virtual ~Opponent() = default;
-    void nextMove(sf::Time timePassed);
-    void makePlanetMove(ManagePlanet* p,int todo , sf::Time timePassed);
+    void nextMove(const sf::Time& timePassed);
+    void makePlanetMove(ManagePlanet* p,int todo , const sf::Time& timePassed);
 
 private:
     std::vector<std::vector<std::pair<bool, int>>> m_planets_score;
@@ -15,21 +15,21 @@ private:
 
     //private funcs
     void resetScore();
-    int checkStatus(ManagePlanet* p);
-    void veteransBonus(const std::vector<std::vector<std::pair<bool, int>>> old_score, const int old_planets);
+    int checkStatus(const ManagePlanet* p)const;
+    void veteransBonus(const std::vector<std::vector<std::pair<bool, int>>>& old_score, const int old_planets);
 
-    ManagePlanet* findNeighborReinforcment(ManagePlanet* p);
-    ManagePlanet* findProtectedPlanet();
-    ManagePlanet* findConquer(ManagePlanet* p,sf::Color color);
+    ManagePlanet* findNeighborReinforcment(const ManagePlanet* p)const;
+    ManagePlanet* findProtectedPlanet()const;
+    ManagePlanet* findConquer(const ManagePlanet* p, const sf::Color& color)const;
 
-    int getValue(ManagePlanet* p, int status);
-    int getHealValue(ManagePlanet* p);
-    int getReinforcmentToValue(ManagePlanet* p);
-    int getConquerNewValue(ManagePlanet* p);
-    int getConquerConquerValue(ManagePlanet* p);
-    int getUpgradeValue(ManagePlanet* p);
-    int getReinforcmentFromValue(ManagePlanet* p);
-    int getNeighborValue(ManagePlanet* p);
+    int getValue(const ManagePlanet* p, int status)const;
+    int getHealValue(const ManagePlanet* p)const;
+    int getReinforcmentToValue(const ManagePlanet* p)const;
+    int getConquerNewValue(const ManagePlanet* p)const;
+    int getConquerConquerValue(const ManagePlanet* p)const;
+    int getUpgradeValue(const ManagePlanet* p)const;
+    int getReinforcmentFromValue(const ManagePlanet* p)const;
+    int getNeighborValue(const ManagePlanet* p)const;
 
-    void makeMoves(sf::Time timePassed);
+    void makeMoves(const sf::Time &timePassed);
 };

@@ -171,10 +171,6 @@ bool Menu::executeInstructions()
             }
         }
     }
-    auto event = sf::Event{};
-    while(m_window.pollEvent(event))
-    {
-    }
     return false;
 }
 //-----------------------------------------------------------------
@@ -184,7 +180,7 @@ bool Menu::executeExit()
     return true;
 }
 //------------------------------------------------------------------------------
-void Menu::handleUp(int& candidate)
+void Menu::handleUp(int& candidate)const
 {
     if (candidate == (int)MenuOptions::EXIT)
         candidate = (int)MenuOptions::INSTRUCTIONS;
@@ -194,7 +190,7 @@ void Menu::handleUp(int& candidate)
         candidate = (int)MenuOptions::START;
 }
 //---------------------------------------------------------------------------
-void Menu::handleDown(int& candidate)
+void Menu::handleDown(int& candidate)const
 {
     if (candidate == (int)MenuOptions::START)
         candidate = (int)MenuOptions::LEVEL;
@@ -205,7 +201,7 @@ void Menu::handleDown(int& candidate)
     else if (candidate == (int)MenuOptions::EXIT)
         candidate = (int)MenuOptions::START;
 }
-
+//-------------------------------------------------------------------------
 void Menu::drawMenu(sf::RenderWindow& window, int candidate)
 {
     window.draw(m_MenuSprites[0]);
@@ -230,7 +226,7 @@ void Menu::drawLevel(sf::RenderWindow& window)
     window.display();
 }
 //-------------------------------------------------------------
-void Menu::checkIfcontains(sf::Vector2f &location, int &candidate)
+void Menu::checkIfcontains(const sf::Vector2f &location, int &candidate)
 {
     for (int i = 2; i < m_MenuSprites.size(); i += 2)
         if (m_MenuSprites[i].getGlobalBounds().contains(location))
@@ -242,7 +238,7 @@ void Menu::checkIfcontains(sf::Vector2f &location, int &candidate)
         }
 }
 //---------------------------------------------------------------------------------
-bool Menu::checkIfcontainsLevel(sf::Vector2f& location, bool &exitLevel)
+bool Menu::checkIfcontainsLevel(const sf::Vector2f& location, bool &exitLevel)
 {
     for (int i = 2; i < m_levelSprites.size(); i++)
         if (m_levelSprites[i].getGlobalBounds().contains(location))
