@@ -8,11 +8,11 @@ public:
 	static Music &instance();
 	void startBackgroundMusic();
 	void startMenuSound();
-	void startUpgradeSound();
-	//void startCoinSound();
+	void startUnitSound();
+	void startChargeSound();
 	void startClickSound();
 	//void startGameOverSound();
-	void pauseBackgroundMusic();
+	void stopBackgroundMusic();
 	void pauseMenuMusic();
 private:
 	const static auto MUSICS = 4;

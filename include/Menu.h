@@ -40,4 +40,5 @@ private:
 	std::array <sf::Sprite, Graphic::LEVEL_TEXTURES> m_levelSprites;
 	MenuOptions m_selected;
 	LevelOptions m_level;
+	Screen m_screen;
 };
