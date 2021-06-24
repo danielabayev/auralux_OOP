@@ -65,7 +65,7 @@ void unitUnit(Object& unitObj1,
         unit1.setActive(false);
         unit2.setActive(false);
     }
-   
+    Music::instance().startCollideSound();
 }
 
 void unitPlanet(Object& unitObj,

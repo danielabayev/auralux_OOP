@@ -35,7 +35,14 @@ const int LEFT = 1;
 const int UP = 2;
 const int DOWN = 3;
 
-const int OPPONENTS = 4;
+const int SCREENS = 2;
+const int OPPONENTS = 3;
+
+enum Screens
+{
+	GAMEOVER , WIN
+};
+
 enum HealthAction
 {
 	INC, DEC

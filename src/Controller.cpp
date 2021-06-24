@@ -9,7 +9,13 @@ Controller::Controller() :
     m_opponents[RED] = std::make_unique<Opponent>(sf::Color::Red);
     m_opponents[YELLOW] = std::make_unique<Opponent>(sf::Color::Yellow);
     m_opponents[GREEN] = std::make_unique<Opponent>(sf::Color::Green);
-    m_opponents[CYAN] = std::make_unique<Opponent>(sf::Color::Cyan);
+
+    m_screens[GAMEOVER].setTexture(&(Graphic::PicturesObject().getScreenTexture(GAMEOVER)));
+    m_screens[WIN].setTexture(&(Graphic::PicturesObject().getScreenTexture(WIN)));
+
+    m_playerTarget.setFillColor(sf::Color::Transparent);
+    m_playerTarget.setOutlineColor(sf::Color::White);
+    m_playerTarget.setOutlineThickness(2);
     srand(time(NULL));
     readLevel();
     m_clock.restart();
@@ -77,6 +83,13 @@ void Controller::runGame()
                 handleClick(event, m_window);
             }
         }
+
+        if (gameOver())
+        {
+            Music::instance().stopBackgroundMusic();
+            Music::instance().startClickSound();
+            m_window.close();
+        }
     }
 }
 //--------------------------------------------------------------------------------
@@ -122,6 +135,8 @@ void Controller::handleClick(const sf::Event& event, sf::RenderWindow& window)
                 if (m_player->checkIfBelongs(m_planets[i].get()))
                 {
                     m_player->setControlled(true, i);
+                    m_targeted = true;
+                    setTargetCircle(*m_planets[i].get());
                     break;
                 }
             }
@@ -133,6 +148,7 @@ void Controller::handleClick(const sf::Event& event, sf::RenderWindow& window)
             {
                 m_planets[controlled.second]->movePlayer(*planet);
                 m_player->setControlled(false, -1);
+                m_targeted = false;
             }
     }
 }
@@ -171,6 +187,64 @@ void Controller::checkForNewPlanets()
         }
     }
 }
+void Controller::setTargetCircle(const ManagePlanet& mp)
+{
+    m_playerTarget.setPosition(mp.getPlanet().getShape().getPosition());
+    m_playerTarget.setRadius(mp.getPlanet().getShape().getRadius());
+    m_playerTarget.setOrigin(mp.getPlanet().getShape().getOrigin());
+}
+bool Controller::gameOver()
+{
+    if (m_player->isEmpty())
+    {
+        gameOverScreen(GAMEOVER);
+        return true;
+    }
+    else
+    {
+        for (auto& opp : m_opponents)
+            if (!opp->isEmpty())
+                return false;
+        gameOverScreen(WIN);
+        return true;
+    }
+        
+    return false;
+}
+//----------------------------------------------------------------------
+void Controller::gameOverScreen(Screens screen)
+{
+    sf::Clock clock;
+    sf::Time timePassed;
+    
+    sf::Vector2f backgroundsize(GAMEWIDTH , GAMEHEIGHT);
+    if (screen == WIN)
+    {
+        m_screens[WIN].setSize(backgroundsize);
+        Music::instance().startWinSound();
+    }
+    else
+    {
+        m_screens[GAMEOVER].setSize(backgroundsize);
+        Music::instance().startLoseSound();
+    }
+
+    clock.restart();
+    timePassed = clock.getElapsedTime();
+    while (timePassed.asSeconds() < 3)
+    {
+        m_window.clear();
+        if (screen == WIN)
+            m_window.draw(m_screens[WIN]);     
+        else
+            m_window.draw(m_screens[GAMEOVER]);
+        m_window.display();
+        timePassed = clock.getElapsedTime();
+    }
+    
+}
+//----------------------------------------------------------------------
+
 //----------------------------------------------------------------------
 void Controller::checkCollisions()const
 {
@@ -190,6 +264,8 @@ void Controller::drawPlanets(sf::RenderWindow& window)const
 {
     for (auto& p : m_planets)
         p->draw(window);
+    if (m_targeted)
+        window.draw(m_playerTarget);
 }
 
 void Controller::generate()const

@@ -42,3 +42,8 @@ bool ControlPlanet::checkIfBelongs(ManagePlanet* mp) const
 			return true;
 	return false;
 }
+
+bool ControlPlanet::isEmpty() const
+{
+	return m_mp.size() == 0;
+}

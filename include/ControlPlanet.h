@@ -11,6 +11,7 @@ public:
 	void resetData();
 	void removePlanet(ManagePlanet* mp);
 	bool checkIfBelongs(ManagePlanet*)const;
+	bool isEmpty()const;
 
 	sf::Color getColor()const;
 

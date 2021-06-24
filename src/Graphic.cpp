@@ -17,6 +17,11 @@ sf::Texture& Graphic::getLevelTexture(int texture)
 	return m_levelTextures[texture];
 }
 //-----------------------------------------------------------------------------------------------
+sf::Texture& Graphic::getScreenTexture(int texture)
+{
+	return m_screenTextures[texture];
+}
+//-----------------------------------------------------------------------------------------------
 sf::Texture& Graphic::getUpgradeTexture(int texture)
 {
 	if(texture == GREYP)
@@ -34,6 +39,7 @@ Graphic::Graphic()
 	loadMenuTextures();
 	loadLevelTextures();
 	loadUpgradeTextures();
+	loadScreenTextures();
 	planets[BLUEP].loadFromFile("bluep.png");
 	planets[REDP].loadFromFile("redp.png");
 	planets[YELLOWP].loadFromFile("yellowp.png");
@@ -54,6 +60,15 @@ void Graphic::loadUpgradeTextures()
 
 	for (int i = 0; i < upgradeName.size(); i++)
 		m_upgradeTextures[i].loadFromFile(upgradeName[i] + ".png");
+}
+//----------------------------------------------------------------------------------------------
+void Graphic::loadScreenTextures()
+{
+	std::array <std::string, SCREENS> screenName =
+	{ "gameoverscreen", "winscreen" };
+
+	for (int i = 0; i < screenName.size(); i++)
+		m_screenTextures[i].loadFromFile(screenName[i] + ".jpg");
 }
 //-----------------------------------------------------------------------------------------------
 void Graphic::loadMenuTextures()

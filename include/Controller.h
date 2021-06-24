@@ -25,7 +25,9 @@ private:
 	vector<std::unique_ptr<ManagePlanet>> m_planets;
 	Menu m_menu;
 	sf::Clock m_clock;
-
+	sf::CircleShape m_playerTarget;
+	bool m_targeted = false;
+	sf::RectangleShape m_screens[SCREENS];
 
 	//private funcs:
 	void runGame();
@@ -37,4 +39,8 @@ private:
 	void checkCollisions()const;
 	void handleClick(const sf::Event& event, sf::RenderWindow& window);
 	void checkForNewPlanets();
+	void setTargetCircle(const ManagePlanet& mp);
+	bool gameOver();
+	void gameOverScreen(Screens screen);
+	
 };

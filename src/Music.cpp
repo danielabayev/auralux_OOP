@@ -5,7 +5,7 @@ Music::Music()
 	m_BackgroundMusic.openFromFile("MusicBackground.wav");
 	std::array <std::string, MUSICS> soundNames =
 	{
-		"MusicMenu", "ClickSound", "charge", "Upgrade"
+		"MusicMenu", "ClickSound", "charge", "Upgrade" , "lvlup" , "gameover" , "collide"
 	};
 
 	for (int i = 0; i < soundNames.size(); i++)
@@ -25,6 +25,13 @@ void Music::startBackgroundMusic()
 	m_BackgroundMusic.setVolume(50.f);
 	m_BackgroundMusic.play();
 	m_BackgroundMusic.setLoop(true);
+}
+//------------------------------------------------------------
+void Music::startCollideSound()
+{
+	m_sound[0].setVolume(70.f);
+	m_sound[6].setBuffer(m_buffers[6]);
+	m_sound[6].play();
 }
 //------------------------------------------------------------
 void Music::startMenuSound()
@@ -53,6 +60,20 @@ void Music::startChargeSound()
 	m_sound[1].setVolume(70.f);
 	m_sound[3].setBuffer(m_buffers[3]);
 	m_sound[3].play();
+}
+//------------------------------------------------------------
+void Music::startWinSound()
+{
+	m_sound[1].setVolume(70.f);
+	m_sound[4].setBuffer(m_buffers[4]);
+	m_sound[4].play();
+}
+//------------------------------------------------------------
+void Music::startLoseSound()
+{
+	m_sound[1].setVolume(70.f);
+	m_sound[5].setBuffer(m_buffers[5]);
+	m_sound[5].play();
 }
 //------------------------------------------------------------
 void Music::stopBackgroundMusic()

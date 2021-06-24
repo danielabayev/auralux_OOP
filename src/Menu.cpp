@@ -155,7 +155,6 @@ bool Menu::executeInstructions()
     instBack.setPosition(sf::Vector2f(0, 0));
     inst.create(sf::VideoMode(1050, 662), "instructions", sf::Style::Titlebar | sf::Style::Close);
     inst.clear();
-    inst.draw(m_MenuSprites[0]);
     inst.draw(instBack);
     inst.display();
 
@@ -218,6 +217,7 @@ void Menu::drawMenu(sf::RenderWindow& window, int candidate)
 void Menu::drawLevel(sf::RenderWindow& window)
 {
     window.clear();
+    window.draw(m_MenuSprites[0]);
     m_screen.drawLevelScreen(window);
     for (int i = 0; i < m_levelSprites.size(); ++i)
     {
