@@ -26,7 +26,7 @@ public:
 	void addNeighbor(ManagePlanet *neighbor);
 	int getAmountOfUnits()const;
 	std::vector<ManagePlanet*> getNeighbors()const;
-	bool collide(Object object1, Object object2);
+	bool collide(const Object& object1, const Object& object2);
 	
 
 private:

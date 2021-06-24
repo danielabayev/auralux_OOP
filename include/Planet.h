@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <iostream>
+#include "Music.h"
 
 class Planet : public Object
 {
@@ -22,7 +23,6 @@ public:
 	sf::Vector2f getCenter()const;
 	float getRadius()const;
 	bool getActive()const;
-	int findColor(sf::Color);
 	void setActive(bool Active);
 	int getHealth()const;
 	void setHealth(HealthAction action);
@@ -39,8 +39,11 @@ public:
 	void decUnits();
 	int getIndex()const;
 	void resetUnits();
-	void getUpgradeStage(UpgradeOptions stage, sf::Color color);
+	void setUpgradeStage(UpgradeOptions stage, sf::Color color);
 	UpgradeOptions getUpgrade(int stage);
+	void setHealthStage();
+	int getAmountToGenerate()const;
+
 
 private:
 	int m_index;
@@ -51,16 +54,16 @@ private:
 	int m_amountOfUnits;
 	int m_maxLevel;
 	bool m_active = false;
+	bool m_charged = false;
+	bool m_attacked = false;
 	sf::Color m_chargeColor;
 	int m_counterToCharge = 0;
-	sf::Vector2f m_fillBarSize;
-	sf::RectangleShape m_statusBar;
-	sf::RectangleShape m_fillBar;
-	sf::Sprite m_sprite;
 	sf::Text m_healthText;
 	sf::Text m_chargeText;
-	sf::Font m_font;
-	sf::IntRect m_rect;
+	sf::IntRect m_upgRect;
+	sf::IntRect m_healthRect;
+	sf::Sprite m_healthBar;
 	sf::Sprite m_upgrades;
-	sf::Texture m_texture;
+	sf::Vector2f m_barScale;
+	int m_AmountToGenerate;
 };

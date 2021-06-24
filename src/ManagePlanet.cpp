@@ -52,44 +52,7 @@ void ManagePlanet::move(ManagePlanet& mp , sf::Time timePassed)
 		m_around++;
 }
 
-/*void ManagePlanet::moveOwnerships(const std::vector<std::unique_ptr<ManagePlanet>>& planets)
-{
-	sf::Vector2f targetPosition;
-	int amountOfUnit = m_amountOfUnits;
-	for (int i = 0; i < amountOfUnit && m_needToMove; i++)
-		if (m_units[i]->getWaitToMove())
-		{
-			targetPosition = m_units[i]->getTargetPlanet();
-			for (auto& mp : planets)
-				if (targetPosition == mp->getPlanet().getCenter())
-				{
-				
-					if (mp->getColor() == sf::Color::White)
-					{
-						mp->charge(getColor());
-						
-					}
-					else if (mp->getColor() == getColor())
-					{
-						mp->m_units[mp->m_amountOfUnits] = std::move(m_units[i]);
-						mp->m_units[mp->m_amountOfUnits]->setWaitToMove(false);
-						mp->m_amountOfUnits++;
-					}
-					else
-					{//to another MP , attack other planet
-						//change of the planet status
-						mp->underAttack();
-					}
 
-					m_units.erase(m_units.begin() + i);
-					m_amountOfUnits--;
-					m_amountToMove--;
-					if (m_amountToMove == 0)
-						m_needToMove = false;
-					break;	
-				}
-		}
-}*/
 
 void ManagePlanet::healPlanet()
 {
@@ -133,51 +96,6 @@ void ManagePlanet::movePlayer(ManagePlanet& MP)
 	}
 }
 
-/*void ManagePlanet::addToUpgrade()
-{
-	while (m_p.getCounterToUpgrade() < m_p.getAmountToUpgrade() && m_amountOfUnits > 0)
-	{
-		m_units[m_amountOfUnits - 1]->setActive(false);
-		m_p.setCounterToUpgrade();
-		if(m_p.getCounterToUpgrade() % 5 == 0)
-			m_p.setFillBar(INC, m_p.getColor());
-		m_amountOfUnits--;
-		if (m_p.getCounterToUpgrade() == m_p.getAmountToUpgrade())
-			m_p.upgradePlanet();
-	}
-}*/
-
-/*void ManagePlanet::charge(sf::Color newCharger)
-{
-	if (m_chargeColor == sf::Color::White)
-		m_chargeColor = newCharger;
-
-	if(newCharger == m_chargeColor)
-		m_counterToCharge++;
-	else
-	{
-		if (m_counterToCharge != 0)
-			m_counterToCharge--;
-		else
-		{
-			m_chargeColor = newCharger;
-			m_counterToCharge++;
-		}	
-	}
-	if (m_counterToCharge % 5 == 0)
-	{
-		m_p.setFillBar(INC , newCharger);
-	}
-	
-	if (m_counterToCharge == m_p.getAmountToUpgrade())
-	{
-		m_p.setColor(m_chargeColor);
-		m_p.setActive(true);
-		for (auto& unit : m_units)
-			unit->setColor(m_chargeColor);
-		m_amountOfUnits = 0;
-	}
-}*/
 
 void ManagePlanet::generateUnits()
 {
@@ -186,9 +104,9 @@ void ManagePlanet::generateUnits()
 		m_timePassed = m_clock.getElapsedTime();
 		if (m_timePassed.asSeconds() > 6)
 		{
-			for (int i = m_p.getAmountOfUnits(); i < m_p.getAmountOfUnits() + 4; i++)
+			for (int i = m_p.getAmountOfUnits(); i < m_p.getAmountOfUnits() + 20; i++)
 				m_units[i]->setActive(true);
-			m_p.addUnits(4);
+			m_p.addUnits(20);
 			m_clock.restart();
 		}
 	}
@@ -249,15 +167,14 @@ void ManagePlanet::findCollisions(ManagePlanet& mp)
 				{
 					if (m_p.getIndex() != mp.getPlanet().getIndex())
 					{
-						//mp.m_units[mp.getAmountOfUnits()] = std::move(m_units[i]);
+						
 						mp.m_units[mp.getAmountOfUnits()]->setActive(true);
 						mp.m_p.addUnits(1);
-						//m_units.erase(m_units.begin() + i);
+						
 						m_units[i]->setActive(false);
 						m_units[i].swap(m_units[m_p.getAmountOfUnits() - 1]);
 						m_p.decUnits();
-						//mp.m_p.addUnits(1);
-						//m_p.decUnits();
+						
 					}
 				}
 				else
@@ -287,21 +204,6 @@ void ManagePlanet::findCollisions(ManagePlanet& mp)
 	}
 }
 
-/*void ManagePlanet::underAttack()
-{
-	if (m_amountOfUnits == 0)
-		m_p.setHealth(DEC);
-	else
-	{
-		m_units[m_amountOfUnits - 1]->setActive(false);
-		m_amountOfUnits--;
-	}
-	if (m_p.getHealth() == 0)
-	{
-		m_p.setActive(false);
-		m_p.setColor(sf::Color::White);
-	}
-}*/
 
 void ManagePlanet::addNeighbor(ManagePlanet* neighbor)
 {
@@ -318,10 +220,7 @@ std::vector<ManagePlanet*> ManagePlanet::getNeighbors() const
 	return m_neighbors;
 }
 
-bool ManagePlanet::collide(Object object1, Object object2)
+bool ManagePlanet::collide(const Object& object1, const Object& object2)
 {
-	if(object1.getShape().getGlobalBounds().contains(object2.getShape().getPosition()))
-		return true;
-
-	return false;
+	return object1.getShape().getGlobalBounds().contains(object2.getShape().getPosition());
 }

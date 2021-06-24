@@ -40,7 +40,7 @@ void Opponent::makePlanetMove(ManagePlanet* p, int todo , sf::Time timePassed)
 		if (PlanetFrom)
 			return PlanetFrom->move(*p , timePassed);
 		else
-			if (PlanetFrom = findProtectedPlanet())
+			if ((PlanetFrom = findProtectedPlanet()))
 				return PlanetFrom->move(*p , timePassed);
 		//check other option?
 		return;
@@ -60,7 +60,7 @@ void Opponent::makePlanetMove(ManagePlanet* p, int todo , sf::Time timePassed)
 		if (PlanetFrom)
 			return p->move(*PlanetFrom , timePassed);
 		else
-			if (PlanetFrom = findProtectedPlanet())
+			if ((PlanetFrom = findProtectedPlanet()))
 				return p->move(*PlanetFrom , timePassed);
 		//check other option?
 		return;
@@ -90,7 +90,11 @@ void Opponent::resetScore()
 				m_planets_score[j][i].second = getValue(m_mp[j], status);
 			}
 			else
+			{
 				m_planets_score[j][i].first = false;
+				m_planets_score[j][i].second = 0;
+			}
+				
 	}
 }
 
@@ -146,7 +150,7 @@ ManagePlanet* Opponent::findNeighborReinforcment(ManagePlanet* p)
 	std::vector<ManagePlanet*> neig = p->getNeighbors();
 	for (int i = 0; i < neig.size(); i++)
 	{
-		if (neig[i]->getAmountOfUnits() > START_UNIT_AMOUNT)
+		if (neig[i]->getAmountOfUnits() > START_UNIT_AMOUNT && neig[i]->getColor() == getColor())
 			return neig[i];
 	}
 	return NULL;
@@ -175,8 +179,16 @@ ManagePlanet* Opponent::findConquer(ManagePlanet* p, sf::Color color)
 	std::vector<ManagePlanet*> toConquer;
 	for (int i = 0; i < neig.size(); i++)
 	{
-		if (neig[i]->getColor() == color)
-			toConquer.push_back(neig[i]);
+		if (color == sf::Color::White)
+		{
+			if (neig[i]->getColor() == color)
+				toConquer.push_back(neig[i]);
+		}
+		else {
+			if (neig[i]->getColor() != color)
+				toConquer.push_back(neig[i]);
+		}
+		
 	}
 	if (toConquer.size() == 0)
 		throw "Incorrect function";

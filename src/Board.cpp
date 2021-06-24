@@ -75,6 +75,9 @@ void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades,
 	else if (color == YELLOW_BIG)
 		mp[i] = std::make_unique<ManagePlanet>(sf::Color::Yellow, upgrades, pos , i);
 
+	else if (color == GREEN_BIG)
+		mp[i] = std::make_unique<ManagePlanet>(sf::Color::Green, upgrades, pos, i);
+
 	else if (color == EMPTY)
 		mp[i] = std::make_unique<ManagePlanet>(sf::Color::White, upgrades, pos, i);
 
@@ -141,9 +144,14 @@ PlanetColor_t Board::findColor(const char color)
 	case 'Y':
 		return YELLOW_BIG;
 		break;
+	case 'G':
+		return GREEN_BIG;
+		break;
 	case 'E':
 		return EMPTY;
 		break;
 	}
 	//add defualt return
+
+	throw std::runtime_error(__FUNCSIG__ ": should never happen\n");
 }

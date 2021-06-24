@@ -15,7 +15,9 @@ public:
 	virtual ~Object() = default;
 	virtual void draw(sf::RenderWindow& window);
 	sf::Color getColor()const;
-	sf::CircleShape getShape()const;
+	const sf::CircleShape& getShape()const;
+
+	int findColor(sf::Color color);
 	
 protected:
 	sf::CircleShape m_circle;

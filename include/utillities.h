@@ -50,18 +50,23 @@ enum class MenuOptions : int
 
 enum class UpgradeOptions : int
 {//the menu screen choine enum
-	ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5
+	ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, NONE = 6
 };
 
 
 enum class LevelOptions : int
 {//the menu screen choine enum
-	MENU = 2, ONE = 4, TWO = 6, THREE = 8, FOUR = 10
+	MENU = 2, ONE = 3, TWO = 4, THREE = 5, FOUR = 6, FIVE = 7, SIX = 8, SEVEN = 9
 };
 
+
+enum ParColor_t
+{
+	BLUE1, RED1, YELLOW1 , GREEN1
+};
 enum PlanetColor_t
 {
-	BLUE_BIG, YELLOW_BIG, RED_BIG, EMPTY
+	BLUE_BIG, YELLOW_BIG, RED_BIG, GREEN_BIG , EMPTY
 };
 
 enum Planets
@@ -87,6 +92,7 @@ struct line
 	int direction;
 	sf::Vector2f targetCenter;
 	int targetIndex;
+	//int xMomement;
 };
 
 struct parabola

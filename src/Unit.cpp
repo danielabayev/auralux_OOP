@@ -7,7 +7,9 @@
 Unit::Unit(sf::Color color, Planet* p) : Object(color)
 {
 	m_circle.setRadius(2);
-	m_circle.setFillColor(color);
+	//m_circle.setFillColor(color);
+	
+	m_circle.setTexture(&Graphic::PicturesObject().getParticleTexture(findColor(color)));
 	m_angle = rand() % 360;
 	sf::Vector2f position = calculateNewPosition(*p);
 	m_circle.setPosition(position);
@@ -73,18 +75,22 @@ void Unit::defineTowards(Planet p)
 		else
 			m_targetPlanet.direction = RIGHT;
 	}
-
+	/*m_targetPlanet.xMomement = m_circle.getPosition().x - m_targetPlanet.targetCenter.x;
+	if (m_targetPlanet.xMomement < 30 && m_targetPlanet.xMomement > -30)
+		int a;
+	else
+		m_targetPlanet.xMomement /= 75;*/
 }
 
 sf::Vector2f Unit::moveTowards(sf::Time timePassed)
 {
 	sf::Vector2f position = m_circle.getPosition();
+	/*position.x -= m_targetPlanet.xMomement * timePassed.asSeconds();
+	//y = ax + b
+	position.y = m_targetPlanet.a * position.x + m_targetPlanet.b;
+	m_circle.setPosition(position);*/
 	switch (m_targetPlanet.direction)
 	{
-	case UP:
-		//to check
-	case DOWN:
-		//to check
 	case RIGHT:
 		position.x += 0.5 * timePassed.asSeconds();
 		//y = ax + b
@@ -127,7 +133,8 @@ void Unit::handleCollision(Planet* p)
 
 void Unit::setColor(sf::Color newColor)
 {
-	m_circle.setFillColor(newColor);
+	//m_circle.setFillColor(newColor);
+	m_circle.setTexture(&Graphic::PicturesObject().getParticleTexture(findColor(newColor)));
 	m_color = newColor;
 }
 

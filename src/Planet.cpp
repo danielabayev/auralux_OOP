@@ -1,51 +1,29 @@
 #include "Planet.h"
 
 Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos, int index)
-	:Object(color), m_unitToUpgrade(30), m_currentLevel(1), m_maxLevel(maxLevel),m_index(index)
+	:Object(color), m_unitToUpgrade(30), m_currentLevel(1), m_maxLevel(maxLevel),m_index(index),m_AmountToGenerate(4)
 {
-	sf::IntRect rect(480, 0, 120, 120);
-	m_rect = rect;
+
 	m_circle.setRadius(SMALLPLANET);
 	m_circle.setPosition(pos);
 	m_circle.setOrigin(SMALLPLANET / 2, SMALLPLANET / 2);
-
-	//m_upgrades = sf::Sprite(Graphic::PicturesObject().getUpgradeTexture(findColor(color)), rect);
-	m_upgrades.setOrigin(60, 60);
-	m_upgrades.setPosition(getCenter());
-	m_upgrades.setScale(0.8, 0.8);
-
-	m_statusBar.setPosition(pos.x - 18, pos.y + 60);
-	m_statusBar.setFillColor(sf::Color::Transparent);
-	m_statusBar.setOutlineColor(sf::Color::Transparent);
-	m_statusBar.setOutlineThickness(1);
-	sf::Vector2f test(60, 7);
-	m_statusBar.setSize(test);
-	m_fillBarSize = sf::Vector2f(0, 7);
-	m_fillBar.setPosition(pos.x - 16, pos.y + 60);
-	m_fillBar.setFillColor(sf::Color::Transparent);
-	m_fillBar.setSize(m_fillBarSize);
-	m_chargeColor = sf::Color::White;
 	
+	m_chargeColor = sf::Color::White;
+	m_barScale = sf::Vector2f(0.95, 0.95);
 	
 	int pcolor = findColor(color);
 	m_circle.setTexture(&Graphic::PicturesObject().getPlanet(pcolor));
 	
-	/*m_font = Graphic::PicturesObject().getFont();
-	m_healthText.setFont(m_font);
-	m_healthText.setFillColor(sf::Color::Red);
-	m_healthText.setCharacterSize(20);
-	m_healthText.setScale(1, 1);
-	m_chargeText.setFont(m_font);
-	m_healthText.setFillColor(sf::Color::Black);
-	m_chargeText.setFillColor(sf::Color::Black);
-	m_healthText.setPosition(pos.x - 18, pos.y + 60);
-	m_chargeText.setPosition(pos.x - 50, pos.y + 60);*/
 
 }
 
 void Planet::draw(sf::RenderWindow& window)
 {
 	window.draw(m_circle);
+	if (m_charged)
+		window.draw(m_upgrades);
+	if (m_attacked)
+		window.draw(m_healthBar);
 	//window.draw(m_statusBar);
 	//window.draw(m_fillBar);
 	/*std::string hp = std::to_string(m_health);
@@ -79,9 +57,9 @@ void Planet::upgradePlanet()
 	m_circle.setOrigin(size / 2, size / 2);
 	m_currentLevel++;
 	m_counterToUpgrade = 0;
-	sf::Vector2f newpos(m_statusBar.getPosition().x +(size / 4), m_statusBar.getPosition().y + (size / 2));
-	m_statusBar.setPosition(newpos);
-	m_fillBar.setPosition(newpos);
+	m_AmountToGenerate += 3;
+	m_charged = false;
+	m_barScale = sf::Vector2f(1.2, 1.2);
 
 }
 
@@ -105,20 +83,7 @@ bool Planet::getActive() const
 	return m_active;
 }
 
-int Planet::findColor(sf::Color color)
-{
-	if (color == sf::Color::Blue)
-		return BLUEP;
-	else if (color == sf::Color::Red)
-		return REDP;
-	else if (color == sf::Color::Yellow)
-		return YELLOWP;
-	else if (color == sf::Color::Green)
-		return GREENP;
-	else
-		return GREYP;
-	
-}
+
 
 void Planet::setActive(bool Active)
 {
@@ -139,29 +104,12 @@ void Planet::setHealth(HealthAction action)
 		m_health--;
 	}
 
-	if (m_health < 100)
-	{
-		m_statusBar.setOutlineColor(sf::Color::White);
-		m_fillBar.setFillColor(m_color);
+	setHealthStage();
 
-		if (m_health > 80)
-		{
-			m_fillBarSize.x = (m_health * 0.6);
-			m_fillBar.setSize(m_fillBarSize);
-		}
-		else
-		{
-			m_fillBarSize.x = (m_health / 2);
-			m_fillBar.setSize(m_fillBarSize);
-		}
-	}
 
 	if (m_health == 0 || m_health == MAX_HEALTH)
 	{
-		m_statusBar.setOutlineColor(sf::Color::Transparent);
-		m_fillBar.setFillColor(sf::Color::Transparent);
-		m_fillBarSize.x = 0;
-		m_fillBar.setSize(m_fillBarSize);
+		m_attacked = false;
 	}
 	
 		
@@ -177,33 +125,7 @@ void Planet::setCounterToUpgrade()
 	m_counterToUpgrade++;
 }
 
-void Planet::setFillBar(HealthAction action , sf::Color color)
-{
-	if (action == INC)
-	{
-		m_statusBar.setOutlineColor(color);
-		if (m_fillBar.getFillColor() == sf::Color::Transparent)
-		{
-			m_fillBar.setFillColor(color);
-		}
-		m_fillBarSize.x += 10;
-		m_fillBar.setSize(m_fillBarSize);
-		if (m_fillBarSize.x == m_statusBar.getSize().x)
-		{
-			m_fillBarSize.x = 0;
-			m_fillBar.setFillColor(sf::Color::Transparent);
-			m_statusBar.setOutlineColor(sf::Color::Transparent);
-		}
-	}
-	else
-	{
-		m_fillBarSize.x -= 10;
-		m_fillBar.setSize(m_fillBarSize);
-		if(m_fillBarSize.x == 0)
-			m_fillBar.setFillColor(sf::Color::Transparent);
-	}
 
-}
 
 int Planet::getAmountToUpgrade() const
 {
@@ -223,31 +145,23 @@ void Planet::charge(sf::Color newCharger)
 	if (newCharger == m_chargeColor)
 	{
 		m_counterToCharge++;
-		if (m_counterToCharge % 5 == 0)
-		{
-			setFillBar(INC, newCharger);
-		}
+		//Music::instance().startChargeSound();
 	}
 	else
 	{
 		if (m_counterToCharge != 0)
 		{
 			m_counterToCharge--;
-			if (m_counterToCharge % 5 == 0)
-			{
-				setFillBar(DEC, newCharger);
-			}
 		}
 		else
 		{
 			m_chargeColor = newCharger;
 			m_counterToCharge++;
-			if (m_counterToCharge % 5 == 0)
-			{
-				setFillBar(INC, newCharger);
-			}
+			m_charged = false;
 		}
 	}
+	UpgradeOptions status = getUpgrade(m_counterToCharge);
+	setUpgradeStage(status, m_chargeColor);
 	
 
 	if (m_counterToCharge == m_unitToUpgrade)
@@ -255,6 +169,7 @@ void Planet::charge(sf::Color newCharger)
 		setColor(m_chargeColor);
 		setActive(true);
 		m_counterToCharge = 0;
+		m_charged = false;
 		//for (auto& unit : m_units)
 			//unit->setColor(m_chargeColor);
 		//m_amountOfUnits = 0;
@@ -280,6 +195,7 @@ void Planet::underAttack()
 			m_circle.setRadius(SMALLPLANET);
 			m_circle.setOrigin(SMALLPLANET / 2, SMALLPLANET / 2);
 		}	
+		m_AmountToGenerate = 4;
 	}
 }
 
@@ -290,8 +206,10 @@ void Planet::addToUpgrade()
 	{
 
 		m_counterToUpgrade++;
+		//Music::instance().startChargeSound();
+		
 		UpgradeOptions status = getUpgrade(m_counterToUpgrade);
-		getUpgradeStage(status, m_color);
+		setUpgradeStage(status, m_color);
 
 		if (m_counterToUpgrade == m_unitToUpgrade)
 			upgradePlanet();
@@ -326,29 +244,33 @@ void Planet::resetUnits()
 	m_amountOfUnits = 0;
 }
 //-----------------------------------------------------
-void Planet::getUpgradeStage(UpgradeOptions stage, sf::Color color)
+void Planet::setUpgradeStage(UpgradeOptions stage, sf::Color color)
 {
 	switch (stage)
 	{
 	case UpgradeOptions::ONE:
-		m_rect = sf::IntRect(0, 0, 120, 120);
+		m_upgRect = sf::IntRect(0, 0, 120, 120);
+		m_charged = true;
 		break;
 	case UpgradeOptions::TWO:
-		m_rect = sf::IntRect(120, 0, 120, 120);
+		m_upgRect = sf::IntRect(120, 0, 120, 120);
 		break;
 	case UpgradeOptions::THREE:
-		m_rect = sf::IntRect(240, 0, 120, 120);
+		m_upgRect = sf::IntRect(240, 0, 120, 120);
 		break;
 	case UpgradeOptions::FOUR:
-		m_rect = sf::IntRect(360, 0, 120, 120);
+		m_upgRect = sf::IntRect(360, 0, 120, 120);
 		break;
 	case  UpgradeOptions::FIVE:
-		m_rect = sf::IntRect(480, 0, 120, 120);
+		m_upgRect = sf::IntRect(480, 0, 120, 120);
 		break;
-	default:
+	case UpgradeOptions::NONE:
 		return;
 	}
-	m_upgrades = sf::Sprite(Graphic::PicturesObject().getUpgradeTexture(findColor(color)), m_rect);
+	m_upgrades = sf::Sprite(Graphic::PicturesObject().getUpgradeTexture(findColor(color)), m_upgRect);
+	m_upgrades.setOrigin(60, 60);
+	m_upgrades.setPosition(getCenter());
+	m_upgrades.setScale(m_barScale);
 }
 //------------------------------------------------
 UpgradeOptions Planet::getUpgrade(int upgradeAmount)
@@ -370,5 +292,47 @@ UpgradeOptions Planet::getUpgrade(int upgradeAmount)
 	case 30:
 		return UpgradeOptions::FIVE;
 		break;
+	default:
+		return UpgradeOptions::NONE;
+		break;
 	}
+}
+
+void Planet::setHealthStage()
+{
+	switch (m_health)
+	{
+	case 20:
+		m_healthRect = sf::IntRect(0, 0, 120, 120);
+		
+		break;
+	case 40:
+		m_healthRect = sf::IntRect(120, 0, 120, 120);
+	
+		break;
+	case 60:
+		m_healthRect = sf::IntRect(240, 0, 120, 120);
+		
+		break;
+	case 80: 
+		m_healthRect = sf::IntRect(360, 0, 120, 120);
+		
+		m_attacked = true;
+		break;
+	case 100:
+		m_healthRect = sf::IntRect(480, 0, 120, 120);
+		
+		break;
+	default:
+		return;
+	}
+	m_healthBar = sf::Sprite((Graphic::PicturesObject().getHealthTexture()), m_healthRect);
+	m_healthBar.setOrigin(60, 60);
+	m_healthBar.setPosition(getCenter().x, getCenter().y);
+	m_healthBar.setScale(0.65, 0.65);
+}
+
+int Planet::getAmountToGenerate() const
+{
+	return m_AmountToGenerate;
 }
