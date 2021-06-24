@@ -1,5 +1,5 @@
 #include "..\include\Menu.h"
-Menu::Menu()
+Menu::Menu():m_screen(STARTWIDTH, STARTHEIGHT)
 {
     loadMenuSprite();
     loadLevelSprite();
@@ -13,8 +13,7 @@ void Menu::openMenu()
     auto option = -1, candidate = (int)MenuOptions::START;
     Graphic::PicturesObject().getTexture(0).setRepeated(true);
     drawMenu(m_window, candidate);
-   // Music::instance().startMenuSound();
-
+    Music::instance().startMenuSound();
     while (m_window.isOpen() && option == -1)
     {
         for (auto event = sf::Event{}; m_window.pollEvent(event);)
@@ -39,6 +38,7 @@ void Menu::openMenu()
                 checkIfcontains(location, candidate);
                 if (performAction())
                 {
+                    Music::instance().pauseMenuMusic();
                     m_window.close();
                     return;
                 }
@@ -221,12 +221,13 @@ void Menu::drawMenu(sf::RenderWindow& window, int candidate)
 //-------------------------------------------------------------------------
 void Menu::drawLevel(sf::RenderWindow& window)
 {
-    m_window.clear();
+    window.clear();
+    m_screen.drawLevelScreen(window);
     for (int i = 0; i < m_levelSprites.size(); ++i)
     {
         window.draw(m_levelSprites[i]);
     }
-    m_window.display();
+    window.display();
 }
 //-------------------------------------------------------------
 void Menu::checkIfcontains(sf::Vector2f &location, int &candidate)
@@ -234,6 +235,7 @@ void Menu::checkIfcontains(sf::Vector2f &location, int &candidate)
     for (int i = 2; i < m_MenuSprites.size(); i += 2)
         if (m_MenuSprites[i].getGlobalBounds().contains(location))
         {
+            Music::instance().startClickSound();
             candidate = i;
             m_selected = static_cast<MenuOptions>(i);
             break;

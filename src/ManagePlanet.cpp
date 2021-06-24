@@ -104,9 +104,9 @@ void ManagePlanet::generateUnits()
 		m_timePassed = m_clock.getElapsedTime();
 		if (m_timePassed.asSeconds() > 6)
 		{
-			for (int i = m_p.getAmountOfUnits(); i < m_p.getAmountOfUnits() + 20; i++)
+			for (int i = m_p.getAmountOfUnits(); i < m_p.getAmountOfUnits() + m_p.getAmountToGenerate(); i++)
 				m_units[i]->setActive(true);
-			m_p.addUnits(20);
+			m_p.addUnits(m_p.getAmountToGenerate());
 			m_clock.restart();
 		}
 	}

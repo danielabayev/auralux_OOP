@@ -145,7 +145,7 @@ void Planet::charge(sf::Color newCharger)
 	if (newCharger == m_chargeColor)
 	{
 		m_counterToCharge++;
-		//Music::instance().startChargeSound();
+		Music::instance().startChargeSound();
 	}
 	else
 	{
@@ -206,8 +206,7 @@ void Planet::addToUpgrade()
 	{
 
 		m_counterToUpgrade++;
-		//Music::instance().startChargeSound();
-		
+		Music::instance().startUnitSound();
 		UpgradeOptions status = getUpgrade(m_counterToUpgrade);
 		setUpgradeStage(status, m_color);
 

@@ -17,8 +17,6 @@ Controller::Controller() :
 //------------------------------------------------------------------------------
 void Controller::run()
 {
-    //Music::instance().startMenuSound();
-
     while (true)
     {
         m_menu.openMenu();
@@ -43,6 +41,7 @@ void Controller::run()
 //-----------------------------------------------------------
 void Controller::runGame()
 {
+    Music::instance().startBackgroundMusic();
     m_window.create(sf::VideoMode(STARTWIDTH, STARTHEIGHT), "AURALUX");
     m_window.setFramerateLimit(30);
     sf::Event event;
@@ -68,6 +67,8 @@ void Controller::runGame()
             switch (event.type)
             {
             case sf::Event::Closed:
+                Music::instance().stopBackgroundMusic();
+                Music::instance().startClickSound();
                 m_window.close();
                 break;
             case sf::Event::MouseButtonReleased:
