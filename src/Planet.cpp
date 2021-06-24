@@ -1,7 +1,8 @@
 #include "Planet.h"
 
-Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos, int index)
-	:Object(color), m_unitToUpgrade(30), m_currentLevel(1), m_maxLevel(maxLevel),m_index(index),m_AmountToGenerate(4)
+Planet::Planet(const sf::Color& color, int maxLevel, const sf::Vector2f& pos, int index)
+	:Object(color), m_unitToUpgrade(30), m_currentLevel(1), m_maxLevel(maxLevel),
+	m_index(index),m_AmountToGenerate(4),m_amountOfUnits(0)
 {
 
 	m_circle.setRadius(SMALLPLANET);
@@ -16,36 +17,22 @@ Planet::Planet(sf::Color color, int maxLevel, sf::Vector2f pos, int index)
 	
 
 }
-
-void Planet::draw(sf::RenderWindow& window)
+//-----------------------------------------------------
+void Planet::draw(sf::RenderWindow& window)const
 {
 	window.draw(m_circle);
 	if (m_charged)
 		window.draw(m_upgrades);
 	if (m_attacked)
 		window.draw(m_healthBar);
-	//window.draw(m_statusBar);
-	//window.draw(m_fillBar);
-	/*std::string hp = std::to_string(m_health);
-	m_healthText.setString(hp);
-	if(m_color == sf::Color::White)
-		std::string st = "C" + std::to_string(m_counterToCharge);
-	else
-		std::string st = "U" + std::to_string(m_counterToUpgrade);
-	window.draw(m_healthText);
-	window.draw(m_chargeText)*/;
 }
-
-
-
-void Planet::setColor(sf::Color newColor)
+//-----------------------------------------------------
+void Planet::setColor(const sf::Color& newColor)
 {
 	m_color = newColor;
 	m_circle.setTexture(&Graphic::PicturesObject().getPlanet(findColor(newColor)));
 }
-
-
-
+//-----------------------------------------------------
 void Planet::upgradePlanet()
 {
 	int size;
@@ -62,40 +49,38 @@ void Planet::upgradePlanet()
 	m_barScale = sf::Vector2f(1.2, 1.2);
 
 }
-
-void Planet::setPosition(sf::Vector2f newPosition)
+//-----------------------------------------------------
+void Planet::setPosition(const sf::Vector2f& newPosition)
 {
 	m_circle.setPosition(newPosition);
 }
-
+//-----------------------------------------------------
 sf::Vector2f Planet::getCenter()const
 {
 	return m_circle.getOrigin() + m_circle.getPosition();
 }
-
+//-----------------------------------------------------
 float Planet::getRadius()const
 {
 	return m_circle.getRadius();
 }
-
+//-----------------------------------------------------
 bool Planet::getActive() const
 {
 	return m_active;
 }
-
-
-
+//-----------------------------------------------------
 void Planet::setActive(bool Active)
 {
 	m_active = Active;
 }
-
+//-----------------------------------------------------
 int Planet::getHealth() const
 {
 	return m_health;
 }
-
-void Planet::setHealth(HealthAction action)
+//-----------------------------------------------------
+void Planet::setHealth(const HealthAction& action)
 {
 	if (action == INC)
 		m_health++;
@@ -114,30 +99,28 @@ void Planet::setHealth(HealthAction action)
 	
 		
 }
-
+//-----------------------------------------------------
 int Planet::getCounterToUpgrade() const
 {
 	return m_counterToUpgrade;
 }
-
+//-----------------------------------------------------
 void Planet::setCounterToUpgrade()
 {
 	m_counterToUpgrade++;
 }
-
-
-
+//-----------------------------------------------------
 int Planet::getAmountToUpgrade() const
 {
 	return m_unitToUpgrade;
 }
-
+//-----------------------------------------------------
 bool Planet::isMaxUpgrade() const
 {
 	return m_currentLevel == m_maxLevel;
 }
-
-void Planet::charge(sf::Color newCharger)
+//-----------------------------------------------------
+void Planet::charge(const sf::Color& newCharger)
 {
 	if (m_chargeColor == sf::Color::White)
 		m_chargeColor = newCharger;
@@ -145,7 +128,8 @@ void Planet::charge(sf::Color newCharger)
 	if (newCharger == m_chargeColor)
 	{
 		m_counterToCharge++;
-		Music::instance().startChargeSound();
+		if (m_chargeColor == sf::Color::Blue)
+			Music::instance().startChargeSound();
 	}
 	else
 	{
@@ -170,12 +154,9 @@ void Planet::charge(sf::Color newCharger)
 		setActive(true);
 		m_counterToCharge = 0;
 		m_charged = false;
-		//for (auto& unit : m_units)
-			//unit->setColor(m_chargeColor);
-		//m_amountOfUnits = 0;
 	}
 }
-
+//-----------------------------------------------------
 void Planet::underAttack()
 {
 	setHealth(DEC);
@@ -198,15 +179,15 @@ void Planet::underAttack()
 		m_AmountToGenerate = 4;
 	}
 }
-
-
+//-----------------------------------------------------
 void Planet::addToUpgrade()
 {
 	if (m_counterToUpgrade < m_unitToUpgrade)
 	{
 
 		m_counterToUpgrade++;
-		Music::instance().startUnitSound();
+		if (m_chargeColor == sf::Color::Blue)
+			Music::instance().startUnitSound();
 		UpgradeOptions status = getUpgrade(m_counterToUpgrade);
 		setUpgradeStage(status, m_color);
 
@@ -214,12 +195,12 @@ void Planet::addToUpgrade()
 			upgradePlanet();
 	}
 }
-
+//-----------------------------------------------------
 int Planet::getAmountOfUnits() const
 {
 	return m_amountOfUnits;
 }
-
+//-----------------------------------------------------
 void Planet::addUnits(int i)
 {
 	m_amountOfUnits += i;
@@ -231,8 +212,8 @@ void Planet::decUnits()
 		m_amountOfUnits--;
 	else
 		throw "zero units";
-
 }
+//-----------------------------------------------------
 int Planet::getIndex() const
 {
 		return m_index;
@@ -243,7 +224,7 @@ void Planet::resetUnits()
 	m_amountOfUnits = 0;
 }
 //-----------------------------------------------------
-void Planet::setUpgradeStage(UpgradeOptions stage, sf::Color color)
+void Planet::setUpgradeStage(const UpgradeOptions& stage, const sf::Color& color)
 {
 	switch (stage)
 	{
@@ -272,7 +253,7 @@ void Planet::setUpgradeStage(UpgradeOptions stage, sf::Color color)
 	m_upgrades.setScale(m_barScale);
 }
 //------------------------------------------------
-UpgradeOptions Planet::getUpgrade(int upgradeAmount)
+UpgradeOptions Planet::getUpgrade(int upgradeAmount)const
 {
 	switch (upgradeAmount)
 	{
@@ -296,7 +277,7 @@ UpgradeOptions Planet::getUpgrade(int upgradeAmount)
 		break;
 	}
 }
-
+//------------------------------------------------
 void Planet::setHealthStage()
 {
 	switch (m_health)
@@ -330,7 +311,7 @@ void Planet::setHealthStage()
 	m_healthBar.setPosition(getCenter().x, getCenter().y);
 	m_healthBar.setScale(0.65, 0.65);
 }
-
+//------------------------------------------------
 int Planet::getAmountToGenerate() const
 {
 	return m_AmountToGenerate;

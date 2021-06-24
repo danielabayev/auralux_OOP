@@ -7,8 +7,6 @@
 Unit::Unit(sf::Color color, Planet* p) : Object(color)
 {
 	m_circle.setRadius(2);
-	//m_circle.setFillColor(color);
-	
 	m_circle.setTexture(&Graphic::PicturesObject().getParticleTexture(findColor(color)));
 	m_angle = rand() % 360;
 	sf::Vector2f position = calculateNewPosition(*p);
@@ -16,7 +14,7 @@ Unit::Unit(sf::Color color, Planet* p) : Object(color)
 	m_clock.restart();
 }
 
-sf::Vector2f Unit::calculateNewPosition(Planet p)
+sf::Vector2f Unit::calculateNewPosition(const Planet& p)
 {
 	sf::Vector2f position;
 	float inRadian = PI * m_angle / 180;
@@ -27,20 +25,16 @@ sf::Vector2f Unit::calculateNewPosition(Planet p)
 	return position;
 }
 
-sf::Vector2f Unit::move(Planet p , sf::Time timePassed , int angle)
+sf::Vector2f Unit::move(const Planet& p,const sf::Time& timePassed , int angle)
 {
 	if (m_targetPlanet.in_use)
 		return moveTowards(timePassed);
 	else
-	{
-		
-		moveAround(p, timePassed, angle);
-					
-	}
+		moveAround(p, timePassed, angle);			
 	return NOTCENTERD;
 }
 
-void Unit::moveAround(Planet p , sf::Time timePassed , int angle)
+void Unit::moveAround(const Planet& p,const sf::Time& timePassed , int angle)
 {
 	float diff = m_angle - angle;
 	m_angle += (diff/10) * timePassed.asSeconds();
@@ -49,8 +43,8 @@ void Unit::moveAround(Planet p , sf::Time timePassed , int angle)
 	m_circle.setPosition(position);
 }
 
-void Unit::defineTowards(Planet p)
-{//check UP and DOWN
+void Unit::defineTowards(const Planet& p)
+{
 	if (m_targetPlanet.in_use)
 		return;
 	sf::Vector2f position = p.getCenter();
@@ -75,20 +69,11 @@ void Unit::defineTowards(Planet p)
 		else
 			m_targetPlanet.direction = RIGHT;
 	}
-	/*m_targetPlanet.xMomement = m_circle.getPosition().x - m_targetPlanet.targetCenter.x;
-	if (m_targetPlanet.xMomement < 30 && m_targetPlanet.xMomement > -30)
-		int a;
-	else
-		m_targetPlanet.xMomement /= 75;*/
 }
 
-sf::Vector2f Unit::moveTowards(sf::Time timePassed)
+sf::Vector2f Unit::moveTowards(const sf::Time& timePassed)
 {
 	sf::Vector2f position = m_circle.getPosition();
-	/*position.x -= m_targetPlanet.xMomement * timePassed.asSeconds();
-	//y = ax + b
-	position.y = m_targetPlanet.a * position.x + m_targetPlanet.b;
-	m_circle.setPosition(position);*/
 	switch (m_targetPlanet.direction)
 	{
 	case RIGHT:
@@ -125,15 +110,8 @@ bool Unit::checkDistance()
 	return true;
 }
 
-void Unit::handleCollision(Planet* p)
-{//back the x and y to previos position then
-
-
-}
-
-void Unit::setColor(sf::Color newColor)
+void Unit::setColor(const sf::Color& newColor)
 {
-	//m_circle.setFillColor(newColor);
 	m_circle.setTexture(&Graphic::PicturesObject().getParticleTexture(findColor(newColor)));
 	m_color = newColor;
 }
@@ -142,10 +120,7 @@ void Unit::setActive(bool Active)
 {
 	m_active = Active;
 	if (Active)
-	{
 		m_targetPlanet.in_use = false;
-		m_otherWay.in_use = false;
-	}
 }
 
 void Unit::setWaitToMove(bool moved)
@@ -172,8 +147,8 @@ void Unit::defineTowards()
 {
 	sf::Vector2f curentPosition = m_circle.getPosition();
 	sf::Vector2f targetPosition = m_targetPlanet.target;
-
 }
+
 bool Unit::inUse()const
 {
 	return m_targetPlanet.in_use;
