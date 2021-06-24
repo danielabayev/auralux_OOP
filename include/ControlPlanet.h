@@ -8,8 +8,8 @@ public:
 	virtual ~ControlPlanet() = default;
 
 	void addPlanet(ManagePlanet* mp);
-	void removePlanet(ManagePlanet* mp);
 	void resetData();
+	void removePlanet(ManagePlanet* mp);
 	bool checkIfBelongs(ManagePlanet*)const;
 
 	sf::Color getColor()const;
@@ -17,6 +17,4 @@ public:
 protected:
 	std::vector<ManagePlanet*> m_mp;
 	sf::Color m_color;
-	
-	
 };

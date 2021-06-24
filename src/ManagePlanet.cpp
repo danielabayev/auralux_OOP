@@ -1,7 +1,7 @@
 #include "ManagePlanet.h"
 
-ManagePlanet::ManagePlanet(sf::Color color, int maxLevel, sf::Vector2f pos ,int index)
-	:m_p(color,maxLevel,pos,index),m_amountToMove(0)
+ManagePlanet::ManagePlanet(const sf::Color& color, int maxLevel, const sf::Vector2f& pos ,int index)
+	:m_p(color,maxLevel,pos,index),m_amountToMove(0),m_angle(0)
 {
 	m_units.resize(1000);
 	for (auto& unit : m_units)
@@ -29,7 +29,7 @@ void ManagePlanet::draw(sf::RenderWindow& window)
 				m_units[i]->draw(window);
 }
 
-void ManagePlanet::move(ManagePlanet& mp , sf::Time timePassed)
+void ManagePlanet::move(const ManagePlanet& mp , const sf::Time& timePassed)
 {
 	m_angle += 10;
 	m_angle = int(m_angle) % 360;
@@ -51,8 +51,6 @@ void ManagePlanet::move(ManagePlanet& mp , sf::Time timePassed)
 	if (m_around == 0)
 		m_around++;
 }
-
-
 
 void ManagePlanet::healPlanet()
 {
@@ -82,7 +80,7 @@ void ManagePlanet::arrangeUnits()
 	}
 }
 
-void ManagePlanet::movePlayer(ManagePlanet& MP)
+void ManagePlanet::movePlayer(const ManagePlanet& MP)
 {
 	if (MP.getPlanet().getCenter() == m_p.getCenter())
 		if (m_p.getHealth() == MAX_HEALTH && m_p.isMaxUpgrade())
@@ -95,7 +93,6 @@ void ManagePlanet::movePlayer(ManagePlanet& MP)
 
 	}
 }
-
 
 void ManagePlanet::generateUnits()
 {
@@ -112,17 +109,7 @@ void ManagePlanet::generateUnits()
 	}
 }
 
-/*void ManagePlanet::determineAction()
-{
-	int activeUnits = m_amountOfUnits;
-	if (m_p.getHealth() < MAX_HEALTH)
-		healPlanet();
-	else if (!m_p.isMaxUpgrade())
-		addToUpgrade();
-	
-}*/
-
-sf::Color ManagePlanet::getColor()
+sf::Color ManagePlanet::getColor()const
 {
 	return m_p.getColor();
 }
@@ -132,7 +119,7 @@ Planet ManagePlanet::getPlanet() const
 	return m_p;
 }
 
-void ManagePlanet::changePlanet(sf::Color newColor)
+void ManagePlanet::changePlanet(const sf::Color& newColor)
 {
 	//m_p.resetUnits();
 	for (auto& unit : m_units)
@@ -204,7 +191,6 @@ void ManagePlanet::findCollisions(ManagePlanet& mp)
 	}
 }
 
-
 void ManagePlanet::addNeighbor(ManagePlanet* neighbor)
 {
 	m_neighbors.push_back(neighbor);
@@ -220,7 +206,7 @@ std::vector<ManagePlanet*> ManagePlanet::getNeighbors() const
 	return m_neighbors;
 }
 
-bool ManagePlanet::collide(const Object& object1, const Object& object2)
+bool ManagePlanet::collide(const Object& object1, const Object& object2)const
 {
 	return object1.getShape().getGlobalBounds().contains(object2.getShape().getPosition());
 }

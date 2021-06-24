@@ -44,8 +44,6 @@ void Controller::runGame()
     Music::instance().startBackgroundMusic();
     m_window.create(sf::VideoMode(STARTWIDTH, STARTHEIGHT), "AURALUX");
     m_window.setFramerateLimit(30);
-    sf::Event event;
-    sf::Clock clock;
     sf::Time timePassed;
     while (m_window.isOpen())
     {
@@ -55,6 +53,8 @@ void Controller::runGame()
         m_window.display();
         timePassed = m_clock.restart();
         timePassed *= 15.f;
+
+        //the game loop
         generate();
         moveUnits(timePassed);
         checkCollisions();
@@ -62,6 +62,8 @@ void Controller::runGame()
 
         for (auto& oppo : m_opponents)
             oppo->nextMove(timePassed);
+        
+        //the player choice
         if (auto event = sf::Event{}; m_window.pollEvent(event))
         {
             switch (event.type)
@@ -72,7 +74,7 @@ void Controller::runGame()
                 m_window.close();
                 break;
             case sf::Event::MouseButtonReleased:
-                handleClick(event, m_window);//update player choice
+                handleClick(event, m_window);
             }
         }
     }
@@ -130,9 +132,7 @@ void Controller::handleClick(const sf::Event& event, sf::RenderWindow& window)
             if (planet->getPlanet().getShape().getGlobalBounds().contains(location))
             {
                 m_planets[controlled.second]->movePlayer(*planet);
-
                 m_player->setControlled(false, -1);
-                //temp - should to be in the player?
             }
     }
 }
@@ -172,7 +172,7 @@ void Controller::checkForNewPlanets()
     }
 }
 //----------------------------------------------------------------------
-void Controller::checkCollisions()
+void Controller::checkCollisions()const
 {
     for (int i = 0; i < m_planets.size(); i++)
     {
@@ -186,21 +186,19 @@ void Controller::checkCollisions()
     }
 }
 //-----------------------------------------------------------------
-void Controller::drawPlanets(sf::RenderWindow& window)
+void Controller::drawPlanets(sf::RenderWindow& window)const
 {
     for (auto& p : m_planets)
-    {
         p->draw(window);
-    }
 }
 
-void Controller::generate()
+void Controller::generate()const
 {
     for (auto& planet : m_planets)
         planet->generateUnits();
 }
 //---------------------------------------------------------------------
-void Controller::moveUnits(sf::Time timePassed)
+void Controller::moveUnits(sf::Time timePassed)const
 {
     for (int i = 0; i < m_planets.size(); i++)
     {

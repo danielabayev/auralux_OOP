@@ -11,18 +11,10 @@
 class Controller
 {
 public:
-	Controller(); // ctor
+	Controller();
 	virtual ~Controller() = default;
 	void run() ;
-	void runGame();
-	void readLevel();
-	void resetData();
-	void drawPlanets(sf::RenderWindow& window);
-	void generate();
-	void moveUnits(sf::Time timePassed);
-	void checkCollisions();
-	void handleClick(const sf::Event& event, sf::RenderWindow& window) ;
-	void checkForNewPlanets();
+	
 private:
 	sf::RenderWindow m_window;
 	Board m_board;
@@ -33,4 +25,16 @@ private:
 	vector<std::unique_ptr<ManagePlanet>> m_planets;
 	Menu m_menu;
 	sf::Clock m_clock;
+
+
+	//private funcs:
+	void runGame();
+	void readLevel();
+	void resetData();
+	void drawPlanets(sf::RenderWindow& window)const;
+	void generate()const;
+	void moveUnits(sf::Time timePassed)const;
+	void checkCollisions()const;
+	void handleClick(const sf::Event& event, sf::RenderWindow& window);
+	void checkForNewPlanets();
 };

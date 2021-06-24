@@ -153,7 +153,7 @@ bool Menu::executeInstructions()
     texture.loadFromFile("instructions.png");
     instBack.setTexture(texture);
     instBack.setPosition(sf::Vector2f(0, 0));
-    inst.create(sf::VideoMode(1004, 636), "instructions", sf::Style::Titlebar | sf::Style::Close);
+    inst.create(sf::VideoMode(1050, 662), "instructions", sf::Style::Titlebar | sf::Style::Close);
     inst.clear();
     inst.draw(m_MenuSprites[0]);
     inst.draw(instBack);
