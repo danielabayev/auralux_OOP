@@ -26,7 +26,7 @@ const int VELOCITY = 30;
 const int PLANET = 0;
 const int UNIT = 1;
 const int START_UNIT_AMOUNT = 30;
-const float PI = 3.14159265358979323846;
+const float PI = float(3.14159265358979323846);
 
 const int RIGHT = 0;
 const int LEFT = 1;
