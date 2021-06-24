@@ -44,7 +44,7 @@ Graphic::Graphic()
 	m_particleTextures[RED1].loadFromFile("redpar.png");
 	m_particleTextures[YELLOW1].loadFromFile("yellowpar.png");
 	m_particleTextures[GREEN1].loadFromFile("greenpar.png");
-	m_healthTexture.loadFromFile("redUpgrade.png");
+	m_healthTexture.loadFromFile("redup.png");
 }
 //-----------------------------------------------------------------------------------------------
 void Graphic::loadUpgradeTextures()

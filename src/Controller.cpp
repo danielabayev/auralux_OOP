@@ -42,7 +42,7 @@ void Controller::run()
 void Controller::runGame()
 {
     Music::instance().startBackgroundMusic();
-    m_window.create(sf::VideoMode(STARTWIDTH, STARTHEIGHT), "AURALUX");
+    m_window.create(sf::VideoMode(GAMEWIDTH, GAMEHEIGHT), "AURALUX");
     m_window.setFramerateLimit(30);
     sf::Time timePassed;
     while (m_window.isOpen())

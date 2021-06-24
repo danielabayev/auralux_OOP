@@ -302,31 +302,31 @@ void Planet::setHealthStage()
 	switch (m_health)
 	{
 	case 20:
-		m_healthRect = sf::IntRect(0, 0, 120, 120);
+		m_healthRect = sf::IntRect(0, 0, 132, 120);
 		
 		break;
 	case 40:
-		m_healthRect = sf::IntRect(120, 0, 120, 120);
+		m_healthRect = sf::IntRect(132, 0, 132, 120);
 	
 		break;
 	case 60:
-		m_healthRect = sf::IntRect(240, 0, 120, 120);
+		m_healthRect = sf::IntRect(264, 0, 132, 120);
 		
 		break;
 	case 80: 
-		m_healthRect = sf::IntRect(360, 0, 120, 120);
+		m_healthRect = sf::IntRect(396, 0, 132, 120);
 		
 		m_attacked = true;
 		break;
 	case 100:
-		m_healthRect = sf::IntRect(480, 0, 120, 120);
+		m_healthRect = sf::IntRect(528, 0, 132, 120);
 		
 		break;
 	default:
 		return;
 	}
 	m_healthBar = sf::Sprite((Graphic::PicturesObject().getHealthTexture()), m_healthRect);
-	m_healthBar.setOrigin(60, 60);
+	m_healthBar.setOrigin(66, 60);
 	m_healthBar.setPosition(getCenter().x, getCenter().y);
 	m_healthBar.setScale(0.65, 0.65);
 }

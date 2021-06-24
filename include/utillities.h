@@ -14,8 +14,10 @@ const int TEXTURES = 2;
 const int STARTBACKGROUND = 0;
 const int RIGHTARROW = 1;
 
-const int STARTWIDTH = 1000;
-const int STARTHEIGHT = 900;
+const int STARTWIDTH = 800;
+const int STARTHEIGHT = 800;
+const int GAMEWIDTH = 1000;
+const int GAMEHEIGHT = 900;
 
 const int MAX_OWNERS = 5;
 const int PLAYER_OWN = 0;
