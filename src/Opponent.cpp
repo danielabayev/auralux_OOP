@@ -60,7 +60,7 @@ void Opponent::makePlanetMove(ManagePlanet* p, int todo , sf::Time timePassed)
 		if (PlanetFrom)
 			return p->move(*PlanetFrom , timePassed);
 		else
-			if ((PlanetFrom = findProtectedPlanet()))
+			if (PlanetFrom = findProtectedPlanet())
 				return p->move(*PlanetFrom , timePassed);
 		//check other option?
 		return;

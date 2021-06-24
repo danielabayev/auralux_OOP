@@ -11,21 +11,16 @@
 #include "Planet.h"
 
 
-namespace // anonymous namespace — the standard way to make function "static"
+namespace
 {
 
 // primary collision-processing functions
 void planetUnit(Object& planetObj,
                   Object& unitObj)
 {
-    // To get the actual types and use them:
-    // SpaceShip& ship = dynamic_cast<SpaceShip&>(spaceShip);
-    // Asteroid&  ast  = dynamic_cast<Asteroid&>(asteroid);
-    // or:
      Planet& planet = dynamic_cast<Planet&>(planetObj);
      Unit&  unit  = dynamic_cast<Unit&>(unitObj);
-     //if (unit.getTargetPlanet() != planet.getCenter())
-         //return;
+
      if (planet.getColor() == unit.getColor())
      {
          if (planet.getHealth() != MAX_HEALTH)
@@ -73,13 +68,6 @@ void unitUnit(Object& unitObj1,
    
 }
 
-
-
-//...
-
-// secondary collision-processing functions that just
-// implement symmetry: swap the parameters and call a
-// primary function
 void unitPlanet(Object& unitObj,
                   Object& planetObj)
 {
@@ -88,7 +76,6 @@ void unitPlanet(Object& unitObj,
 
 
 using HitFunctionPtr = void (*)(Object&, Object&);
-// typedef void (*HitFunctionPtr)(GameObject&, GameObject&);
 using Key = std::pair<std::type_index, std::type_index>;
 using HitMap = std::map<Key, HitFunctionPtr>;
 

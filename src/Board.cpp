@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Unit.h"
 //-----------------------------------------------------------------------------
-Board::Board(const int levelNum)
+Board::Board(const int levelNum):m_level(levelNum)
 {};
 //-----------------------------------------------------------------------------
 vector<std::unique_ptr<ManagePlanet>> Board::readBoard(const int levelNum)
@@ -17,7 +17,7 @@ vector<std::unique_ptr<ManagePlanet>> Board::readBoard(const int levelNum)
 		openFile(file, levelNum);
 		auto check = file.peek();
 		if (!isdigit(check))
-			throw std::invalid_argument("wrong size argument , please enter a positive number\n");
+			throw std::invalid_argument("wrong size argument\n");
 		file >> amount;
 		mp.resize(amount);
 		file.get();
@@ -34,7 +34,6 @@ vector<std::unique_ptr<ManagePlanet>> Board::readBoard(const int levelNum)
 			file >> y;
 			file >> upgrades;
 			addToBoard(file, planet, x, y, upgrades, i, mp);
-
 		}
 	}
 	catch (const std::exception& t)
@@ -47,9 +46,8 @@ vector<std::unique_ptr<ManagePlanet>> Board::readBoard(const int levelNum)
 	makeAdj(mp);
 	return mp;
 }
-
 //--------------------------------------------------------------------------
-void Board::openFile(ifstream& input,const int level)
+void Board::openFile(ifstream& input,const int level)const
 {
 	string fileName = std::to_string(level) + ".txt";
 	input.open(fileName);
@@ -57,9 +55,8 @@ void Board::openFile(ifstream& input,const int level)
 		throw std::runtime_error("could not open file\n");
 }
 //--------------------------------------------------------------------------
-
-//--------------------------------------------------------------------------
-void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades, int i, vector<std::unique_ptr<ManagePlanet>>& mp)
+void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades, int i,
+	vector<std::unique_ptr<ManagePlanet>>& mp)
 {
 	PlanetColor_t color;
 	stringstream line;
@@ -85,7 +82,6 @@ void Board::addToBoard(ifstream& input, char planet, int x, int y, int upgrades,
 	line << adjacency;
 	makeAdjacencyList(line);
 }
-
 //--------------------------------------------------------------------------
 //this function updates the adjacency list , for each object it holds the "keys" of it's neighbours
 void Board::makeAdjacencyList(stringstream& line)
@@ -101,24 +97,15 @@ void Board::makeAdjacencyList(stringstream& line)
 		adjacency.push_back(key);
 	}
 	m_adjacencyList.push_back(adjacency);
-
-}
-//----------------------------------------------------------------------------
-
-//--------------------------------------------------------------------------
-bool Board::isLevelUp() const
-{
-	return m_levelUp;
 }
 //--------------------------------------------------------------------------
-
 void Board::resetBoard()
 {
 	m_adjacencyList.clear();
 	//restart amount of enemy
 }
 
-void Board::makeAdj(vector<std::unique_ptr<ManagePlanet>>& mp)
+void Board::makeAdj(vector<std::unique_ptr<ManagePlanet>>& mp)const
 {
 	int index;
 	for (int i = 0; i < m_adjacencyList.size(); i++)
@@ -131,7 +118,7 @@ void Board::makeAdj(vector<std::unique_ptr<ManagePlanet>>& mp)
 	}
 }
 //--------------------------------------------------------------------------
-PlanetColor_t Board::findColor(const char color)
+PlanetColor_t Board::findColor(const char color)const
 {
 	switch (color)
 	{

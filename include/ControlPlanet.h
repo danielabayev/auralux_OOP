@@ -5,7 +5,7 @@ class ControlPlanet
 {
 public:
 	ControlPlanet(sf::Color color);
-	~ControlPlanet() = default;
+	virtual ~ControlPlanet() = default;
 
 	void addPlanet(ManagePlanet* mp);
 	void removePlanet(ManagePlanet* mp);
