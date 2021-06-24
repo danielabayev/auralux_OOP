@@ -8,26 +8,25 @@ class Unit : public Object
 public:
     Unit(sf::Color color, Planet* p);
     virtual ~Unit() = default;
-	sf::Vector2f calculateNewPosition(Planet p);
-	sf::Vector2f move(Planet p , sf::Time timePassed , int angle);
-	void moveAround(Planet p , sf::Time timePassed , int angle);
-	void defineTowards(Planet p);
-	sf::Vector2f moveTowards(sf::Time timePassed);
-	bool checkDistance();
-	void handleCollision(Planet *p);
+	sf::Vector2f calculateNewPosition(const Planet& p);
+	sf::Vector2f move(const Planet& p, const sf::Time& timePassed , int angle);
+	void moveAround(const Planet& p,const sf::Time& timePassed , int angle);
+	void defineTowards(const Planet& p);
+	sf::Vector2f moveTowards(const sf::Time& timePassed);
 
+	//gets sets
 	bool inUse()const;
 	void setInUse(bool used);
-	void setColor(sf::Color);
+	void setColor(const sf::Color&);
 	void setActive(bool Active);
-	bool getActive() { return m_active; };
+	bool getActive()const { return m_active; };
 	void setWaitToMove(bool moved);
 	bool getWaitToMove()const;
 	sf::Vector2f getTargetPlanet()const;
 	int getTargetIndex()const;
+
 private:
 	struct line m_targetPlanet;
-	struct parabola m_otherWay;
 	bool m_active = false;
 	float m_angle = 0;
 	bool m_waitToMove = false;
@@ -35,4 +34,5 @@ private:
 	sf::Time m_timePassed;
 
 	void defineTowards();
+	bool checkDistance();
 };

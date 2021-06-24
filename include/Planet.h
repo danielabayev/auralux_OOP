@@ -9,38 +9,38 @@
 class Planet : public Object
 {
 public:
-	Planet(sf::Color color, int maxLevel, sf::Vector2f pos , int index);
+	// c/d-tor
+	Planet(const sf::Color& color, int maxLevel, const sf::Vector2f& pos , int index);
 	~Planet() = default;
 
-	virtual void draw(sf::RenderWindow& window);
-
+	virtual void draw(sf::RenderWindow& window)const;
 	void upgradePlanet();
 
-	
-	void setColor(sf::Color);
-	
-	void setPosition(sf::Vector2f newPosition);
+	//gets and sets
+	void setColor(const sf::Color& newColor);
+	void setPosition(const sf::Vector2f& newPosition);
 	sf::Vector2f getCenter()const;
 	float getRadius()const;
 	bool getActive()const;
 	void setActive(bool Active);
 	int getHealth()const;
-	void setHealth(HealthAction action);
+	void setHealth(const HealthAction& action);
 	int getCounterToUpgrade()const;
 	void setCounterToUpgrade();
-	void setFillBar(HealthAction action, sf::Color color);
 	int getAmountToUpgrade()const;
+	int getAmountOfUnits()const;
+
+	//funcs of the planet
 	bool isMaxUpgrade()const;
-	void charge(sf::Color);
+	void charge(const sf::Color&);
 	void underAttack();
 	void addToUpgrade();
-	int getAmountOfUnits()const;
 	void addUnits(int i);
 	void decUnits();
 	int getIndex()const;
 	void resetUnits();
-	void setUpgradeStage(UpgradeOptions stage, sf::Color color);
-	UpgradeOptions getUpgrade(int stage);
+	void setUpgradeStage(const UpgradeOptions& stage,const sf::Color& color);
+	UpgradeOptions getUpgrade(int stage)const;
 	void setHealthStage();
 	int getAmountToGenerate()const;
 
